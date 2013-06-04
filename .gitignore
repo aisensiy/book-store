@@ -14,3 +14,5 @@
 /log/*.log
 /tmp
 *.swp
+/vendor/cache
+manifest.yml

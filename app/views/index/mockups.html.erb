@@ -1,0 +1,5 @@
+<ul>
+  <% @methods.each do |method| %>
+    <li><%= link_to method, url_for(controller: 'mockup', action: method), target: "_blank" %></li>
+  <% end %>
+</ul>

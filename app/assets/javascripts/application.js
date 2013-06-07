@@ -14,5 +14,7 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require holder
-//= require_tree .
+//= require angular
+//= require parse-1.2.7
+//= require app
 

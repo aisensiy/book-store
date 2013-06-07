@@ -1,6 +1,6 @@
 @App = angular.module('app', [])
 
-App.config ($routeProvider) ->
+App.config ['$routeProvider', ($routeProvider) ->
 	$routeProvider
 		.when '/sign_in',
 			templateUrl: 'sign_in.html'
@@ -14,15 +14,20 @@ App.config ($routeProvider) ->
 		.when '/book',
 			templateUrl: 'book.html',
 			controller: 'BookCtrl'
-		.otherwise({redirectTo: '/books'});
+		.otherwise({redirectTo: '/books'})
+]
 
 
-App.controller 'SignInCtrl', ($scope) ->
+App.controller 'SignInCtrl', ['$scope', ($scope) ->
 	$scope.user = {}
+]
 
-App.controller 'SignUpCtrl', ($scope) ->
+App.controller 'SignUpCtrl', ['$scope', ($scope) ->
 	$scope.user = {}
+]
 
-App.controller 'BooksCtrl', ($scope) ->
+App.controller 'BooksCtrl', ['$scope', ($scope) ->
+]
 
-App.controller 'BookCtrl', ($scope) ->
+App.controller 'BookCtrl', ['$scope', ($scope) ->
+]

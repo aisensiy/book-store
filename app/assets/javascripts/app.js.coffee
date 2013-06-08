@@ -1,4 +1,6 @@
-@App = angular.module('app', [])
+Parse.initialize("r1AGhZH6QjWaMVsXtOm5pvjAWJhOQtVaExxIuZ3y", "drjVTIqOvdqBF2ohTGfT8e7K48sqpUKAWHrWkTfH")
+
+@App = angular.module('App', [])
 
 App.config ['$routeProvider', ($routeProvider) ->
 	$routeProvider
@@ -17,13 +19,65 @@ App.config ['$routeProvider', ($routeProvider) ->
 		.otherwise({redirectTo: '/books'})
 ]
 
+App.directive 'passwordconfirm', () ->
+	return {
+		require: 'ngModel',
+		link: (scope, elem, attrs, ctrl) ->
+			console.log 'link'
+			ctrl.$parsers.unshift (value) ->
+				password = elem.closest('form').find(attrs.passwordconfirm)
+				if password.val() == value
+					ctrl.$setValidity('password', true)
+					value
+				else
+					ctrl.$setValidity('password', false)
+					undefined
+
+	}
+
+
+App.factory 'UserInfo', ['$rootScope', ($rootScope) ->
+	sharedService = {}
+
+	sharedService.user = {}
+
+	sharedService.prepForBroadcast = (user) ->
+		console.log 'prepare broadcast'
+		this.user = user
+		this.broadcastItem()
+
+	sharedService.broadcastItem = () ->
+		console.log 'broadcast'
+		console.log $rootScope
+		$rootScope.$broadcast('user-signin')
+
+	return sharedService
+]
+
+App.controller 'NaviBarCtrl', ['$scope', 'UserInfo', ($scope, UserInfo) ->
+
+	$scope.$on 'user-signin', () ->
+		console.log UserInfo.user
+		$scope.user = UserInfo.user
+]
 
 App.controller 'SignInCtrl', ['$scope', ($scope) ->
 	$scope.user = {}
+
+	$scope.submit_form = () ->
+		console.log $scope.user
 ]
 
-App.controller 'SignUpCtrl', ['$scope', ($scope) ->
-	$scope.user = {}
+App.controller 'SignUpCtrl', ['$scope', 'UserInfo', ($scope, UserInfo) ->
+	$scope.user = {
+		'email': 'ai@sina.com',
+		'username': 'ai',
+		'password': '123'
+	}
+
+	$scope.submit_form = () ->
+		console.log $scope.user
+		UserInfo.prepForBroadcast($scope.user)
 ]
 
 App.controller 'BooksCtrl', ['$scope', ($scope) ->
@@ -31,3 +85,18 @@ App.controller 'BooksCtrl', ['$scope', ($scope) ->
 
 App.controller 'BookCtrl', ['$scope', ($scope) ->
 ]
+
+user_sign_up = ($scope) ->
+	console.log $scope.user
+	user = new Parse.User()
+	user.set 'username', $scope.user.username
+	user.set 'email', $scope.user.email
+	user.set 'password', $scope.user.password
+
+	user.signUp null, {
+		success: (user) ->
+			console.log('signup success', arguments)
+
+		error: (user, error) ->
+			console.log('signup error', arguments)
+	}

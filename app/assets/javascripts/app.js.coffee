@@ -84,8 +84,12 @@ SignUpCtrl = App.controller 'SignUpCtrl', ($scope, UserInfo, $location) ->
 
 	$scope.submit_form = () ->
 		console.log $scope.user
-		UserInfo.prepForBroadcast($scope.user)
-		$location.path('/books')
+		if $scope.user.email == 'ai@sina.com'
+			$scope.error_msg = false
+			UserInfo.prepForBroadcast($scope.user)
+			$location.path('/books')
+		else
+			$scope.error_msg = '邮箱已被使用'
 
 SignUpCtrl.$inject = ['$scope', 'UserInfo', '$location']
 

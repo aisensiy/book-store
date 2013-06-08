@@ -1,6 +1,7 @@
 <div class="login-panel span6 offset3">
 	<form data-ng-submit="submit_form()" class="form-horizontal" name="login_form" >
 		<legend>登录</legend>
+		<div class="alert alert-error" ng-show="error_msg">账号或密码错误</div>
 		<div class="control-group">
 			<label class="control-label" for="inputEmail">Email</label>
 			<div class="controls">

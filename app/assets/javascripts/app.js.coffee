@@ -66,8 +66,12 @@ SignInCtrl = App.controller 'SignInCtrl', ($scope, UserInfo, $location) ->
 
 	$scope.submit_form = () ->
 		console.log $scope.user
-		UserInfo.prepForBroadcast($scope.user)
-		$location.path('/books')
+		if $scope.user.email == 'admin@g.com'
+			$scope.error_msg = false
+			UserInfo.prepForBroadcast($scope.user)
+			$location.path('/books')
+		else
+			$scope.error_msg = true
 
 SignInCtrl.$inject = ['$scope', 'UserInfo', '$location']
 

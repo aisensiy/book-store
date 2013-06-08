@@ -13,7 +13,7 @@ App.config ['$routeProvider', ($routeProvider) ->
 		.when '/books',
 			templateUrl: 'books.html',
 			controller: 'BooksCtrl'
-		.when '/book',
+		.when '/books/:id',
 			templateUrl: 'book.html',
 			controller: 'BookCtrl'
 		.otherwise({redirectTo: '/books'})
@@ -61,11 +61,12 @@ App.controller 'NaviBarCtrl', ['$scope', 'UserInfo', ($scope, UserInfo) ->
 		$scope.user = UserInfo.user
 ]
 
-App.controller 'SignInCtrl', ['$scope', ($scope) ->
+App.controller 'SignInCtrl', ['$scope', 'UserInfo', ($scope, UserInfo) ->
 	$scope.user = {}
 
 	$scope.submit_form = () ->
 		console.log $scope.user
+		UserInfo.prepForBroadcast($scope.user)
 ]
 
 App.controller 'SignUpCtrl', ['$scope', 'UserInfo', ($scope, UserInfo) ->

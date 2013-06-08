@@ -61,15 +61,17 @@ App.controller 'NaviBarCtrl', ['$scope', 'UserInfo', ($scope, UserInfo) ->
 		$scope.user = UserInfo.user
 ]
 
-App.controller 'SignInCtrl', ['$scope', 'UserInfo', ($scope, UserInfo) ->
+SignInCtrl = App.controller 'SignInCtrl', ($scope, UserInfo, $location) ->
 	$scope.user = {}
 
 	$scope.submit_form = () ->
 		console.log $scope.user
 		UserInfo.prepForBroadcast($scope.user)
-]
+		$location.path('/books')
 
-App.controller 'SignUpCtrl', ['$scope', 'UserInfo', ($scope, UserInfo) ->
+SignInCtrl.$inject = ['$scope', 'UserInfo', '$location']
+
+SignUpCtrl = App.controller 'SignUpCtrl', ($scope, UserInfo, $location) ->
 	$scope.user = {
 		'email': 'ai@sina.com',
 		'username': 'ai',
@@ -79,7 +81,9 @@ App.controller 'SignUpCtrl', ['$scope', 'UserInfo', ($scope, UserInfo) ->
 	$scope.submit_form = () ->
 		console.log $scope.user
 		UserInfo.prepForBroadcast($scope.user)
-]
+		$location.path('/books')
+
+SignUpCtrl.$inject = ['$scope', 'UserInfo', '$location']
 
 App.controller 'BooksCtrl', ['$scope', ($scope) ->
 ]

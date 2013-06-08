@@ -1,129 +1,18 @@
-<div class="row" ng-app="app">
-	<div data-ng-view></div>
+<div class="row">
+	<div class="span12">
+		<div data-ng-view></div>
+	</div>
 	<script type="text/ng-template" id="sign_in.html">
-		<div class="login-panel span6 offset3">
-			<form class="form-horizontal">
-				<legend>登录</legend>
-				<div class="control-group">
-					<label class="control-label" for="inputEmail">Email</label>
-					<div class="controls">
-						<input type="text" id="inputEmail" placeholder="Email">
-					</div>
-				</div>
-				<div class="control-group">
-					<label class="control-label" for="inputPassword">Password</label>
-					<div class="controls">
-						<input type="password" id="inputPassword" placeholder="Password">
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="controls">
-						<label class="checkbox">
-							<input type="checkbox"> Remember me
-						</label>
-					</div>
-				</div>
-				<div class="form-actions">
-					<button type="submit" class="btn btn-primary">Sign in</button>
-					<button type="button" class="btn">Cancel</button>
-				</div>
-			</form>
-		</div>
+		<%= render "sign_in" %>
 	</script>
 	<script type="text/ng-template" id="sign_up.html">
-		<div class="login-panel span6 offset3">
-			<form class="form-horizontal">
-				<legend>注册</legend>
-				<div class="control-group">
-					<label class="control-label" for="inputEmail">Email</label>
-					<div class="controls">
-						<input type="text" id="inputEmail" placeholder="Email">
-					</div>
-				</div>
-				<div class="control-group">
-					<label class="control-label" for="inputPassword">Password</label>
-					<div class="controls">
-						<input type="password" id="inputPassword" placeholder="Password">
-					</div>
-				</div>
-				<div class="control-group">
-					<label class="control-label" for="inputPassword">Password Confirm</label>
-					<div class="controls">
-						<input type="password" id="inputPasswordAgain" placeholder="Password">
-					</div>
-				</div>
-				<div class="form-actions">
-					<button type="submit" class="btn btn-primary">Sign up</button>
-					<button type="button" class="btn">Cancel</button>
-				</div>
-			</form>
-		</div>
+		<%= render "sign_up" %>
 	</script>
 	<script type="text/ng-template" id="books.html">
-		<ul class="media-list book-list clearfix">
-			<li class="media" ng-repeat="i in [1, 2, 3, 4, 5, 6]">
-				<div class="wrapper">
-					<div class="content clearfix">
-						<a href="#/book" class="pull-left">
-							<img class="media-object" alt="" src="/assets/book-cover.png" />
-						</a>
-						<div class="media-body">
-							<a href="#/book">麦田守望者</a>
-							<p class="author">by 马丁 安东尼等</p>
-						</div>
-					</div>
-					<div class="tools clearfix">
-						<ul class="pull-left actions unstyled">
-							<li><i class="icon-heart"></i>3</li>
-							<li><i class="icon-eye-open"></i>40</li>
-						</ul>
-						<ul class="scores pull-right unstyled">
-							<li>豆瓣: 7.4</li>
-						</ul>
-						<ul class="features unstyled pull-right">
-							<li><span class="label label-inverse">PRO</span></li>
-						</ul>
-					</div>
-				</div><!-- wrapper end -->
-				<div class="user">
-					<a href="#"><i class="icon-user"></i><span>aisensiy</span></a>
-				</div>
-			</li>
-		</ul>
+		<%= render "books" %>
 	</script>
 	<script type="text/ng-template" id="book.html">
-		<div class="book-container clearfix">
-			<div class="book-meta">
-				<h2>黄金时代</h2>
-				<div class="wrapper">
-					<div class="cover pull-left">
-						<img src="/assets/book-cover.png" alt="" />
-					</div>
-					<div class="info">
-						<p><span>作者：</span>Ben Simonds</p>
-						<p><span>副书名：</span>a hands-on guide to modeling, sculpting, materials, and rendering</p>
-						<p><span>出版日期：</span>2013</p>
-						<p><span>出版社：</span>其它</p>
-						<p><span>页数：</span>272</p>
-						<p><span>ISBN：</span>1-59327-477-7</p>
-						<p><span>文件格式：</span>PDF</p>
-						<p><span>文件大小：</span>48.56 MB</p>
-					</div>
-				</div>
-			</div>
-			<div class="download">
-				<div class="form-actions">
-					<button type="submit" class="btn btn-primary">Download</button>
-				</div>
-			</div>
-			<div class="extra-info">
-				<h3>Extra Infomation</h3>
-				<p>
-				Here’s a brief summary of each chapter in the book.<br />
-				Chapters 1 and 2 offer an introduction to Blender and GIMP. You learn what they are, where you can get them, and what you can do with them.
-				</p>
-			</div>
-		</div>
+<%= render 'book' %>
 
 	</script>
 </div>

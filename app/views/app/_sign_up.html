@@ -1,38 +1,38 @@
 <div class="login-panel span6 offset3">
-	<form class="form-horizontal" data-ng-submit="submit_form()" name="signup_form">
-		<legend>注册</legend>
-		<div class="alert alert-error" ng-show="error_msg">{{error_msg}}</div>
-		<div class="control-group">
-			<label class="control-label" for="email">Email</label>
-			<div class="controls">
-				<input type="email" id="email" name="email" placeholder="Email" ng-model="user.email" required />
-				<span class="help-inline" ng-show="signup_form.email.$error.email">不合法的邮件地址</span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="username">Username</label>
-			<div class="controls">
-				<input type="text" id="username" name="username" placeholder="Username" ng-model="user.username" required>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="password">Password</label>
-			<div class="controls">
-				<input type="password" id="password" name="password" placeholder="Password" ng-model="user.password" required />
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="password_confirmation">Password Confirm</label>
-			<div class="controls">
-				<input type="password"
-				id="password_confirmation" placeholder="Password"
-				ng-model="user.password_confirmation" passwordconfirm="#password" name="password_confirmation" required />
-				<span class="help-inline" ng-show="signup_form.password_confirmation.$error.password">重复输入密码不一致</span>
-			</div>
-		</div>
-		<div class="form-actions">
-			<button type="submit" class="btn btn-primary">Sign up</button>
-			<button type="button" class="btn">Cancel</button>
-		</div>
-	</form>
+  <form class="form-horizontal" data-ng-submit="submit_form()" name="signup_form">
+    <legend>注册</legend>
+    <div class="alert alert-error" ng-show="error_msg">{{error_msg}}</div>
+    <div class="control-group">
+      <label class="control-label" for="email">Email</label>
+      <div class="controls">
+        <input type="email" id="email" name="email" placeholder="Email" ng-model="user.email" required />
+        <span class="help-inline" ng-show="signup_form.email.$error.email">不合法的邮件地址</span>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="username">Username</label>
+      <div class="controls">
+        <input type="text" id="username" name="username" placeholder="Username" ng-model="user.username" required>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="password">Password</label>
+      <div class="controls">
+        <input type="password" id="password" name="password" placeholder="Password" ng-model="user.password" required />
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="password_confirmation">Password Confirm</label>
+      <div class="controls">
+        <input type="password"
+        id="password_confirmation" placeholder="Password"
+        ng-model="user.password_confirmation" passwordconfirm="#password" name="password_confirmation" required />
+        <span class="help-inline" ng-show="signup_form.password_confirmation.$error.password">重复输入密码不一致</span>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Sign up</button>
+      <button type="button" class="btn">Cancel</button>
+    </div>
+  </form>
 </div>

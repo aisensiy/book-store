@@ -36,62 +36,77 @@ App.directive 'passwordconfirm', () ->
 	}
 
 
-App.factory 'UserInfo', ['$rootScope', ($rootScope) ->
-	sharedService = {}
+App.factory 'UserService', ['$rootScope', '$location', ($rootScope, $location) ->
+	service = {}
 
-	sharedService.user = {}
+	service.signin = (email, password) ->
+		console.log 'service.signin'
+		if email == 'admin@gmail.com'
+			console.log 'signin ok'
+			service.user = {email: email}
+			$rootScope.$broadcast('user:signin')
+			$location.path('/')
+		else
+			console.log 'sigin error'
+			service.signin_err_msg = 'bla'
 
-	sharedService.prepForBroadcast = (user) ->
-		console.log 'prepare broadcast'
-		this.user = user
-		this.broadcastItem()
+	service.signup = (user) ->
+		if user.email == 'admin@gmail.com'
+			console.log 'signup ok'
+			service.user = {email: user.email}
+			$rootScope.$broadcast('user:signin')
+			$location.path('/')
+		else
+			service.signup_err_msg = 'bla'
 
-	sharedService.broadcastItem = () ->
-		console.log 'broadcast'
-		console.log $rootScope
-		$rootScope.$broadcast('user-signin')
+	service.current_user = () ->
+		service.user
 
-	return sharedService
+	service.signout = () ->
+		service.user = undefined
+		$rootScope.$broadcast('user:logout')
+
+	return service
 ]
 
-App.controller 'NaviBarCtrl', ['$scope', 'UserInfo', ($scope, UserInfo) ->
+App.controller 'NaviBarCtrl', ['$scope', 'UserService', ($scope, UserService) ->
 
-	$scope.$on 'user-signin', () ->
-		console.log UserInfo.user
-		$scope.user = UserInfo.user
+	$scope.$on 'user:signin', () ->
+		console.log UserService.user
+		$scope.user = UserService.user
+
+	$scope.$on 'user:signout', () ->
+		$scope.user = undefined
 ]
 
-SignInCtrl = App.controller 'SignInCtrl', ($scope, UserInfo, $location) ->
+SignInCtrl = App.controller 'SignInCtrl', ($scope, UserService, $location) ->
 	$scope.user = {}
+	$scope.UserService = UserService
+	$scope.$watch 'UserService.signin_err_msg', (val) ->
+		$scope.error_msg = val
 
 	$scope.submit_form = () ->
-		console.log $scope.user
-		if $scope.user.email == 'admin@g.com'
-			$scope.error_msg = false
-			UserInfo.prepForBroadcast($scope.user)
-			$location.path('/books')
-		else
-			$scope.error_msg = true
+		UserService.signin($scope.user.email, $scope.user.password)
 
-SignInCtrl.$inject = ['$scope', 'UserInfo', '$location']
+SignInCtrl.$inject = ['$scope', 'UserService', '$location']
 
-SignUpCtrl = App.controller 'SignUpCtrl', ($scope, UserInfo, $location) ->
+SignUpCtrl = App.controller 'SignUpCtrl', ($scope, UserService, $location) ->
 	$scope.user = {
 		'email': 'ai@sina.com',
 		'username': 'ai',
 		'password': '123'
 	}
 
+	$scope.UserService = UserService
+
+	$scope.$watch 'UserService.signup_err_msg', (val) ->
+		$scope.error_msg = val
+
 	$scope.submit_form = () ->
 		console.log $scope.user
-		if $scope.user.email == 'ai@sina.com'
-			$scope.error_msg = false
-			UserInfo.prepForBroadcast($scope.user)
-			$location.path('/books')
-		else
-			$scope.error_msg = '邮箱已被使用'
+		UserService.signup($scope.user)
 
-SignUpCtrl.$inject = ['$scope', 'UserInfo', '$location']
+SignUpCtrl.$inject = ['$scope', 'UserService', '$location']
 
 App.controller 'BooksCtrl', ['$scope', ($scope) ->
 ]

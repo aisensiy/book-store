@@ -1,6 +1,7 @@
+#= require 'services'
 Parse.initialize("r1AGhZH6QjWaMVsXtOm5pvjAWJhOQtVaExxIuZ3y", "drjVTIqOvdqBF2ohTGfT8e7K48sqpUKAWHrWkTfH")
 
-@App = angular.module('App', [])
+@App = angular.module('App', ['Services'])
 
 App.config ['$routeProvider', ($routeProvider) ->
   $routeProvider
@@ -12,10 +13,22 @@ App.config ['$routeProvider', ($routeProvider) ->
       controller: 'SignUpCtrl'
     .when '/books',
       templateUrl: 'books.html',
-      controller: 'BooksCtrl'
+      controller: 'BooksCtrl',
+      resolve:
+        books: ['$q', 'BooksService', '$timeout', ($q, BooksService, $timeout) ->
+          deferred = $q.defer()
+          deferred.resolve(BooksService.books_popular())
+          return deferred.promise
+        ]
     .when '/books/:id',
       templateUrl: 'book.html',
-      controller: 'BookCtrl'
+      controller: 'BookCtrl',
+      resolve:
+        book: ['$q', 'BooksService', '$route', ($q, BooksService, $route) ->
+          deferred = $q.defer()
+          deferred.resolve(BooksService.book($route.current.params.id))
+          return deferred.promise
+        ]
     .otherwise({redirectTo: '/books'})
 ]
 
@@ -36,38 +49,6 @@ App.directive 'passwordconfirm', () ->
   }
 
 
-App.factory 'UserService', ['$rootScope', '$location', ($rootScope, $location) ->
-  service = {}
-
-  service.signin = (email, password) ->
-    console.log 'service.signin'
-    if email == 'admin@gmail.com'
-      console.log 'signin ok'
-      service.user = {email: email}
-      $rootScope.$broadcast('user:signin')
-      $location.path('/')
-    else
-      console.log 'sigin error'
-      service.signin_err_msg = 'bla'
-
-  service.signup = (user) ->
-    if user.email == 'admin@gmail.com'
-      console.log 'signup ok'
-      service.user = {email: user.email}
-      $rootScope.$broadcast('user:signin')
-      $location.path('/')
-    else
-      service.signup_err_msg = 'bla'
-
-  service.current_user = () ->
-    service.user
-
-  service.signout = () ->
-    service.user = undefined
-    $rootScope.$broadcast('user:logout')
-
-  return service
-]
 
 App.controller 'NaviBarCtrl', ['$scope', 'UserService', ($scope, UserService) ->
 
@@ -108,11 +89,16 @@ SignUpCtrl = App.controller 'SignUpCtrl', ($scope, UserService, $location) ->
 
 SignUpCtrl.$inject = ['$scope', 'UserService', '$location']
 
-App.controller 'BooksCtrl', ['$scope', ($scope) ->
+BooksCtrl = App.controller 'BooksCtrl', ($scope, books) ->
+  $scope.books = books
+
+BooksCtrl.$inject = ['$scope', 'books']
+
+App.controller 'BookCtrl', ['$scope', 'book', ($scope, book) ->
+  $scope.book = book
 ]
 
-App.controller 'BookCtrl', ['$scope', ($scope) ->
-]
+
 
 user_sign_up = ($scope) ->
   console.log $scope.user

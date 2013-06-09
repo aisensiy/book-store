@@ -1,13 +1,13 @@
 <ul class="media-list book-list clearfix">
-  <li class="media" ng-repeat="i in [1, 2, 3, 4, 5, 6]">
+  <li class="media" data-ng-repeat="book in books">
   <div class="wrapper">
     <div class="content clearfix">
-      <a href="#/books/{{i}}" class="pull-left">
-        <img class="media-object" alt="" src="/assets/book-cover.png" />
+      <a href="#/books/{{book.id}}" class="pull-left">
+        <img class="media-object" alt="" ng-src="{{book.image_url}}" />
       </a>
       <div class="media-body">
-        <a href="#/books/{{i}}">麦田守望者</a>
-        <p class="author">by 马丁 安东尼等</p>
+        <a href="#/books/{{book.id}}">{{book.title}}</a>
+        <p class="author">by {{book.author}}</p>
       </div>
     </div>
     <div class="tools clearfix">
@@ -19,12 +19,12 @@
         <li>豆瓣: 7.4</li>
       </ul>
       <ul class="features unstyled pull-right">
-        <li><span class="label label-inverse">PRO</span></li>
+        <li data-ng-show="book.private"><span class="label label-inverse">PRO</span></li>
       </ul>
     </div>
   </div><!-- wrapper end -->
   <div class="user">
-    <a href="#"><i class="icon-user"></i><span>aisensiy</span></a>
+    <a href="#"><i class="icon-user"></i><span>{{book.user}}</span></a>
   </div>
   </li>
 </ul>

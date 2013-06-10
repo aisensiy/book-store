@@ -14,7 +14,7 @@ Different orders
 * signup/
 * signin/
 * signout/
-* pasword/
-* password/reset
+* accounts/password_modify/
+* accounts/password_reset/
 
 

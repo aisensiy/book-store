@@ -9,6 +9,7 @@
       <a class="brand" href="/">BooksLists</a>
       <ul class="nav">
         <li><%= link_to "Books", "#/books"  %></li>
+        <li ng-show="user"><%= link_to "Upload", "#/book-upload"  %></li>
       </ul>
       <ul class="nav pull-right" role="navigation" ng-show="user">
         <li class="dropdown">
@@ -16,7 +17,7 @@
           <span class="headerTinymanName">{{user.email}}<b class="caret"></b></span>
         </a>
         <ul class="dropdown-menu">
-          <li><%= link_to "修改密码", '#/user/password' %></li>
+          <li><%= link_to "修改密码", '#/users/password_modify' %></li>
         </ul>
         </li>
       </ul>

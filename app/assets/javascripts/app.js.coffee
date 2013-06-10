@@ -29,6 +29,15 @@ App.config ['$routeProvider', ($routeProvider) ->
           deferred.resolve(BooksService.book($route.current.params.id))
           return deferred.promise
         ]
+    .when '/users/password_reset',
+      templateUrl: 'password_reset.html'
+      controller: 'PasswordResetCtrl',
+    .when '/users/password_modify',
+      templateUrl: 'password_modify.html'
+      controller: 'PasswordModifyCtrl',
+    .when '/book-upload',
+      templateUrl: 'book_new.html'
+      controller: 'BookUploadCtrl'
     .otherwise({redirectTo: '/books'})
 ]
 
@@ -98,7 +107,14 @@ App.controller 'BookCtrl', ['$scope', 'book', ($scope, book) ->
   $scope.book = book
 ]
 
+App.controller 'PasswordResetCtrl', ['$scope', ($scope) ->
+]
 
+App.controller 'PasswordModifyCtrl', ['$scope', ($scope) ->
+]
+
+App.controller 'BookUploadCtrl', ['$scope', ($scope) ->
+]
 
 user_sign_up = ($scope) ->
   console.log $scope.user

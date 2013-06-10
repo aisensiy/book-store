@@ -1,5 +1,5 @@
 @Services = angular.module 'Services', []
-Services.factory 'UserService', ['$rootScope', '$location', ($rootScope, $location) ->
+Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', ($rootScope, $location, $q, $timeout) ->
   service = {}
 
   service.signin = (email, password) ->
@@ -28,6 +28,12 @@ Services.factory 'UserService', ['$rootScope', '$location', ($rootScope, $locati
   service.signout = () ->
     service.user = undefined
     $rootScope.$broadcast('user:logout')
+
+  service.password_modify = (oldpassword, newpassword, succ, fail) ->
+    if oldpassword != newpassword
+      succ()
+    else
+      fail('fail')
 
   return service
 ]

@@ -45,7 +45,6 @@ App.directive 'passwordconfirm', () ->
   return {
     require: 'ngModel',
     link: (scope, elem, attrs, ctrl) ->
-      console.log 'link'
       ctrl.$parsers.unshift (value) ->
         password = elem.closest('form').find(attrs.passwordconfirm)
         if password.val() == value
@@ -110,8 +109,25 @@ App.controller 'BookCtrl', ['$scope', 'book', ($scope, book) ->
 App.controller 'PasswordResetCtrl', ['$scope', ($scope) ->
 ]
 
-App.controller 'PasswordModifyCtrl', ['$scope', ($scope) ->
-]
+PasswordModifyCtrl = App.controller 'PasswordModifyCtrl', ($scope, UserService) ->
+  $scope.succ_msg = null
+  $scope.fail_msg = null
+  $scope.model = {}
+  $scope.submit_form = () ->
+    console.log $scope.model
+    UserService.password_modify(
+      $scope.model.oldpassword,
+      $scope.model.password,
+      () ->
+        $scope.succ_msg = '修改成功'
+        $scope.fail_msg = null
+      ,
+      (msg) ->
+        $scope.succ_msg = null
+        $scope.fail_msg = 'msg'
+    )
+
+PasswordModifyCtrl.$inject = ['$scope', 'UserService']
 
 App.controller 'BookUploadCtrl', ['$scope', ($scope) ->
 ]

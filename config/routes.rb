@@ -1,4 +1,6 @@
 BooksLists::Application.routes.draw do
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -8,6 +10,10 @@ BooksLists::Application.routes.draw do
 
   root :to => 'app#index'
   match 'mockup/:action' => 'mockup#:action'
+
+  scope 'api/1' do
+    resources :users, defaults: { format: 'json' }, only: [:create]
+  end
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)

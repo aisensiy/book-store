@@ -7,4 +7,8 @@ class User < BaseClient
     headers = self.headers.merge({'X-Parse-Session-Token' => token})
     delete("/1/users/#{user_id}", headers: headers)
   end
+
+  def self.signin(options={})
+    get('/1/login', query: options)
+  end
 end

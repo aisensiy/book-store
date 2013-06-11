@@ -12,7 +12,12 @@ BooksLists::Application.routes.draw do
   match 'mockup/:action' => 'mockup#:action'
 
   scope 'api/1' do
-    resources :users, defaults: { format: 'json' }, only: [:create]
+    resources :users, defaults: { format: 'json' }, only: [:create] do
+      collection do
+        delete :signout
+        post :signin
+      end
+    end
   end
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase

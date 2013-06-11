@@ -6,12 +6,4 @@ class BaseClient
   format :json
   base_uri 'https://api.parse.com'
   debug_output
-
-  def self.set_session_token(token)
-    headers['X-Parse-Session-Token'] = token
-  end
-
-  def self.remove_session_token
-    headers.delete! 'X-Parse-Session-Token'
-  end
 end

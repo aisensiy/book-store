@@ -17,9 +17,8 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', '$
         password: password
     .success (data) ->
         console.log 'signin ok'
-        service.user = {username: username}
+        $rootScope.user = {username: username}
         $rootScope.$broadcast('user:signin')
-        console.log service.user
         $location.path('/')
     .error (data) ->
         service.signin_err_msg = data.error
@@ -46,8 +45,7 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', '$
       dataType: 'json'
       success: (data) ->
         console.log 'signup ok'
-        service.user = {username: user.username}
-        console.log service.user
+        $rootScope.user = {username: user.username}
         $rootScope.$broadcast('user:signin')
         $location.path('/')
       error: (data) ->
@@ -65,7 +63,7 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', '$
     service.user
 
   service.signout = () ->
-    service.user = undefined
+    $rootScope.user = undefined
     $rootScope.$broadcast('user:signout')
 
   service.password_modify = (oldpassword, newpassword, succ, fail) ->

@@ -58,11 +58,10 @@ App.directive 'passwordconfirm', () ->
 
 
 
-App.controller 'NaviBarCtrl', ['$scope', 'UserService', ($scope, UserService) ->
+App.controller 'NaviBarCtrl', ['$scope', 'UserService', '$rootScope', ($scope, UserService, $rootScope) ->
 
   $scope.$on 'user:signin', () ->
-    console.log UserService.user
-    $scope.user = UserService.user
+    $scope.user = $rootScope.user
 
   $scope.$on 'user:signout', () ->
     $scope.user = undefined

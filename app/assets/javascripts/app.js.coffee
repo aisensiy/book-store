@@ -75,7 +75,7 @@ SignInCtrl = App.controller 'SignInCtrl', ($scope, UserService, $location) ->
     $scope.error_msg = val
 
   $scope.submit_form = () ->
-    UserService.signin($scope.user.username, $scope.user.password)
+    UserService.signin $scope.user.username, $scope.user.password
 
 SignInCtrl.$inject = ['$scope', 'UserService', '$location']
 
@@ -131,18 +131,3 @@ PasswordModifyCtrl.$inject = ['$scope', 'UserService']
 
 App.controller 'BookUploadCtrl', ['$scope', ($scope) ->
 ]
-
-user_sign_up = ($scope) ->
-  console.log $scope.user
-  user = new Parse.User()
-  user.set 'username', $scope.user.username
-  user.set 'email', $scope.user.email
-  user.set 'password', $scope.user.password
-
-  user.signUp null, {
-    success: (user) ->
-      console.log('signup success', arguments)
-
-    error: (user, error) ->
-      console.log('signup error', arguments)
-  }

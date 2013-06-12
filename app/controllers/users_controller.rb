@@ -8,10 +8,12 @@ class UsersController < ApplicationController
   end
 
   def signin
-    resp = User.signin(params[:user])
+    logger.debug params["user"]
+    resp = User.signin(params["user"])
 
     if resp.code == 200
       set_session(resp)
+      session[:username] = params[:user][:username]
     end
 
     render status: resp.code, json: resp.body
@@ -20,6 +22,14 @@ class UsersController < ApplicationController
   def signout
     reset_session
     render json: {}
+  end
+
+  def current_user
+    if session[:username]
+      render json: {username: session[:username]}
+    else
+      render status: 403, json: {error: 'not signin'}
+    end
   end
 
   private

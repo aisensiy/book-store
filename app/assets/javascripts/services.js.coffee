@@ -1,26 +1,65 @@
 @Services = angular.module 'Services', []
-Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', ($rootScope, $location, $q, $timeout) ->
+Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', '$http', ($rootScope, $location, $q, $timeout, $http) ->
   service = {}
 
   service.signin = (username, password) ->
     console.log 'service.signin'
-    if username == 'admin'
-      console.log 'signin ok'
-      service.user = {username: username}
-      $rootScope.$broadcast('user:signin')
-      $location.path('/')
-    else
-      console.log 'sigin error'
-      service.signin_err_msg = 'bla'
+    user_wrapper =
+      'user[username]': username
+      'user[password]': password
+    console.log user_wrapper
+
+    $http
+      url: '/api/1/users/signin'
+      method: 'POST'
+      data:
+        username: username
+        password: password
+    .success (data) ->
+        console.log 'signin ok'
+        service.user = {username: username}
+        $rootScope.$broadcast('user:signin')
+        console.log service.user
+        $location.path('/')
+    .error (data) ->
+        service.signin_err_msg = data.error
+
+
+    # if username == 'admin'
+    #   console.log 'signin ok'
+    #   service.user = {username: username}
+    #   $rootScope.$broadcast('user:signin')
+    #   $location.path('/')
+    # else
+    #   console.log 'sigin error'
+    #   service.signin_err_msg = 'bla'
 
   service.signup = (user) ->
-    if user.username == 'admin'
-      console.log 'signup ok'
-      service.user = {username: user.username}
-      $rootScope.$broadcast('user:signin')
-      $location.path('/')
-    else
-      service.signup_err_msg = 'bla'
+    user_wrapper = {}
+    for name, value of user
+      user_wrapper["user[#{name}]"] = value
+
+    $.ajax
+      url: '/api/1/users'
+      type: 'POST'
+      data: user_wrapper
+      dataType: 'json'
+      success: (data) ->
+        console.log 'signup ok'
+        service.user = {username: user.username}
+        console.log service.user
+        $rootScope.$broadcast('user:signin')
+        $location.path('/')
+      error: (data) ->
+        service.signup_err_msg = data.error
+
+    # if user.username == 'admin'
+    #   console.log 'signup ok'
+    #   service.user = {username: user.username}
+    #   $rootScope.$broadcast('user:signin')
+    #   $location.path('/')
+    # else
+    #   service.signup_err_msg = 'bla'
 
   service.current_user = () ->
     service.user

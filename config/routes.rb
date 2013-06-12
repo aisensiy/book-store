@@ -16,6 +16,7 @@ BooksLists::Application.routes.draw do
       collection do
         delete :signout
         post :signin
+        get :current_user
       end
     end
   end

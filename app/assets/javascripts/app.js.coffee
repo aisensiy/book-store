@@ -41,6 +41,10 @@ App.config ['$routeProvider', ($routeProvider) ->
     .otherwise({redirectTo: '/books'})
 ]
 
+App.run ['$rootScope', 'UserService', ($rootScope, UserService) ->
+  UserService.current_user()
+]
+
 App.directive 'passwordconfirm', () ->
   return {
     require: 'ngModel',

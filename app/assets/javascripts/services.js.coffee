@@ -60,7 +60,19 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', '$
     #   service.signup_err_msg = 'bla'
 
   service.current_user = () ->
-    service.user
+    return $rootScope.user if $rootScope.user
+    console.log 'load user'
+
+    $http
+      url: '/api/1/users/current_user'
+      method: 'GET'
+      data: {}
+    .success (data) ->
+      console.log 'do sth'
+      $rootScope.user = {username: data.username}
+      $rootScope.$broadcast('user:signin')
+
+
 
   service.signout = () ->
     $rootScope.user = undefined

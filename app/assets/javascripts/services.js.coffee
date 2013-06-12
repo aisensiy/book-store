@@ -2,11 +2,11 @@
 Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', ($rootScope, $location, $q, $timeout) ->
   service = {}
 
-  service.signin = (email, password) ->
+  service.signin = (username, password) ->
     console.log 'service.signin'
-    if email == 'admin@gmail.com'
+    if username == 'admin'
       console.log 'signin ok'
-      service.user = {email: email}
+      service.user = {username: username}
       $rootScope.$broadcast('user:signin')
       $location.path('/')
     else
@@ -14,9 +14,9 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', ($
       service.signin_err_msg = 'bla'
 
   service.signup = (user) ->
-    if user.email == 'admin@gmail.com'
+    if user.username == 'admin'
       console.log 'signup ok'
-      service.user = {email: user.email}
+      service.user = {username: user.username}
       $rootScope.$broadcast('user:signin')
       $location.path('/')
     else
@@ -27,7 +27,7 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', ($
 
   service.signout = () ->
     service.user = undefined
-    $rootScope.$broadcast('user:logout')
+    $rootScope.$broadcast('user:signout')
 
   service.password_modify = (oldpassword, newpassword, succ, fail) ->
     if oldpassword != newpassword

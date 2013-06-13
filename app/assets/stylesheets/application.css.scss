@@ -80,3 +80,16 @@ ul.book-list {
 .help-block {
   color: #aaa;
 }
+
+#loading {
+  position: absolute;
+  z-index: 10;
+  width: 10%;
+  text-align: center;
+  background-color: #08c;
+  line-height: 25px;
+  color: white;
+  margin: 0 auto;
+  left: 46%;
+  top: 40px;
+}

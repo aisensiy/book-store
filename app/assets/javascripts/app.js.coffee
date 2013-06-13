@@ -1,7 +1,9 @@
 #= require 'services'
+#= require 'http_wrapper'
+
 Parse.initialize("r1AGhZH6QjWaMVsXtOm5pvjAWJhOQtVaExxIuZ3y", "drjVTIqOvdqBF2ohTGfT8e7K48sqpUKAWHrWkTfH")
 
-@App = angular.module('App', ['Services'])
+@App = angular.module('App', ['Services', 'SharedServices'])
 
 App.config ['$routeProvider', ($routeProvider) ->
   $routeProvider

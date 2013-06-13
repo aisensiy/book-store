@@ -3,6 +3,7 @@ class UsersController < ApplicationController
     resp = User.signup(params[:user])
     if resp.code == 201
       set_session(resp)
+      session[:username] = params[:user][:username]
     end
     render status: resp.code, json: resp.body
   end

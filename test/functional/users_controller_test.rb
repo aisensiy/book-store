@@ -5,7 +5,7 @@ class UsersControllerTest < ActionController::TestCase
     @user = {
       username: 'thisisatest',
       password: '000000a',
-      email: 'aisensiy@gmail.com'
+      email: 'yisnesia@gmail.com'
     }
     @users_id = []
   end
@@ -28,6 +28,21 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal result['objectId'], session[:user_id]
     assert_equal result['sessionToken'], session[:token]
     @users_id << [session[:user_id], session[:token]]
+  end
+
+  test "current_user" do
+    User.signup(@user)
+    post :signin, user: @user
+
+    get :current_user
+    assert_equal(@user[:username],
+                 JSON.parse(@response.body)["username"])
+    @users_id << [session[:user_id], session[:token]]
+
+    delete :signout
+
+    get :current_user
+    assert_equal "{\"error\":\"not signin\"}", @response.body
   end
 
   teardown do

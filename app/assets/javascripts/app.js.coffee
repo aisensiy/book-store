@@ -69,6 +69,9 @@ App.controller 'NaviBarCtrl', ['$scope', 'UserService', '$rootScope', ($scope, U
 
   $scope.$on 'user:signout', () ->
     $scope.user = undefined
+
+  $scope.signout = () ->
+    UserService.signout()
 ]
 
 SignInCtrl = App.controller 'SignInCtrl', ($scope, UserService, $location) ->

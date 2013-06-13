@@ -73,10 +73,14 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', '$
       $rootScope.$broadcast('user:signin')
 
 
-
   service.signout = () ->
-    $rootScope.user = undefined
-    $rootScope.$broadcast('user:signout')
+    $http
+      url: '/api/1/users/signout'
+      method: 'DELETE'
+    .success () ->
+      $rootScope.user = undefined
+      $rootScope.$broadcast('user:signout')
+
 
   service.password_modify = (oldpassword, newpassword, succ, fail) ->
     if oldpassword != newpassword

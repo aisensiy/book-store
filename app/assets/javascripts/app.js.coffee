@@ -1,7 +1,5 @@
 #= require 'services'
-Parse.initialize("r1AGhZH6QjWaMVsXtOm5pvjAWJhOQtVaExxIuZ3y", "drjVTIqOvdqBF2ohTGfT8e7K48sqpUKAWHrWkTfH")
-
-@App = angular.module('App', ['Services'])
+@App = angular.module('App', ['Services', 'ngUpload'])
 
 App.config ['$routeProvider', ($routeProvider) ->
   $routeProvider
@@ -45,6 +43,31 @@ App.run ['$rootScope', 'UserService', ($rootScope, UserService) ->
   UserService.current_user()
 ]
 
+# App.directive 'ngUpload', () ->
+#   return {
+#     restrict: 'AC',
+#     link: (scope, element, attrs) ->
+#       element.attr("target", "upload_iframe")
+#       element.attr("method", "post")
+#       separator = (element.attr("action").indexOf('?') == -1 ? '?' : '&')
+#       element.attr("action", element.attr("action") + separator + "_t=" + new Date().getTime())
+#       element.attr("enctype", "multipart/form-data")
+#       element.attr("encoding", "multipart/form-data")
+#
+#   }
+
+App.directive('validFile', () ->
+  return {
+    require: 'ngModel',
+    link: (scope, el, attrs, ngModel) ->
+      el.bind 'change', () ->
+        scope.$apply () ->
+          ngModel.$setViewValue(el.val())
+          return
+
+      return
+  }
+)
 App.directive 'passwordconfirm', () ->
   return {
     require: 'ngModel',
@@ -57,10 +80,24 @@ App.directive 'passwordconfirm', () ->
         else
           ctrl.$setValidity('password', false)
           undefined
-
   }
 
 
+App.controller 'FileUploadCtrl', ['$scope', ($scope) ->
+  $scope.model = {}
+
+  console.log upload_form.upload.$valid
+  $scope.un_changed = () ->
+    console.log $scope.model
+    angular.equals({}, $scope.model)
+
+  $scope.submit_form = () ->
+    alert 123
+
+  $scope.submit_complete = (content) ->
+    resp = JSON.parse(content.match(/\{.*\}/))
+    console.log resp
+]
 
 App.controller 'NaviBarCtrl', ['$scope', 'UserService', '$rootScope', ($scope, UserService, $rootScope) ->
 

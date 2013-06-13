@@ -79,11 +79,13 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', '$
       $rootScope.$broadcast('user:signout')
 
 
-  service.password_modify = (oldpassword, newpassword, succ, fail) ->
-    if oldpassword != newpassword
-      succ()
-    else
-      fail('fail')
+  service.password_modify = (oldpassword, newpassword, succ, error) ->
+    $http
+      url: '/api/1/users'
+      method: 'PUT'
+      data: {password: newpassword}
+    .success(succ)
+    .error(error)
 
   return service
 ]

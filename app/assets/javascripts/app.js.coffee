@@ -125,9 +125,9 @@ PasswordModifyCtrl = App.controller 'PasswordModifyCtrl', ($scope, UserService) 
         $scope.succ_msg = '修改成功'
         $scope.fail_msg = null
       ,
-      (msg) ->
+      () ->
         $scope.succ_msg = null
-        $scope.fail_msg = 'msg'
+        $scope.fail_msg = '修改失败'
     )
 
 PasswordModifyCtrl.$inject = ['$scope', 'UserService']

@@ -34,21 +34,18 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', '$
     #   service.signin_err_msg = 'bla'
 
   service.signup = (user) ->
-    user_wrapper = {}
-    for name, value of user
-      user_wrapper["user[#{name}]"] = value
-
-    $.ajax
+    console.log user
+    $http
       url: '/api/1/users'
-      type: 'POST'
-      data: user_wrapper
+      method: 'POST'
+      data: user
       dataType: 'json'
-      success: (data) ->
+    .success (data) ->
         console.log 'signup ok'
         $rootScope.user = {username: user.username}
         $rootScope.$broadcast('user:signin')
         $location.path('/')
-      error: (data) ->
+    .error (data) ->
         service.signup_err_msg = data.error
 
     # if user.username == 'admin'

@@ -86,11 +86,6 @@ SignInCtrl = App.controller 'SignInCtrl', ($scope, UserService, $location) ->
 SignInCtrl.$inject = ['$scope', 'UserService', '$location']
 
 SignUpCtrl = App.controller 'SignUpCtrl', ($scope, UserService, $location) ->
-  $scope.user = {
-    'email': 'ai@sina.com',
-    'username': 'ai',
-    'password': '123'
-  }
 
   $scope.UserService = UserService
 
@@ -98,8 +93,10 @@ SignUpCtrl = App.controller 'SignUpCtrl', ($scope, UserService, $location) ->
     $scope.error_msg = val
 
   $scope.submit_form = () ->
-    console.log $scope.user
-    UserService.signup($scope.user)
+    UserService.signup
+      username: $scope.user.username
+      email: $scope.user.email
+      password: $scope.user.password
 
 SignUpCtrl.$inject = ['$scope', 'UserService', '$location']
 

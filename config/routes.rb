@@ -20,7 +20,10 @@ BooksLists::Application.routes.draw do
         put :update
       end
     end
+
+    post '/upload' => 'upload#post'
   end
+
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)

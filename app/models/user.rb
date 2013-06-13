@@ -11,4 +11,9 @@ class User < BaseClient
   def self.signin(options={})
     get('/1/login', query: options)
   end
+
+  def self.update(user_id, token, options={})
+    headers = self.headers.merge({'X-Parse-Session-Token' => token})
+    put("/1/users/#{user_id}", body: JSON.dump(options), headers: headers)
+  end
 end

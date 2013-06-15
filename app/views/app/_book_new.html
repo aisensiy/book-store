@@ -1,19 +1,53 @@
 <div class="book-upload">
-  <form>
+  <!--
+  <form data-ng-upload data-ng-controller="FileUploadCtrl" method="POST" action="/api/1/upload" name="upload_form">
+    <div class="control-group">
+      <label>选择要上传的电子书</label>
+      <span class="help-block">只支持mobi和pdf格式的文件上传，不超过10M</span>
+      <input type="file" name="upload" ng-model='model.upload' valid-file required />
+      <div class="form-actions">
+        <button type="submit" upload-submit="submit_complete(content)" class="btn btn-primary" ng-disabled="upload_form.$invalid">Submit</button>
+      </div>
+    </div>
+  </form>
+  -->
+  <form name="book_form">
     <fieldset>
       <legend>电子书上传</legend>
       <div class="control-group">
         <label class="control-label">豆瓣链接</label>
         <span class="help-block">你要上传书籍的豆瓣链接：比如，http://book.douban.com/subject/6798611</span>
-        <input type="text" placeholder="Type something…" class="span6">
-      </div>
-      <div class="control-group">
-        <label>选择要上传的电子书</label>
-        <span class="help-block">只支持mobi和pdf格式的文件上传，不超过50M</span>
-        <input type="file" />
+        <input type="text" placeholder="Type something…" class="span6" />
       </div>
 
-      <hr />
+      <div class="control-group">
+        <label>选择要上传的电子书</label>
+        <span class="help-block">只支持mobi和pdf格式的文件上传，不超过10M</span>
+        <input type="file" name="upload" ng-model='model.upload' valid-file required style="line-height: normal;" />
+      </div>
+
+      <!--
+      <div class="control-group">
+        <label>提图书的封面</label>
+        <span class="help-block">图片大小最好为 102x144 或类似的比例</span>
+        <input type="file" name="cover" ng-model='model.cover' valid-file required style="line-height: normal;" />
+      </div>
+
+      <div class="control-group">
+        <label>标题</label>
+        <input type="text" name="title" id="title" value="" class="span6" required ng-model="title" />
+      </div>
+
+      <div class="control-group">
+        <label>作者</label>
+        <input type="text" name="author" id="author" class="span6" required ng-model="model.author" />
+      </div>
+
+      <div class="control-group">
+        <label>ISBN</label>
+        <input type="text" name="isbn" id="isbn" class="span6" required ng-model="model.isbn" />
+      </div>
+      -->
 
       <div class="control-group">
         <label>图书标签</label>
@@ -34,19 +68,19 @@
         </div>
       </div>
       <div class="control-group">
-        <label for="">补充描述</label>
+        <label for="">描述</label>
         <textarea id="" name="" rows="10" cols="30" class="span6"></textarea>
       </div>
 
       <div class="control-group">
         <label class="checkbox">
-          <input type="checkbox" value="">
+          <input type="checkbox" value="" name="is_public" ng-model="is_public">
           是否要公开这本书
         </label>
       </div>
 
       <div class="form-actions">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" ng-disabled="book_form.$invalid">Submit</button>
       </div>
     </fieldset>
   </form>

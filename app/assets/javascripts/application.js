@@ -16,5 +16,6 @@
 //= require holder
 //= require angular
 //= require parse-1.2.7
+//= require 'ng-upload'
 //= require app
 

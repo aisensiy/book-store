@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :signin?, only: [:update, :current_user, :signout]
-  before_filter :captcha_validate, only: [:signin, :create]
+  before_filter :captcha_validate, only: [:signin, :create, :password_reset]
 
   def create
     resp = User.signup(params[:user])
@@ -33,6 +33,11 @@ class UsersController < ApplicationController
 
   def update
     resp = User.update(session[:user_id], session[:token], params[:user])
+    render status: resp.code, json: resp.body
+  end
+
+  def password_reset
+    resp = User.password_reset(params[:email])
     render status: resp.code, json: resp.body
   end
 

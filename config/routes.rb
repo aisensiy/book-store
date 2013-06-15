@@ -20,6 +20,7 @@ BooksLists::Application.routes.draw do
         post :signin
         get :current_user
         put :update
+        post :password_reset
       end
     end
 

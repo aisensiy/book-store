@@ -112,7 +112,23 @@ App.controller 'BookCtrl', ['$scope', 'book', ($scope, book) ->
   $scope.book = book
 ]
 
-App.controller 'PasswordResetCtrl', ['$scope', ($scope) ->
+App.controller 'PasswordResetCtrl', ['$scope', 'UserService', ($scope, UserService) ->
+  $scope.succ_msg = null
+  $scope.fail_msg = null
+  $scope.model = {}
+  console.log $scope.model
+  $scope.submit_form = () ->
+    UserService.password_reset(
+      $scope.model.email,
+      $scope.model.captcha,
+      () ->
+        $scope.succ_msg = "success"
+        $scope.fail_msg = null
+      ,
+      (data) ->
+        $scope.succ_msg = null
+        $scope.fail_msg = data.error
+    )
 ]
 
 PasswordModifyCtrl = App.controller 'PasswordModifyCtrl', ($scope, UserService) ->

@@ -88,6 +88,16 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', '$
     .success(succ)
     .error(error)
 
+  service.password_reset = (email, captcha, succ, error) ->
+    $http
+      url: '/api/1/users/password_reset',
+      method: 'POST'
+      data:
+        email: email,
+        captcha: captcha
+    .success(succ)
+    .error(error)
+
   return service
 ]
 

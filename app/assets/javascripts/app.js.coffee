@@ -85,21 +85,20 @@ App.directive 'passwordconfirm', () ->
   }
 
 
-App.controller 'FileUploadCtrl', ['$scope', ($scope) ->
-  $scope.model = {}
+# App.controller 'FileUploadCtrl', ['$scope', ($scope) ->
 
-  console.log upload_form.upload.$valid
-  $scope.un_changed = () ->
-    console.log $scope.model
-    angular.equals({}, $scope.model)
+  # console.log upload_form.upload.$valid
+  # $scope.un_changed = () ->
+  #   console.log $scope.model
+  #   angular.equals({}, $scope.model)
 
-  $scope.submit_form = () ->
-    alert 123
+  # $scope.submit_form = () ->
+  #   alert 123
 
-  $scope.submit_complete = (content) ->
-    resp = JSON.parse(content.match(/\{.*\}/))
-    console.log resp
-]
+  # $scope.submit_complete = (content) ->
+  #   resp = JSON.parse(content.match(/\{.*\}/))
+  #   console.log resp
+# ]
 
 App.controller 'NaviBarCtrl', ['$scope', 'UserService', '$rootScope', ($scope, UserService, $rootScope) ->
 
@@ -189,4 +188,14 @@ PasswordModifyCtrl = App.controller 'PasswordModifyCtrl', ($scope, UserService) 
 PasswordModifyCtrl.$inject = ['$scope', 'UserService']
 
 App.controller 'BookUploadCtrl', ['$scope', ($scope) ->
+  $scope.langs = [ {name: "中文简体", value: 'zh-CN'}, {name: "中文繁体", value: 'zh-TW'}, {name: "英文", value: 'en'}, {name: "俄文", value: 'ru'} ]
+  $scope.book =
+    is_public: true
+    tags: []
+
+  tags = () ->
+    $scope.tags = []
+    angular.forEach $scope.langs, (lang) {
+      $scope.tags.push(lang.value) if lang.checked
+    }
 ]

@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_filter :signin?, only: [:update, :current_user, :signout]
+  before_filter :captcha_validate, only: [:signin, :create]
 
   def create
     resp = User.signup(params[:user])
@@ -44,6 +45,14 @@ class UsersController < ApplicationController
   def signin?
     if not session[:username]
       render status: 403, json: {error: 'not signin'}
+      return false
+    end
+  end
+
+  def captcha_validate
+    return if Rails.env == 'test'
+    if !captcha_valid? params[:captcha]
+      render status: 403, json: {error: 'invalid captcha'}
       return false
     end
   end

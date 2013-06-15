@@ -2,6 +2,10 @@ source 'http://ruby.taobao.org'
 
 gem 'rails', '3.2.13'
 
+group :development do
+  gem 'sqlite3'
+end
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
@@ -23,6 +27,7 @@ gem "twitter-bootstrap-rails"
 gem 'jquery-rails'
 gem 'httparty'
 gem 'rails_config'
+gem 'easy_captcha'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

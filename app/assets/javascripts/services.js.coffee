@@ -2,7 +2,7 @@
 Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', '$http', ($rootScope, $location, $q, $timeout, $http) ->
   service = {}
 
-  service.signin = (username, password) ->
+  service.signin = (username, password, captcha) ->
     console.log 'service.signin'
     user_wrapper =
       'user[username]': username
@@ -15,6 +15,7 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', '$
       data:
         username: username
         password: password
+        captcha: captcha
     .success (data) ->
         console.log 'signin ok'
         $rootScope.user = {username: username}

@@ -33,6 +33,7 @@ class UsersControllerTest < ActionController::TestCase
   test "current_user" do
     User.signup(@user)
     post :signin, user: @user
+    assert_response :success
     @users_id << [session[:user_id], session[:token]]
 
     get :current_user

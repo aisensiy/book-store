@@ -30,6 +30,15 @@
         <span class="help-inline" ng-show="signup_form.password_confirmation.$error.password">重复输入密码不一致</span>
       </div>
     </div>
+    <div class="control-group">
+      <label class="control-label" for="captcha">Captcha</label>
+      <div class="controls">
+        <input type="text"
+        id="captcha" placeholder=""
+        ng-model="user.captcha" name="captcha" required />
+        <%= captcha_tag %>
+      </div>
+    </div>
     <div class="form-actions">
       <button type="submit" class="btn btn-primary">Sign up</button>
       <button type="button" class="btn">Cancel</button>

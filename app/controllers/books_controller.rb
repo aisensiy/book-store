@@ -35,7 +35,7 @@ class BooksController < ApplicationController
 
     if resp.code == 201
       book_data[:objectId] = resp['objectId']
-      render status: 201, json: book_data
+      render status: 201, json: {objectId: resp['objectId']}
     else
       render status: resp.code, json: resp.body
     end

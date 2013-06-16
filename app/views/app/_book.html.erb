@@ -24,8 +24,7 @@
   </div>
   <div class="extra-info">
     <h3>Extra Infomation</h3>
-    <p>
-      {{book.summary}}
+    <p ng-bind-html-unsafe="book.summary | newlines">
     </p>
   </div>
 </div>

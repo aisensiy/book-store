@@ -176,6 +176,7 @@ Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', '
     $http
       url: "/api/1/books/#{id}"
       method: 'GET'
+      cache: true
     .success (data) ->
       data
     .error (data) ->

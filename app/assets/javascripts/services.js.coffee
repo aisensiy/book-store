@@ -1,5 +1,7 @@
-@Services = angular.module 'Services', []
-Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', '$http', ($rootScope, $location, $q, $timeout, $http) ->
+#= require 'http_wrapper'
+
+@Services = angular.module 'Services', ['SharedServices']
+Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', 'HttpWrapper', ($rootScope, $location, $q, $timeout, $http) ->
   service = {}
 
   service.signin = (username, password, captcha) ->
@@ -101,7 +103,7 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', '$
   return service
 ]
 
-Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', '$http', ($rootScope, $location, $q, $timeout, $http) ->
+Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', 'HttpWrapper', ($rootScope, $location, $q, $timeout, $http) ->
   service = {}
   books = [
     {
@@ -167,8 +169,10 @@ Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', '
     $http
       url: '/api/1/books'
       method: 'GET'
-    .success(succ)
-    .error(fail)
+    .success (data) ->
+      data
+    .error (data) ->
+      data
 
   service.books_newest = (page) ->
     books
@@ -189,8 +193,10 @@ Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', '
     $http
       url: "/api/1/books/#{id}"
       method: 'GET'
-    .success(succ)
-    .error(fail)
+    .success (data) ->
+      data
+    .error (data) ->
+      data
 
   return service
 ]

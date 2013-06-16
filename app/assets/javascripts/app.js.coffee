@@ -1,4 +1,3 @@
-#= require 'http_wrapper'
 #= require 'services'
 
 @App = angular.module('App', ['Services', 'SharedServices', 'ngUpload'])
@@ -15,33 +14,15 @@ App.config ['$routeProvider', ($routeProvider) ->
       templateUrl: 'books.html',
       controller: 'BooksCtrl',
       resolve:
-        books: ['$q', 'BooksService', ($q, BooksService) ->
-          deferred = $q.defer()
-          BooksService.books_popular(
-            (data) ->
-              deferred.resolve(data)
-            ,
-            (data) ->
-              deferred.reject(data)
-          )
-          return deferred.promise
+        books: ['BooksService', (BooksService) ->
+          BooksService.books_popular()
         ]
     .when '/books/:id',
       templateUrl: 'book.html',
       controller: 'BookCtrl',
       resolve:
-        book: ['$q', 'BooksService', '$route', ($q, BooksService, $route) ->
-          deferred = $q.defer()
-          BooksService.book(
-            $route.current.params.id,
-            (data) ->
-              deferred.resolve(data)
-            ,
-            (data) ->
-              deferred.reject(data.error)
-          )
-          # deferred.resolve(BooksService.book($route.current.params.id))
-          return deferred.promise
+        book: ['BooksService', '$route', (BooksService, $route) ->
+          BooksService.book($route.current.params.id)
         ]
     .when '/users/password_reset',
       templateUrl: 'password_reset.html'
@@ -55,9 +36,9 @@ App.config ['$routeProvider', ($routeProvider) ->
     .otherwise({redirectTo: '/books'})
 ]
 
-App.run ['$rootScope', 'UserService', ($rootScope, UserService) ->
-  UserService.current_user()
-]
+# App.run ['$rootScope', 'UserService', ($rootScope, UserService) ->
+#   UserService.current_user()
+# ]
 
 # App.directive 'ngUpload', () ->
 #   return {
@@ -154,12 +135,12 @@ SignUpCtrl = App.controller 'SignUpCtrl', ($scope, UserService, $location) ->
 SignUpCtrl.$inject = ['$scope', 'UserService', '$location']
 
 BooksCtrl = App.controller 'BooksCtrl', ($scope, books) ->
-  $scope.books = books
+  $scope.books = books.data
 
 BooksCtrl.$inject = ['$scope', 'books']
 
 App.controller 'BookCtrl', ['$scope', 'book', ($scope, book) ->
-  $scope.book = book
+  $scope.book = book.data
   console.log book
 ]
 

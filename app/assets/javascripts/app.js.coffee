@@ -15,9 +15,15 @@ App.config ['$routeProvider', ($routeProvider) ->
       templateUrl: 'books.html',
       controller: 'BooksCtrl',
       resolve:
-        books: ['$q', 'BooksService', '$timeout', ($q, BooksService, $timeout) ->
+        books: ['$q', 'BooksService', ($q, BooksService) ->
           deferred = $q.defer()
-          deferred.resolve(BooksService.books_popular())
+          BooksService.books_popular(
+            (data) ->
+              deferred.resolve(data)
+            ,
+            (data) ->
+              deferred.reject(data)
+          )
           return deferred.promise
         ]
     .when '/books/:id',

@@ -2,12 +2,12 @@
   <li class="media" data-ng-repeat="book in books">
   <div class="wrapper">
     <div class="content clearfix">
-      <a href="#/books/{{book.id}}" class="pull-left">
-        <img class="media-object" alt="" ng-src="{{book.image_url}}" />
+      <a href="#/books/{{book.objectId}}" class="pull-left">
+        <img class="media-object" alt="" width="101" height="147" ng-src="{{book.cover_url}}" />
       </a>
       <div class="media-body">
         <a href="#/books/{{book.id}}">{{book.title}}</a>
-        <p class="author">by {{book.author}}</p>
+        <p class="author">by {{book.author.join(', ')}}</p>
       </div>
     </div>
     <div class="tools clearfix">
@@ -23,8 +23,10 @@
       </ul>
     </div>
   </div><!-- wrapper end -->
+  <!--
   <div class="user">
     <a href="#"><i class="icon-user"></i><span>{{book.user}}</span></a>
   </div>
+  -->
   </li>
 </ul>

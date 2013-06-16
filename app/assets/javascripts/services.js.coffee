@@ -101,7 +101,8 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', '$
   return service
 ]
 
-Services.factory 'BooksService', ['$location', '$http', ($location, $http) ->
+Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', '$http', ($rootScope, $location, $q, $timeout, $http) ->
+  service = {}
   books = [
     {
       id: '1',
@@ -162,9 +163,12 @@ Services.factory 'BooksService', ['$location', '$http', ($location, $http) ->
   ]
   service = {}
 
-  service.books_popular = (page) ->
-    console.log 'load popular'
-    books
+  service.books_popular = (succ, fail) ->
+    $http
+      url: '/api/1/books'
+      method: 'GET'
+    .success(succ)
+    .error(fail)
 
   service.books_newest = (page) ->
     books

@@ -15,13 +15,14 @@ class BooksControllerTest < ActionController::TestCase
     assert_equal 201, @response.status
     assert body['objectId']
   end
-=begin
+
   test "should get index" do
     get :index
     assert_response :success
   end
 
 
+=begin
   test "should get update" do
     get :update
     assert_response :success

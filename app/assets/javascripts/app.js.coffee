@@ -1,5 +1,5 @@
-#= require 'services'
 #= require 'http_wrapper'
+#= require 'services'
 
 @App = angular.module('App', ['Services', 'SharedServices', 'ngUpload'])
 
@@ -26,7 +26,15 @@ App.config ['$routeProvider', ($routeProvider) ->
       resolve:
         book: ['$q', 'BooksService', '$route', ($q, BooksService, $route) ->
           deferred = $q.defer()
-          deferred.resolve(BooksService.book($route.current.params.id))
+          BooksService.book(
+            $route.current.params.id,
+            (data) ->
+              deferred.resolve(data)
+            ,
+            (data) ->
+              deferred.reject(data.error)
+          )
+          # deferred.resolve(BooksService.book($route.current.params.id))
           return deferred.promise
         ]
     .when '/users/password_reset',
@@ -146,6 +154,7 @@ BooksCtrl.$inject = ['$scope', 'books']
 
 App.controller 'BookCtrl', ['$scope', 'book', ($scope, book) ->
   $scope.book = book
+  console.log book
 ]
 
 App.controller 'PasswordResetCtrl', ['$scope', 'UserService', ($scope, UserService) ->
@@ -201,11 +210,13 @@ App.controller 'BookUploadCtrl', ['$scope', '$location', ($scope, $location) ->
     angular.forEach $scope.langs, (lang) ->
       $scope.tags.push(lang.value) if lang.checked
 
-  $scope.submit_complete = (content, success) ->
+  $scope.submit_complete = (content, completed) ->
+    console.log arguments
+    return if not completed or content.length <= 0
     resp = JSON.parse(content.match(/\{.*\}/))
     $('#loading').toggle()
-    if success
-      $location.path("/books/#{resp.objectId}")
-    else
+    if resp.error
       $scope.fail_msg = resp.error
+    else
+      $location.path("/books/#{resp.objectId}")
 ]

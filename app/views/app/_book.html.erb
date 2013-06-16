@@ -3,15 +3,15 @@
     <h2>{{book.title}}</h2>
     <div class="wrapper">
       <div class="cover pull-left">
-        <img src="/assets/book-cover.png" alt="" />
+        <img src="/assets/book-cover.png" width="101" height="147" ng-src="{{book.cover_url}}" alt="" />
       </div>
       <div class="info">
-        <p><span>作者：</span>{{book.author}}</p>
+        <p><span>作者：</span>{{book.author.join(', ')}}</p>
         <p><span>副书名：</span>a hands-on guide to modeling, sculpting, materials, and rendering</p>
         <p><span>出版日期：</span>2013</p>
-        <p><span>出版社：</span>其它</p>
-        <p><span>页数：</span>272</p>
-        <p><span>ISBN：</span>1-59327-477-7</p>
+        <p><span>出版社：</span>{{book.publisher}}</p>
+        <p><span>页数：</span>{{book.pages}}</p>
+        <p><span>ISBN：</span>{{book.isbn}}</p>
         <p><span>文件格式：</span>PDF</p>
         <p><span>文件大小：</span>48.56 MB</p>
       </div>
@@ -25,8 +25,7 @@
   <div class="extra-info">
     <h3>Extra Infomation</h3>
     <p>
-    Here’s a brief summary of each chapter in the book.<br />
-    Chapters 1 and 2 offer an introduction to Blender and GIMP. You learn what they are, where you can get them, and what you can do with them.
+      {{book.summary}}
     </p>
   </div>
 </div>

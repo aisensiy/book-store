@@ -27,15 +27,6 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', 'H
         service.signin_err_msg = data.error
 
 
-    # if username == 'admin'
-    #   console.log 'signin ok'
-    #   service.user = {username: username}
-    #   $rootScope.$broadcast('user:signin')
-    #   $location.path('/')
-    # else
-    #   console.log 'sigin error'
-    #   service.signin_err_msg = 'bla'
-
   service.signup = (user) ->
     console.log user
     $http
@@ -51,13 +42,6 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', 'H
     .error (data) ->
         service.signup_err_msg = data.error
 
-    # if user.username == 'admin'
-    #   console.log 'signup ok'
-    #   service.user = {username: user.username}
-    #   $rootScope.$broadcast('user:signin')
-    #   $location.path('/')
-    # else
-    #   service.signup_err_msg = 'bla'
 
   service.current_user = () ->
     return $rootScope.user if $rootScope.user

@@ -1,6 +1,6 @@
 #= require 'services'
 
-@App = angular.module('App', ['Services', 'SharedServices', 'ngUpload'])
+@App = angular.module('App', ['Services', 'ngUpload'])
 
 App.config ['$routeProvider', ($routeProvider) ->
   $routeProvider
@@ -36,9 +36,9 @@ App.config ['$routeProvider', ($routeProvider) ->
     .otherwise({redirectTo: '/books'})
 ]
 
-# App.run ['$rootScope', 'UserService', ($rootScope, UserService) ->
-#   UserService.current_user()
-# ]
+App.run ['$rootScope', 'UserService', ($rootScope, UserService) ->
+  UserService.current_user()
+]
 
 App.directive('validFile', () ->
   return {

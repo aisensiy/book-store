@@ -1,6 +1,6 @@
 #= require 'http_wrapper'
 
-@Services = angular.module 'Services', ['SharedServices']
+Services = angular.module 'Services', ['HttpServices']
 Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', 'HttpWrapper', ($rootScope, $location, $q, $timeout, $http) ->
   service = {}
 
@@ -87,7 +87,7 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', 'H
   return service
 ]
 
-Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', 'HttpWrapper', ($rootScope, $location, $q, $timeout, $http) ->
+Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', '$http', ($rootScope, $location, $q, $timeout, $http) ->
   service = {}
   books = [
     {
@@ -147,7 +147,6 @@ Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', '
       user: 'ranhui'
     }
   ]
-  service = {}
 
   service.books_popular = (succ, fail) ->
     $http

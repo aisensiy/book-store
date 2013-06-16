@@ -1,6 +1,5 @@
 BooksLists::Application.routes.draw do
 
-
   captcha_route
 
   # The priority is based upon order of creation:
@@ -23,6 +22,8 @@ BooksLists::Application.routes.draw do
         post :password_reset
       end
     end
+
+    resources :books, defaults: { format: 'json' }, only: [:create, :index, :update, :destroy, :show]
 
     post '/upload' => 'upload#post'
   end

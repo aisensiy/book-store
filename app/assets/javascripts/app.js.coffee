@@ -187,15 +187,25 @@ PasswordModifyCtrl = App.controller 'PasswordModifyCtrl', ($scope, UserService) 
 
 PasswordModifyCtrl.$inject = ['$scope', 'UserService']
 
-App.controller 'BookUploadCtrl', ['$scope', ($scope) ->
+App.controller 'BookUploadCtrl', ['$scope', '$location', ($scope, $location) ->
   $scope.langs = [ {name: "中文简体", value: 'zh-CN'}, {name: "中文繁体", value: 'zh-TW'}, {name: "英文", value: 'en'}, {name: "俄文", value: 'ru'} ]
   $scope.book =
     is_public: true
     tags: []
 
+  $scope.show_loading = () ->
+    $('#loading').toggle()
+
   tags = () ->
     $scope.tags = []
-    angular.forEach $scope.langs, (lang) {
+    angular.forEach $scope.langs, (lang) ->
       $scope.tags.push(lang.value) if lang.checked
-    }
+
+  $scope.submit_complete = (content, success) ->
+    resp = JSON.parse(content.match(/\{.*\}/))
+    $('#loading').toggle()
+    if success
+      $location.path("/books/#{resp.objectId}")
+    else
+      $scope.fail_msg = resp.error
 ]

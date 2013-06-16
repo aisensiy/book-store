@@ -46,6 +46,8 @@ class BooksController < ApplicationController
   end
 
   def show
+    resp = Book.get_book(params[:id])
+    render status: resp.code, json: resp.body
   end
 
   private

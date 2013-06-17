@@ -26,6 +26,7 @@ gem 'jquery-rails'
 gem 'httparty'
 gem 'rails_config'
 gem 'easy_captcha'
+gem 'qiniu-rs'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

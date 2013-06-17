@@ -80,6 +80,11 @@ GEM
     multi_json (1.7.6)
     multi_xml (0.5.4)
     polyglot (0.3.3)
+    qiniu-rs (3.4.2)
+      json (~> 1.7)
+      mime-types (~> 1.19)
+      rest-client (~> 1.6)
+      ruby-hmac (~> 0.4)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -108,6 +113,8 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.2)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rmagick (2.13.2)
     rspec-core (2.13.1)
     rspec-expectations (2.13.0)
@@ -120,6 +127,7 @@ GEM
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
+    ruby-hmac (0.4.0)
     sass (3.2.9)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -163,6 +171,7 @@ DEPENDENCIES
   httparty
   jquery-rails
   less-rails
+  qiniu-rs
   rails (= 3.2.13)
   rails_config
   sass-rails (~> 3.2.3)

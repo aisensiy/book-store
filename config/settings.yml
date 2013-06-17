@@ -1,2 +1,5 @@
 parse_appid: "r1AGhZH6QjWaMVsXtOm5pvjAWJhOQtVaExxIuZ3y"
 parse_restid: "HbAAffBqKRs3DU5xyzbiXVGTk7rjj9vDLkrYLsLL"
+qiniu_appkey: "Md5FlWx2aD7Dmb1BulgrmSVXhoPZd-h19qk8sChR"
+qiniu_appsecret: "sAu6BJrswCi2IlePe2PqQU2FuCZs7isvgMDOPkOK"
+qiniu_bucket: "bookstore"

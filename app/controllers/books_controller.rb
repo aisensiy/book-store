@@ -15,18 +15,12 @@ class BooksController < ApplicationController
 
     # upload file
     uploaded_io = params[:upload]
-    upload_resp = UploadFile.upload uploaded_io.original_filename,
-                             uploaded_io.content_type,
-                             uploaded_io.read
-
-    if upload_resp.code != 201
-      render upload_resp.code, json: upload_resp.body
+    upload_resp = UploadFile.upload_to_qiniu uploaded_io.path, uploaded_io.content_type
+    if upload_resp['error']
+      render 403, json: upload_resp['error']
     end
 
-    params[:book][:file] = {
-      name: upload_resp.parsed_response['name'],
-      __type: 'File'
-    }
+    params[:book][:file_key] = upload_resp['key']
 
     book_data.merge! params[:book]
 

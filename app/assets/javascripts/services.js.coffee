@@ -6,10 +6,6 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', 'H
 
   service.signin = (username, password, captcha) ->
     console.log 'service.signin'
-    user_wrapper =
-      'user[username]': username
-      'user[password]': password
-    console.log user_wrapper
 
     $http
       url: '/api/1/users/signin'

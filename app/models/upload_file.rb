@@ -6,6 +6,20 @@ class UploadFile < BaseClient
     post("/1/files/#{URI::encode sanitize(filename)}", body: filebody, headers: headers)
   end
 
+  def self.upload_to_qiniu(path, mime_type)
+    token = Qiniu::RS.generate_upload_token scope: Settings.qiniu_bucket
+    key = Digest::MD5.hexdigest(File.dirname(path) + Time.now.to_i.to_s)
+    begin
+      Qiniu::RS.upload_file uptoken: token,
+                            file: path,
+                            mime_type: mime_type,
+                            bucket: Settings.qiniu_bucket,
+                            key: key
+    rescue UploadFailedError => e
+      {'error' => e.to_s}
+    end
+  end
+
   private
   def self.sanitize(name)
     sanitize_regexp = /[^[:word:]\.\-\+]/
@@ -16,4 +30,10 @@ class UploadFile < BaseClient
     name = "unnamed" if name.size == 0
     return name.mb_chars.to_s
   end
+
+  def filename
+    name = Digest::MD5.hexdigest(File.dirname(current_path))
+    "#{name}.#{file.extension}"
+  end
+
 end

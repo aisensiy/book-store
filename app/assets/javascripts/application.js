@@ -11,11 +11,8 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require jquery_ujs
 //= require twitter/bootstrap
-//= require holder
 //= require angular
-//= require parse-1.2.7
 //= require 'ng-upload'
 //= require app
 

@@ -1,18 +1,8 @@
 #= require 'services'
+#= require 'directives'
+#= require 'filters'
 
-@App = angular.module('App', ['Services', 'ngUpload'])
-
-App.filter('newlines', () ->
-  (text) ->
-    text.replace(/\n/g, '<br/>')
-)
-.filter('noHTML', () ->
-  (text) ->
-    text
-      .replace(/&/g, '&amp;')
-      .replace(/>/g, '&gt;')
-      .replace(/</g, '&lt;')
-)
+@App = angular.module('App', ['Services', 'ngUpload', 'App.directives', 'App.filters'])
 
 App.config ['$routeProvider', ($routeProvider) ->
   $routeProvider
@@ -52,31 +42,6 @@ App.run ['$rootScope', 'UserService', ($rootScope, UserService) ->
   UserService.current_user()
 ]
 
-App.directive('validFile', () ->
-  return {
-    require: 'ngModel',
-    link: (scope, el, attrs, ngModel) ->
-      el.bind 'change', () ->
-        scope.$apply () ->
-          ngModel.$setViewValue(el.val())
-          return
-
-      return
-  }
-)
-App.directive 'passwordconfirm', () ->
-  return {
-    require: 'ngModel',
-    link: (scope, elem, attrs, ctrl) ->
-      ctrl.$parsers.unshift (value) ->
-        password = elem.closest('form').find(attrs.passwordconfirm)
-        if password.val() == value
-          ctrl.$setValidity('password', true)
-          value
-        else
-          ctrl.$setValidity('password', false)
-          undefined
-  }
 
 App.controller 'NaviBarCtrl', ['$scope', 'UserService', '$rootScope', ($scope, UserService, $rootScope) ->
 

@@ -7,33 +7,33 @@
 App.config ['$routeProvider', ($routeProvider) ->
   $routeProvider
     .when '/sign_in',
-      templateUrl: 'sign_in.html'
+      template: $('#sign_in_html').html()
       controller: 'SignInCtrl'
     .when '/sign_up',
-      templateUrl: 'sign_up.html',
+      template: $('#sign_up_html').html(),
       controller: 'SignUpCtrl'
     .when '/books',
-      templateUrl: 'books.html',
+      template: $('#books_html').html(),
       controller: 'BooksCtrl',
       resolve:
         books: ['BooksService', (BooksService) ->
           BooksService.books_popular()
         ]
     .when '/books/:id',
-      templateUrl: 'book.html',
+      template: $('#book_html').html(),
       controller: 'BookCtrl',
       resolve:
         book: ['BooksService', '$route', (BooksService, $route) ->
           BooksService.book($route.current.params.id)
         ]
     .when '/users/password_reset',
-      templateUrl: 'password_reset.html'
+      template: $('#password_reset_html').html()
       controller: 'PasswordResetCtrl',
     .when '/users/password_modify',
-      templateUrl: 'password_modify.html'
+      template: $('#password_modify_html').html()
       controller: 'PasswordModifyCtrl',
     .when '/book-upload',
-      templateUrl: 'book_new.html'
+      template: $('#book_new_html').html()
       controller: 'BookUploadCtrl'
     .otherwise({redirectTo: '/books'})
 ]

@@ -10,9 +10,15 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+//= require_self
 //= require jquery
 //= require twitter/bootstrap
 //= require angular
 //= require 'ng-upload'
 //= require app
 
+if (!window.console) {
+  window.console = {
+    log: function() {}
+  };
+}

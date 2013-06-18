@@ -2,8 +2,8 @@
   <li class="media" data-ng-repeat="book in books">
   <div class="wrapper">
     <div class="content clearfix">
-      <a href="#/books/{{book.objectId}}" class="pull-left">
-        <img class="media-object" alt="" width="101" height="147" ng-src="{{book.cover_url}}" />
+      <a href="#/books/{{book.objectId}}" class="pull-left cover">
+        <img class="media-object" alt="" ng-src="{{book.cover_url}}" />
       </a>
       <div class="media-body">
         <a href="#/books/{{book.id}}">{{book.title}}</a>

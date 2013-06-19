@@ -168,11 +168,28 @@ Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', '
   service.books_by_user = (user_id, page) ->
     books
 
+  service.create_book = (book_data, succ, fail) ->
+    $http(
+      url: "/api/1/books"
+      method: 'POST'
+      data: book_data
+    ).success(succ).error(fail)
+
   service.book = (id, succ, fail) ->
     $http
       url: "/api/1/books/#{id}"
       method: 'GET'
       cache: true
+    .success (data) ->
+      data
+    .error (data) ->
+      data
+
+  service.get_token = () ->
+    $http
+      url: "/api/1/upload/token"
+      method: 'GET'
+      data: {ts: +new Date}
     .success (data) ->
       data
     .error (data) ->

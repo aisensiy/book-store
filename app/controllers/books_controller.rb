@@ -11,16 +11,16 @@ class BooksController < ApplicationController
       render status: 404, json: { error: 'book not found' }
       return
     end
-    params[:book].delete :url
+    # params[:book].delete :url
 
     # upload file
-    uploaded_io = params[:upload]
-    upload_resp = UploadFile.upload_to_qiniu uploaded_io.path, uploaded_io.content_type
-    if upload_resp['error']
-      render 403, json: upload_resp['error']
-    end
+    # uploaded_io = params[:upload]
+    # upload_resp = UploadFile.upload_to_qiniu uploaded_io.path, uploaded_io.content_type
+    # if upload_resp['error']
+    #   render 403, json: upload_resp['error']
+    # end
 
-    params[:book][:file_key] = upload_resp['key']
+    # params[:book][:file_key] = upload_resp['key']
 
     book_data.merge! params[:book]
 

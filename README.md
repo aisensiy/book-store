@@ -17,4 +17,8 @@ Different orders
 * accounts/password_modify/
 * accounts/password_reset/
 
+# upload
 
+We use qiniu as storage. But the real data is set in parse.com.
+We should first upload file to qiniu. After getting the feedback,
+we send data to parse.com.

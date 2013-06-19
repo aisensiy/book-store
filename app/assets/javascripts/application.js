@@ -12,9 +12,11 @@
 //
 //= require_self
 //= require jquery
+//= require utf8_decode
+//= require base64_decoder
 //= require twitter/bootstrap
 //= require angular
-//= require 'ng-upload'
+//= require ng-upload
 //= require app
 
 if (!window.console) {

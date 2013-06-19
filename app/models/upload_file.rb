@@ -7,14 +7,13 @@ class UploadFile < BaseClient
   end
 
   def self.upload_to_qiniu(path, mime_type)
-    token = Qiniu::RS.generate_upload_token scope: Settings.qiniu_bucket
-    key = Digest::MD5.hexdigest(File.dirname(path) + Time.now.to_i.to_s)
+    token = Qiniu::RS.generate_upload_token(scope: Settings.qiniu_bucket, callback_url: '')
     begin
       Qiniu::RS.upload_file uptoken: token,
                             file: path,
                             mime_type: mime_type,
                             bucket: Settings.qiniu_bucket,
-                            key: key
+                            callback_body_type: 'application/json'
     rescue UploadFailedError => e
       {'error' => e.to_s}
     end
@@ -37,3 +36,4 @@ class UploadFile < BaseClient
   end
 
 end
+

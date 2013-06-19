@@ -26,6 +26,8 @@ BooksLists::Application.routes.draw do
     resources :books, defaults: { format: 'json' }, only: [:create, :index, :update, :destroy, :show]
 
     post '/upload' => 'upload#post'
+    get  '/upload/token' => 'upload#get_token'
+    get '/upload/callback' => 'upload#callback'
   end
 
   # Sample of named route:

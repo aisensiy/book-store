@@ -11,20 +11,22 @@
     </div>
   </form>
   -->
-  <form ng-upload name="book_form" action="/api/1/books">
-    <fieldset>
-      <legend>电子书上传</legend>
+  <form name="book_form" method="post" action="http://up.qiniu.com/" enctype="multipart/form-data" ng-upload>
+    <legend>电子书上传</legend>
+    <div class="alert alert-success" ng-show="succ_msg">{{succ_msg}}</div>
     <div class="alert alert-error" ng-show="fail_msg">{{fail_msg}}</div>
-      <div class="control-group">
-        <label class="control-label">豆瓣链接</label>
-        <span class="help-block">你要上传书籍的豆瓣链接：比如，http://book.douban.com/subject/6798611 我们会从豆瓣获取这个图书的信息</span>
-        <input type="url" name="book[url]" placeholder="http://book.douban.com/subject/6798611" class="span6" required ng-model="book.url">
-      </div>
-
+    <fieldset>
       <div class="control-group">
         <label>选择要上传的电子书</label>
         <span class="help-block">只支持mobi和pdf格式的文件上传，不超过10M</span>
-        <input type="file" name="upload" ng-model='model.upload' valid-file required style="line-height: normal;" />
+        <input type="file" name="file" ng-model='model.upload' valid-file required style="line-height: normal;" />
+        <input name="token" type="hidden" value="{{token}}" />
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">豆瓣链接</label>
+        <span class="help-block">你要上传书籍的豆瓣链接：比如，http://book.douban.com/subject/6798611 我们会从豆瓣获取这个图书的信息</span>
+        <input type="url" name="x:url" placeholder="http://book.douban.com/subject/6798611" class="span6" required ng-model="book.url">
       </div>
 
       <div class="control-group">
@@ -40,17 +42,18 @@
       <div class="control-group">
         <label>是否公开这本书</label>
         <label for="" class="radio inline">
-          <input type="radio" name="book[is_public]" value="1" ng-model="book.is_public" />
+          <input type="radio" name="x:is_public" value="1" ng-model="book.is_public" />
           设为公开
         </label>
         <label for="" class="radio inline">
-          <input type="radio" name="book[is_public]" value="0" ng-model="book.is_public" />
+          <input type="radio" name="x:is_public" value="0" ng-model="book.is_public" />
           设为私有
         </label>
       </div>
-
       <div class="form-actions">
-        <button type="submit" class="btn btn-primary" ng-disabled="book_form.$invalid" ng-click="show_loading()" upload-submit="submit_complete(content, completed)">Submit</button>
+        <button type="submit" class="btn btn-primary"
+          ng-disabled="book_form.$invalid" ng-click="show_loading()"
+          upload-submit="submit_complete(content, completed)" >Submit</button>
       </div>
     </fieldset>
   </form>

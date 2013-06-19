@@ -35,6 +35,11 @@ App.config ['$routeProvider', ($routeProvider) ->
     .when '/book-upload',
       template: $('#book_new_html').html()
       controller: 'BookUploadCtrl'
+      resolve: {
+        token: ['BooksService', (BooksService) ->
+          BooksService.get_token()
+        ]
+      }
     .otherwise({redirectTo: '/books'})
 ]
 
@@ -131,8 +136,9 @@ PasswordModifyCtrl = App.controller 'PasswordModifyCtrl', ($scope, UserService) 
 
 PasswordModifyCtrl.$inject = ['$scope', 'UserService']
 
-App.controller 'BookUploadCtrl', ['$scope', '$location', ($scope, $location) ->
+App.controller 'BookUploadCtrl', ['$scope', '$location', 'token', 'BooksService', ($scope, $location, token, BooksService) ->
   $scope.langs = [ {name: "中文简体", value: 'zh-CN'}, {name: "中文繁体", value: 'zh-TW'}, {name: "英文", value: 'en'}, {name: "俄文", value: 'ru'} ]
+  $scope.token = token.data.token
   $scope.book =
     is_public: true
     tags: []
@@ -148,10 +154,19 @@ App.controller 'BookUploadCtrl', ['$scope', '$location', ($scope, $location) ->
   $scope.submit_complete = (content, completed) ->
     console.log arguments
     return if not completed or content.length <= 0
-    resp = JSON.parse(content.match(/\{.*\}/))
+    json = content.match(/\{.*\}/)[0]
+    console.log json
+    resp = JSON.parse json
     $('#loading').toggle()
     if resp.error
       $scope.fail_msg = resp.error
     else
-      $location.path("/books/#{resp.objectId}")
+      BooksService.create_book(resp,
+        (data) ->
+          console.log data.objectId
+          $location.path("/books/#{data.objectId}")
+        ,
+        (data) ->
+          $scope.fail_msg = data.error
+      )
 ]

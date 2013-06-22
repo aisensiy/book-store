@@ -15,12 +15,12 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', 'H
         password: password
         captcha: captcha
     .success (data) ->
-        console.log 'signin ok'
-        $rootScope.user = {username: username}
-        $rootScope.$broadcast('user:signin')
-        $location.path('/')
+      console.log 'signin ok'
+      $rootScope.user = {username: username}
+      $rootScope.$broadcast('user:signin')
+      $location.path('/')
     .error (data) ->
-        service.signin_err_msg = data.error
+      service.signin_err_msg = data.error
 
 
   service.signup = (user) ->
@@ -31,12 +31,12 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', 'H
       data: user
       dataType: 'json'
     .success (data) ->
-        console.log 'signup ok'
-        $rootScope.user = {username: user.username}
-        $rootScope.$broadcast('user:signin')
-        $location.path('/')
+      console.log 'signup ok'
+      $rootScope.user = {username: user.username}
+      $rootScope.$broadcast('user:signin')
+      $location.path('/')
     .error (data) ->
-        service.signup_err_msg = data.error
+      service.signup_err_msg = data.error
 
 
   service.current_user = () ->

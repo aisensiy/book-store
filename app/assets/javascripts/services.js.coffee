@@ -1,7 +1,24 @@
 #= require 'http_wrapper'
 
 Services = angular.module 'Services', ['HttpServices']
-Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', 'HttpWrapper', ($rootScope, $location, $q, $timeout, $http) ->
+
+Services.factory 'Captcha', [() ->
+  service = {}
+
+  captcha_src = null
+
+  service.get_captcha_src = () ->
+    if not captcha_src
+      service.refresh_captcha()
+    captcha_src
+
+  service.refresh_captcha = () ->
+    captcha_src = "/captcha?action=captcha&i=" + new Date()
+
+  service
+]
+
+Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', 'HttpWrapper', 'Captcha', ($rootScope, $location, $q, $timeout, $http, Captcha) ->
   service = {}
 
   service.signin = (username, password, captcha) ->
@@ -21,7 +38,7 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', 'H
       $location.path('/')
     .error (data) ->
       service.signin_err_msg = data.error
-
+      Captcha.refresh_captcha()
 
   service.signup = (user) ->
     console.log user
@@ -37,6 +54,7 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', 'H
       $location.path('/')
     .error (data) ->
       service.signup_err_msg = data.error
+      Captcha.refresh_captcha()
 
 
   service.current_user = () ->

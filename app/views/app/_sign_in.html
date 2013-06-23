@@ -20,7 +20,7 @@
         <input type="text"
         id="captcha" placeholder=""
         ng-model="user.captcha" name="captcha" required />
-        <%= captcha_tag %>
+        <img alt="captcha" height="40" ng-src="{{get_captcha_src()}}" width="140">
       </div>
     </div>
     <div class="control-group">

@@ -57,11 +57,16 @@ GEM
     execjs (1.4.0)
       multi_json (~> 1.0)
     fssm (0.2.10)
+    haml (4.0.3)
+      tilt
     hike (1.2.3)
     httparty (0.11.0)
       multi_json (~> 1.0)
       multi_xml (>= 0.5.2)
     i18n (0.6.1)
+    jasminerice (0.0.10)
+      coffee-rails
+      haml
     journey (1.0.4)
     jquery-rails (3.0.1)
       railties (>= 3.0, < 5.0)
@@ -169,6 +174,7 @@ DEPENDENCIES
   compass-rails
   easy_captcha
   httparty
+  jasminerice
   jquery-rails
   less-rails
   qiniu-rs

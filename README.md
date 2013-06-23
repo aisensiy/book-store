@@ -23,7 +23,7 @@ We use qiniu as storage. But the real data is set in parse.com.
 We should first upload file to qiniu. After getting the feedback,
 we send data to parse.com.
 
-用户注册、登录，密码重置等，需要用图片验证码，保证安全性 # 缺乏那种权限控制
+用户注册、登录，密码重置等，需要用图片验证码，保证安全性 # ~~缺乏那种权限控制~~
 所有的书籍的展示页面，包括分类，以及各种排序 # 没有分类和排序, 也没有分页
 单本书的展示页面 # 没有下载, 属性不齐全
 书籍的上传，可以设置为用户私有和共有 # 上传表单要待改善

@@ -31,7 +31,8 @@ App.config ['$routeProvider', ($routeProvider) ->
       controller: 'PasswordResetCtrl',
     .when '/users/password_modify',
       template: $('#password_modify_html').html()
-      controller: 'PasswordModifyCtrl',
+      controller: 'PasswordModifyCtrl'
+      require_auth: true
     .when '/book-upload',
       template: $('#book_new_html').html()
       controller: 'BookUploadCtrl'
@@ -40,11 +41,16 @@ App.config ['$routeProvider', ($routeProvider) ->
           BooksService.get_token()
         ]
       }
+      require_auth: true
     .otherwise({redirectTo: '/books'})
 ]
 
-App.run ['$rootScope', 'UserService', ($rootScope, UserService) ->
+App.run ['$rootScope', 'UserService', '$location', ($rootScope, UserService, $location) ->
   UserService.current_user()
+  $rootScope.$on '$routeChangeStart', (event, next, current) ->
+    console.log arguments
+    if next.require_auth && !$rootScope.user
+      $location.path('/')
 ]
 
 
@@ -115,8 +121,8 @@ App.controller 'PasswordResetCtrl', ['$scope', 'UserService', 'Captcha', ($scope
         $scope.succ_msg = "success"
         $scope.fail_msg = null
       ,
-      (data) ->
-        $scope.succ_msg = null
+        (data) ->
+          $scope.succ_msg = null
         $scope.fail_msg = data.error
         Captcha.refresh_captcha()
     )
@@ -135,8 +141,8 @@ PasswordModifyCtrl = App.controller 'PasswordModifyCtrl', ($scope, UserService) 
         $scope.succ_msg = '修改成功'
         $scope.fail_msg = null
       ,
-      () ->
-        $scope.succ_msg = null
+        () ->
+          $scope.succ_msg = null
         $scope.fail_msg = '修改失败'
     )
 
@@ -172,7 +178,7 @@ App.controller 'BookUploadCtrl', ['$scope', '$location', 'token', 'BooksService'
           console.log data.objectId
           $location.path("/books/#{data.objectId}")
         ,
-        (data) ->
-          $scope.fail_msg = data.error
+          (data) ->
+            $scope.fail_msg = data.error
       )
 ]

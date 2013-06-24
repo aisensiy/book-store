@@ -27,6 +27,7 @@ BooksLists::Application.routes.draw do
 
     post '/upload' => 'upload#post'
     get  '/upload/token' => 'upload#get_token'
+    get  '/upload/download_token' => 'upload#get_download_token'
     get '/upload/callback' => 'upload#callback'
   end
 

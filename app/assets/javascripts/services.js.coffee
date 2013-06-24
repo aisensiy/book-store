@@ -224,5 +224,18 @@ Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', '
     .error (data) ->
       data
 
+  service.get_download_token = (key, succ, fail) ->
+    $http
+      url: "/api/1/upload/download_token"
+      method: "GET"
+      params:
+        ts: +new Date
+        file_key: key
+    .success (data) ->
+      succ && succ(data) || data
+    .error (data) ->
+      fail && fail(data) || data
+
+
   return service
 ]

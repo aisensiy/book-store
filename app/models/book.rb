@@ -19,6 +19,6 @@ class Book < BaseClient
   end
 
   def self.get_books(limit=40, skip=0)
-    get("/1/classes/Book", query: {count: 1, limit: limit, skip: skip})
+    get("/1/classes/Book", query: {count: 1, limit: limit, skip: skip, keys: 'title,author,cover_url'})
   end
 end

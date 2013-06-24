@@ -7,7 +7,7 @@ class Book < BaseClient
     get("/1/classes/Book/#{id}")
   end
 
-  def self.get_books()
-    get("/1/classes/Book")
+  def self.get_books(limit=40, skip=0)
+    get("/1/classes/Book", query: {count: 1, limit: limit, skip: skip})
   end
 end

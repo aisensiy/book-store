@@ -2,7 +2,7 @@
 #= require 'directives'
 #= require 'filters'
 
-@App = angular.module('App', ['Services', 'ngUpload', 'App.directives', 'App.filters'])
+@App = angular.module('App', ['Services', 'ngUpload', 'App.directives', 'App.filters', 'ui.bootstrap'])
 
 App.config ['$routeProvider', ($routeProvider) ->
   $routeProvider
@@ -16,8 +16,8 @@ App.config ['$routeProvider', ($routeProvider) ->
       template: $('#books_html').html(),
       controller: 'BooksCtrl',
       resolve:
-        books: ['BooksService', (BooksService) ->
-          BooksService.books_popular()
+        books: ['BooksService', '$routeParams', (BooksService, $routeParams) ->
+          BooksService.books_popular(1)
         ]
     .when '/books/:id',
       template: $('#book_html').html(),
@@ -98,10 +98,16 @@ SignUpCtrl = App.controller 'SignUpCtrl', ($scope, UserService, $location, Captc
 
 SignUpCtrl.$inject = ['$scope', 'UserService', '$location', 'Captcha']
 
-BooksCtrl = App.controller 'BooksCtrl', ($scope, books) ->
-  $scope.books = books.data
+BooksCtrl = App.controller 'BooksCtrl', ($scope, books, BooksService) ->
+  $scope.books = books.data.results
+  $scope.paging = books.data.paging
 
-BooksCtrl.$inject = ['$scope', 'books']
+  $scope.pageChanged = (page) ->
+    BooksService.books_popular page, (data) ->
+      $scope.books = data.results
+      $scope.paging = data.paging
+
+BooksCtrl.$inject = ['$scope', 'books', 'BooksService']
 
 App.controller 'BookCtrl', ['$scope', 'book', ($scope, book) ->
   $scope.book = book.data

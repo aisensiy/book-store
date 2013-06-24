@@ -16,6 +16,7 @@
 //= require base64_decoder
 //= require twitter/bootstrap
 //= require angular
+//= require ui-bootstrap-tpls-0.3.0
 //= require ng-upload
 //= require app
 

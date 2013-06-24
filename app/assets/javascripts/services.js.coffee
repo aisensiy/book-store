@@ -162,14 +162,25 @@ Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', '
     }
   ]
 
-  service.books_popular = (succ, fail) ->
+  service.books_popular = (page_no, succ, fail) ->
+    page_no = page_no || 1
+    per_page = 40
+    console.log page_no, per_page
     $http
-      url: '/api/1/books'
+      url: "/api/1/books"
       method: 'GET'
+      params: {
+        limit: per_page,
+        skip: (page_no - 1) * per_page
+      }
     .success (data) ->
-      data
+      data.paging =
+        current_page: page_no
+        total_page: Math.ceil(data.count / per_page)
+        max_size: 10
+      succ && succ(data) || data
     .error (data) ->
-      data
+      fail && fail(data) || data
 
   service.books_newest = (page) ->
     books

@@ -29,4 +29,8 @@
   </div>
   -->
   </li>
+  <div class="clearfix"></div>
+  <div class="paginate-wrapper" ng-show="paging">
+    <pagination num-pages="paging.total_page" on-select-page="pageChanged(page)" current-page="paging.current_page" class="pagination" previous-text="&laquo;" next-text="&raquo;"></pagination>
+  </div>
 </ul>

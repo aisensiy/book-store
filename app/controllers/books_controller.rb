@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
   def index
-    resp = Book.get_books()
-    render status: resp.code, json: resp['results']
+    resp = Book.get_books(params[:limit], params[:skip])
+    render status: resp.code, json: resp
   end
 
   def create

@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   before_filter :captcha_validate, only: [:signin, :create, :password_reset]
 
   def create
+    params[:user].delete :captcha
     resp = User.signup(params[:user])
     if resp.code == 201
       set_session(resp)
@@ -45,13 +46,6 @@ class UsersController < ApplicationController
   def set_session(resp)
     session[:token] = resp.parsed_response['sessionToken']
     session[:user_id] = resp.parsed_response['objectId']
-  end
-
-  def signin?
-    if not session[:username]
-      render status: 403, json: {error: 'not signin'}
-      return false
-    end
   end
 
   def captcha_validate

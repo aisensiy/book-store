@@ -1,5 +1,16 @@
 class Book < BaseClient
-  def self.create_book(options)
+  def self.create_book(user_id, options)
+    options[:ACL] = {
+      "*" => {
+        "read" => true
+      },
+      "role:Admins" => {
+        "write" => true
+      },
+      user_id => {
+        "write" => true
+      }
+    }
     post('/1/classes/Book', body: JSON.dump(options))
   end
 

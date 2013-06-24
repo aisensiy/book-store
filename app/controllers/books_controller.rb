@@ -1,4 +1,6 @@
 class BooksController < ApplicationController
+  before_filter :signin?, only: [:create]
+
   def index
     resp = Book.get_books(params[:limit], params[:skip])
     render status: resp.code, json: resp
@@ -25,7 +27,7 @@ class BooksController < ApplicationController
     book_data.merge! params[:book]
 
     # create book
-    resp = Book.create_book(book_data)
+    resp = Book.create_book(session[:user_id], book_data)
 
     if resp.code == 201
       book_data[:objectId] = resp['objectId']

@@ -53,7 +53,7 @@ App.run ['$rootScope', 'UserService', '$location', ($rootScope, UserService, $lo
       $location.path('/')
 ]
 
-user_control = ($scope, $rootScope) ->
+user_control = ($scope, $rootScope, UserService) ->
   $scope.$on 'user:signin', () ->
     $scope.user = $rootScope.user
 
@@ -64,7 +64,7 @@ user_control = ($scope, $rootScope) ->
     UserService.signout()
 
 App.controller 'NaviBarCtrl', ['$scope', 'UserService', '$rootScope', ($scope, UserService, $rootScope) ->
-  user_control($scope, $rootScope)
+  user_control($scope, $rootScope, UserService)
 ]
 
 SignInCtrl = App.controller 'SignInCtrl', ($scope, UserService, $location, Captcha) ->
@@ -110,9 +110,9 @@ BooksCtrl = App.controller 'BooksCtrl', ($scope, books, BooksService) ->
 
 BooksCtrl.$inject = ['$scope', 'books', 'BooksService']
 
-App.controller 'BookCtrl', ['$scope', 'book', '$rootScope', 'BooksService', ($scope, book, $rootScope, BooksService) ->
+App.controller 'BookCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', ($scope, book, $rootScope, BooksService, UserService) ->
   $scope.book = book.data
-  user_control($scope, $rootScope)
+  user_control($scope, $rootScope, UserService)
   if $scope.user
     BooksService.get_download_token $scope.book.file_key, (data) ->
       $scope.download_link = data.link

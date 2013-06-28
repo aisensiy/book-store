@@ -4,3 +4,54 @@
  */
 
 @import "compass";
+
+.nav-main {
+  @include inline-block-list(12px);
+  background-color: rgb(156, 200, 19);
+  li {
+    line-height: 40px;
+    border-right: 1px solid #f1f1f1;
+    a {
+      color: #f3f3f3;
+      background-color: transparent;
+      &:hover {
+        color: white;
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+.main-container, .books {
+  margin-top: 20px;
+}
+
+ul.book-list {
+  > li {
+    position: relative;
+    float: left;
+    width: 210px;
+    overflow: hidden;
+    text-align: center;
+    img {
+      display: block;
+      margin: 0 auto;
+    }
+    .title {
+      font-weight: bold;
+      display: block;
+      margin: 3px 0;
+    }
+  }
+  .media:first-child {
+    margin-top: 15px;
+  }
+}
+
+.sidebar.book-list {
+  > li.media {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

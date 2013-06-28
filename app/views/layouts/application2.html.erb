@@ -5,32 +5,46 @@
   <body data-ng-app="App">
     <div class="container">
       <div class="row">
-        <div class="navbar">
-          <div class="navbar-inner">
-            <a class="brand" href="/">ONYX Store</a>
-            <ul class="nav pull-right" ng-hide="user">
-              <li><%= link_to "Sign in", "#/sign_in"  %></li>
-              <li><%= link_to "Sign up", "#/sign_up"  %></li>
-            </ul>
-            <ul class="nav pull-right" role="navigation" ng-show="user">
-              <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="/test" title="个人主页">
-                <span class="headerTinymanName">{{user.username}}<b class="caret"></b></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li><%= link_to "修改密码", '#/users/password_modify' %></li>
-                <li><a ng-click="signout()">退出</a></li>
+        <div class="span12">
+          <div class="navbar">
+            <div class="navbar-inner">
+              <a class="brand" href="/">ONYX Store</a>
+              <ul class="nav pull-right" ng-hide="user">
+                <li><%= link_to "Sign in", "#/sign_in"  %></li>
+                <li><%= link_to "Sign up", "#/sign_up"  %></li>
               </ul>
-              </li>
-            </ul>
-            <form class="navbar-search pull-right">
-              <input type="text" class="search-query" placeholder="Search">
-            </form>
+              <ul class="nav pull-right" role="navigation" ng-show="user">
+                <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="/test" title="个人主页">
+                  <span class="headerTinymanName">{{user.username}}<b class="caret"></b></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to "修改密码", '#/users/password_modify' %></li>
+                  <li><a ng-click="signout()">退出</a></li>
+                </ul>
+                </li>
+              </ul>
+              <form class="navbar-search pull-right">
+                <input type="text" class="search-query" placeholder="Search">
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </div><!-- top bar -->
     <div class="container">
+      <div class="row">
+        <div class="span12">
+          <ul class="nav nav-main">
+            <li><a href="">Books</a></li>
+            <li><a href="">Top100</a></li>
+            <li><a href="">Recommendation</a></li>
+            <li><a href="">Wallpaper</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container main-container">
       <div class="row">
         <div class="span12">
           <%= bootstrap_flash %>

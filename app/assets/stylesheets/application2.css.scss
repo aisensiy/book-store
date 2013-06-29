@@ -6,6 +6,29 @@
 @import "compass";
 
 $bg-color: rgb(156, 200, 19);
+$bg-color-lighter: rgb(179, 230, 21);
+
+.btn {
+  margin: 0;
+  padding: 5px 15px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  background: $bg-color;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  color: white;
+  &:hover, &:focus {
+    color: white;
+    border: 1px solid #bbb;
+    background: $bg-color-lighter;
+  }
+  &:active {
+    color: white;
+    border: 1px solid #ccc;
+    background: $bg-color;
+  }
+}
 
 @media (min-width: 768px) {
 
@@ -85,7 +108,7 @@ ul.book-list {
   > li {
     position: relative;
     float: left;
-    width: 210px;
+    width: 207px;
     overflow: hidden;
     text-align: center;
     img {

@@ -1,5 +1,5 @@
 class Push < BaseClient
-   def push_to_device(devise_id)
-     query = {where: {'objectId': devise_id}}
+   def self.push_to_device(data)
+     post('/1/push', body: data)
    end
 end

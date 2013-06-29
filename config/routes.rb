@@ -29,6 +29,8 @@ BooksLists::Application.routes.draw do
     get  '/upload/token' => 'upload#get_token'
     get  '/upload/download_token' => 'upload#get_download_token'
     get '/upload/callback' => 'upload#callback'
+
+    post '/push' => 'push#push'
   end
 
   # Sample of named route:

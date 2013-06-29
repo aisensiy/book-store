@@ -1,0 +1,79 @@
+<div class="row col-wrap">
+  <div class="col span3 wrapper">
+    <div class="user-container">
+      <div class="clearfix user-info">
+        <img data-src="holder.js/80x80" alt="" class="avatar pull-left" />
+        <h1 class="username">Aisensiy</h1>
+      </div>
+      <hr />
+      <ul class="items unstyled">
+        <li><span>Books: </span>20</li>
+        <li><span>Devices: </span>PDF</li>
+        <li><a href="#">change password</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="col span9 wrapper">
+    <form action="" class="">
+      <div class="row">
+        <div class="span5">
+          <div class="basic-info">
+            <label>亚马逊或豆瓣链接</label>
+            <input type="text" class="span5" />
+            <label>上传电子书文件</label>
+            <input type="file" />
+          </div>
+        </div>
+        <div class="span4">
+          <div class="extra-info">
+            <div class="control-group">
+              <label>图书标签</label>
+              <span class="help-block">重要: 请在上传前检查文档得质量，选择合适得描述标签 </span>
+              <div class="book-options">
+                <label class="checkbox inline">
+                  <input type="checkbox" id="inlineCheckbox1" value="option1"> 中文简体
+                </label>
+                <label class="checkbox inline">
+                  <input type="checkbox" id="inlineCheckbox2" value="option2"> 中文繁体
+                </label>
+                <label class="checkbox inline">
+                  <input type="checkbox" id="inlineCheckbox3" value="option3"> 英文
+                </label>
+                <label class="checkbox inline">
+                  <input type="checkbox" id="inlineCheckbox3" value="option3"> 俄文
+                </label>
+              </div>
+            </div>
+            <hr />
+            <label class="checkbox inline">
+              <input type="checkbox" id="inlineCheckbox3" value="option3"> 是否公开
+            </label>
+          </div>
+        </div>
+        <div class="span9">
+          <div class="control-group submit">
+            <div class="controls pull-right">
+              <button type="submit" class="btn">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="row books">
+  <div class="span12">
+    <div class="container">
+      <ul class="media-list book-list clearfix">
+        <% 25.times do %>
+          <li class="media">
+          <img data-src="holder.js/101x146" alt="" />
+          <span class="title">货币、银行信贷与经济周期</span>
+          <rating value="5" max="5" readonly="true"></rating>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

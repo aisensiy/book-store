@@ -34,7 +34,20 @@
   background-color: #fafafa;
 }
 
+.upload-form {
+}
 
+.basic-info, .extra-info {
+  padding: 20px;
+}
+
+.basic-info {
+}
+
+input[type=file] {
+  line-height: 20px;
+  height: auto;
+}
 
 @mixin container {
   background-color: #fafafa;
@@ -66,6 +79,7 @@
 }
 
 ul.book-list {
+  @include container;
   > li {
     position: relative;
     float: left;
@@ -84,6 +98,22 @@ ul.book-list {
   }
   .media:first-child {
     margin-top: 15px;
+  }
+}
+
+.upload-form {
+  @include container;
+}
+
+.user-container {
+  @include container;
+  .user-info {
+  }
+  .avatar {
+    margin-right: 20px;
+  }
+  .items {
+
   }
 }
 
@@ -126,4 +156,8 @@ ul.book-list {
   .media a.pull-left {
     margin-right: 30px;
   }
+}
+
+.submit {
+  padding: 0 20px 0 20px;
 }

@@ -5,6 +5,8 @@
 
 @import "compass";
 
+$bg-color: rgb(156, 200, 19);
+
 @media (min-width: 768px) {
 
   /* top row */
@@ -62,7 +64,7 @@ input[type=file] {
 
 .nav-main {
   @include inline-block-list(12px);
-  background-color: rgb(156, 200, 19);
+  background-color: $bg-color;
   li {
     line-height: 40px;
     border-right: 1px solid #f1f1f1;
@@ -160,4 +162,17 @@ ul.book-list {
 
 .submit {
   padding: 0 20px 0 20px;
+}
+
+.modal {
+  .modal-header {
+    background-color: $bg-color;
+    color: white;
+    a {
+      color: white;
+    }
+    ul {
+      @include horizontal-list(5px);
+    }
+  }
 }

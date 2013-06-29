@@ -32,3 +32,80 @@
     </ul>
   </div>
 </div>
+
+<div ng-controller="ModalDemoCtrl">
+  <button class="btn" ng-click="open()">Open me!</button>
+  <div modal="shouldBeOpen" close="close()" options="opts" class="sign-modal">
+    <div class="modal-header">
+      <ul>
+        <li><a href="">Login</a></li>
+        <li>|</li>
+        <li><a href="">Registor</a></li>
+      </ul>
+    </div>
+    <div class="modal-body">
+      <div class="login-panel">
+        <form class="form-horizontal">
+          <legend>登录</legend>
+          <div class="control-group">
+            <label class="control-label" for="inputEmail">Email</label>
+            <div class="controls">
+              <input type="text" id="inputEmail" placeholder="Email">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="inputPassword">Password</label>
+            <div class="controls">
+              <input type="password" id="inputPassword" placeholder="Password">
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Sign in</button>
+            <button type="button" class="btn">Cancel</button>
+          </div>
+        </form>
+      </div>
+      <div class="login-panel">
+        <form class="form-horizontal">
+          <legend>注册</legend>
+          <div class="control-group">
+            <label class="control-label" for="inputEmail">Email</label>
+            <div class="controls">
+              <input type="text" id="inputEmail" placeholder="Email">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="inputPassword">Password</label>
+            <div class="controls">
+              <input type="password" id="inputPassword" placeholder="Password">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="inputPassword">Password Confirm</label>
+            <div class="controls">
+              <input type="password" id="inputPasswordAgain" placeholder="Password">
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Sign up</button>
+            <button type="button" class="btn">Cancel</button>
+          </div>
+        </form>
+      </div>
+      <div class="login-panel">
+        <form class="form-horizontal">
+          <legend>Reset Password</legend>
+          <div class="control-group">
+            <label class="control-label" for="inputEmail">Email</label>
+            <div class="controls">
+              <input type="text" id="inputEmail" placeholder="Email">
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Send Reset Password Mail</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

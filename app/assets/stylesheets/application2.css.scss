@@ -5,6 +5,48 @@
 
 @import "compass";
 
+@media (min-width: 768px) {
+
+  /* top row */
+  .col {
+    margin-bottom: -99999px;
+    padding-bottom: 99999px;
+  }
+
+  /* bottom row */
+  .col-base {
+    margin-top: -15px; /* cut off top portion of bottom wells */
+  }
+}
+
+@media (max-width: 767px) {
+  .row-fluid.base {
+    display:none;
+  }
+}
+
+
+.col-wrap {
+  overflow: hidden;
+}
+
+.col.wrapper {
+  background-color: #fafafa;
+}
+
+
+
+@mixin container {
+  background-color: #fafafa;
+  padding: 20px;
+  h1 {
+    border-bottom: 1px solid #f5f5f5;
+    font-size: 18px;
+    line-height: 25px;
+    margin: 5px 0;
+  }
+}
+
 .nav-main {
   @include inline-block-list(12px);
   background-color: rgb(156, 200, 19);
@@ -20,10 +62,7 @@
       }
     }
   }
-}
-
-.main-container, .books {
-  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 ul.book-list {
@@ -49,9 +88,42 @@ ul.book-list {
 }
 
 .sidebar.book-list {
+  @include container;
   > li.media {
     float: none;
     margin-left: auto;
     margin-right: auto;
+  }
+}
+
+
+.row  .row {
+  margin-bottom: 20px;
+}
+
+.summary-container {
+  @include container;
+}
+
+.device-container {
+  @include container;
+}
+
+.book-container {
+  @include container;
+  .info {
+    margin-left: 140px;
+  }
+}
+
+.full-width {
+  width: 97.5%;
+}
+
+.comment-container {
+  margin-top: 20px;
+  @include container;
+  .media a.pull-left {
+    margin-right: 30px;
   }
 }

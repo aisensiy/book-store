@@ -13,6 +13,8 @@ BooksLists::Application.routes.draw do
   match 'mockup/:action' => 'mockup#:action'
   match 'mockup2/:action' => 'mockup2#:action'
 
+  get '/app2' => 'app2#index'
+
   scope 'api/1' do
     resources :users, defaults: { format: 'json' }, only: [:create] do
       collection do

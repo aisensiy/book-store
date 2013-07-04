@@ -1,0 +1,11 @@
+<script type="text/ng-template" id="books_html">
+  <%= render "books" %>
+</script>
+
+<div class="row">
+  <div class="span12">
+    <div id="loading" ng-show="loading">Loading...</div>
+    <div data-ng-view></div>
+  </div>
+</div>
+

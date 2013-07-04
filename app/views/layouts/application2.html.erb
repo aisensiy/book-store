@@ -3,15 +3,91 @@
   <%= render "layouts/head2" %>
 
   <body data-ng-app="App">
-    <div class="container">
+    <div class="container" ng-controller="NaviBarCtrl">
+      <div>
+        <div modal="shouldBeOpen" close="close_modal()" options="opts" class="sign-modal">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="close_modal()">&times;</button>
+            <ul>
+              <li><a href="" ng-click="panel = 'signin'">Login</a></li>
+              <li>|</li>
+              <li><a href="" ng-click="panel = 'signup'">Registor</a></li>
+            </ul>
+          </div>
+          <div class="modal-body">
+            <div class="login-panel" ng-show="panel == 'signin'">
+              <form class="form-horizontal">
+                <legend>登录</legend>
+                <div class="control-group">
+                  <label class="control-label" for="inputEmail">Email</label>
+                  <div class="controls">
+                    <input type="text" id="inputEmail" placeholder="Email">
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="inputPassword">Password</label>
+                  <div class="controls">
+                    <input type="password" id="inputPassword" placeholder="Password">
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary">Sign in</button>
+                  <button type="button" class="btn">Cancel</button>
+                </div>
+              </form>
+            </div>
+            <div class="login-panel" ng-show="panel == 'signup'">
+              <form class="form-horizontal">
+                <legend>注册</legend>
+                <div class="control-group">
+                  <label class="control-label" for="inputEmail">Email</label>
+                  <div class="controls">
+                    <input type="text" id="inputEmail" placeholder="Email">
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="inputPassword">Password</label>
+                  <div class="controls">
+                    <input type="password" id="inputPassword" placeholder="Password">
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="inputPassword">Password Confirm</label>
+                  <div class="controls">
+                    <input type="password" id="inputPasswordAgain" placeholder="Password">
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary">Sign up</button>
+                  <button type="button" class="btn">Cancel</button>
+                </div>
+              </form>
+            </div>
+            <div class="login-panel" ng-show="panel == 'reset'">
+              <form class="form-horizontal">
+                <legend>Reset Password</legend>
+                <div class="control-group">
+                  <label class="control-label" for="inputEmail">Email</label>
+                  <div class="controls">
+                    <input type="text" id="inputEmail" placeholder="Email">
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary">Send Reset Password Mail</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="row">
         <div class="span12">
           <div class="navbar">
             <div class="navbar-inner">
               <a class="brand" href="/">ONYX Store</a>
               <ul class="nav pull-right" ng-hide="user">
-                <li><%= link_to "Sign in", "#/sign_in"  %></li>
-                <li><%= link_to "Sign up", "#/sign_up"  %></li>
+                <li><a href="" ng-click="sign_in_popup()">Sign In</a></li>
+                <li><a href="" ng-click="sign_up_popup()">Sign Up</a></li>
               </ul>
               <ul class="nav pull-right" role="navigation" ng-show="user">
                 <li class="dropdown">
@@ -36,10 +112,10 @@
       <div class="row">
         <div class="span12">
           <ul class="nav nav-main">
-            <li><a href="">Books</a></li>
-            <li><a href="">Top100</a></li>
-            <li><a href="">Recommendation</a></li>
-            <li><a href="">Wallpaper</a></li>
+            <li><a href="#/">Books</a></li>
+            <li><a href="#/top100">Top100</a></li>
+            <li><a href="#/recommendation">Recommendation</a></li>
+            <li><a href="#/wallpapers">Wallpaper</a></li>
           </ul>
         </div>
       </div>

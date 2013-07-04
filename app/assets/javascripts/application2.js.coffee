@@ -3,7 +3,7 @@
 #= require angular
 #= require ng-upload
 #= require ui-bootstrap-tpls-0.3.0
-#= require app
+#= require app2
 
 `
 window.ModalDemoCtrl = function ($scope) {

@@ -9,52 +9,82 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="close_modal()">&times;</button>
             <ul>
-              <li><a href="" ng-click="panel = 'signin'">Login</a></li>
+              <li><a href="" ng-click="Panel.set_panel('signin')">Login</a></li>
               <li>|</li>
-              <li><a href="" ng-click="panel = 'signup'">Registor</a></li>
+              <li><a href="" ng-click="Panel.set_panel('signup')">Registor</a></li>
             </ul>
           </div>
           <div class="modal-body">
-            <div class="login-panel" ng-show="panel == 'signin'">
-              <form class="form-horizontal">
+            <div class="login-panel" ng-show="Panel.get_panel() == 'signin'" ng-controller="SignInCtrl">
+              <form class="form-horizontal" ng-submit="submit_form()" name="login_form">
                 <legend>登录</legend>
+                <div class="alert alert-error" ng-show="error_msg">{{error_msg}}</div>
                 <div class="control-group">
-                  <label class="control-label" for="inputEmail">Email</label>
+                  <label class="control-label" for="inputEmail">Username</label>
                   <div class="controls">
-                    <input type="text" id="inputEmail" placeholder="Email">
+                    <input type="text" id="inputUsername" placeholder="Username" ng-model="user.username" autofocus required>
                   </div>
                 </div>
                 <div class="control-group">
                   <label class="control-label" for="inputPassword">Password</label>
                   <div class="controls">
-                    <input type="password" id="inputPassword" placeholder="Password">
+                    <input type="password" id="inputPassword" ng-model="user.password" placeholder="Password" required>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="captcha">Captcha</label>
+                  <div class="controls">
+                    <input type="text"
+                    id="captcha" placeholder=""
+                    ng-model="user.captcha" name="captcha" required />
+                    <img alt="captcha" height="40" ng-src="{{get_captcha_src()}}" width="140">
                   </div>
                 </div>
                 <div class="form-actions">
-                  <button type="submit" class="btn btn-primary">Sign in</button>
-                  <button type="button" class="btn">Cancel</button>
+                  <input type="submit" class="btn btn-primary" value="Sign in" id="submit" />
+                  <span class="help-inline"><a href="" ng-click="Panel.set_panel('reset')" data-original-title="">忘记密码?</a></span>
                 </div>
               </form>
             </div>
-            <div class="login-panel" ng-show="panel == 'signup'">
-              <form class="form-horizontal">
+            <div class="login-panel" ng-show="Panel.get_panel() == 'signup'" ng-controller="SignUpCtrl">
+              <form class="form-horizontal" data-ng-submit="submit_form()" name="signup_form">
                 <legend>注册</legend>
+                <div class="alert alert-error" ng-show="error_msg">{{error_msg}}</div>
                 <div class="control-group">
-                  <label class="control-label" for="inputEmail">Email</label>
+                  <label class="control-label" for="email">Email</label>
                   <div class="controls">
-                    <input type="text" id="inputEmail" placeholder="Email">
+                    <input type="email" id="email" name="email" placeholder="Email" ng-model="user.email" required autofocus />
+                    <span class="help-inline" ng-show="signup_form.email.$error.email">不合法的邮件地址</span>
                   </div>
                 </div>
                 <div class="control-group">
-                  <label class="control-label" for="inputPassword">Password</label>
+                  <label class="control-label" for="username">Username</label>
                   <div class="controls">
-                    <input type="password" id="inputPassword" placeholder="Password">
+                    <input type="text" id="username" name="username" placeholder="Username" ng-model="user.username" required>
                   </div>
                 </div>
                 <div class="control-group">
-                  <label class="control-label" for="inputPassword">Password Confirm</label>
+                  <label class="control-label" for="password">Password</label>
                   <div class="controls">
-                    <input type="password" id="inputPasswordAgain" placeholder="Password">
+                    <input type="password" id="password" name="password" placeholder="Password" ng-model="user.password" required />
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="password_confirmation">Password Confirm</label>
+                  <div class="controls">
+                    <input type="password"
+                    id="password_confirmation" placeholder="Password"
+                    ng-model="user.password_confirmation" passwordconfirm="#password" name="password_confirmation" required />
+                    <span class="help-inline" ng-show="signup_form.password_confirmation.$error.password">重复密码不一致</span>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="captcha">Captcha</label>
+                  <div class="controls">
+                    <input type="text"
+                    id="captcha" placeholder=""
+                    ng-model="user.captcha" name="captcha" required />
+                    <img alt="captcha" height="40" ng-src="{{get_captcha_src()}}" width="140">
                   </div>
                 </div>
                 <div class="form-actions">
@@ -63,17 +93,28 @@
                 </div>
               </form>
             </div>
-            <div class="login-panel" ng-show="panel == 'reset'">
-              <form class="form-horizontal">
+            <div class="login-panel" ng-show="Panel.get_panel() == 'reset'" ng-controller="PasswordResetCtrl">
+              <form class="form-horizontal" name="reset_form" data-ng-submit="submit_form()">
                 <legend>Reset Password</legend>
+                <div class="alert alert-error" ng-show="fail_msg">{{fail_msg}}</div>
+                <div class="alert alert-success" ng-show="succ_msg">{{succ_msg}}</div>
                 <div class="control-group">
-                  <label class="control-label" for="inputEmail">Email</label>
+                  <label class="control-label" for="email">Email</label>
                   <div class="controls">
-                    <input type="text" id="inputEmail" placeholder="Email">
+                    <input type="email" id="email" name="email" placeholder="Email" ng-model="model.email" required autofocus />
+                    <span class="help-inline" ng-show="reset_form.email.$error.email">不合法的邮件地址</span>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="captcha">Captcha</label>
+                  <div class="controls">
+                    <input type="text" id="captcha" placeholder=""
+                    ng-model="model.captcha" name="captcha" required />
+                    <img alt="captcha" height="40" ng-src="{{get_captcha_src()}}" width="140">
                   </div>
                 </div>
                 <div class="form-actions">
-                  <button type="submit" class="btn btn-primary">Send Reset Password Mail</button>
+                  <button type="submit" class="btn btn-primary" ng-disabled="reset_form.$invalid">Send Reset Password Mail</button>
                 </div>
               </form>
             </div>

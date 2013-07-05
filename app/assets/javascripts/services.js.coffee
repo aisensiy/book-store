@@ -2,6 +2,21 @@
 
 Services = angular.module 'Services', ['HttpServices']
 
+Services.factory 'Panel', [() ->
+  panel = 'signin'
+
+  set_panel = (val) ->
+    panel = val
+
+  get_panel = () ->
+    panel
+
+  {
+    set_panel: set_panel,
+    get_panel: get_panel
+  }
+]
+
 Services.factory 'Captcha', [() ->
   service = {}
 

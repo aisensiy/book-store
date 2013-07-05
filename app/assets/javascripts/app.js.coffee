@@ -133,6 +133,18 @@ App.controller 'PasswordResetCtrl', ['$scope', 'UserService', 'Captcha', ($scope
         $scope.succ_msg = "success"
         $scope.fail_msg = null
       ,
+      (data) ->
+        $scope.succ_msg = null
+        $scope.fail_msg = data.error
+        Captcha.refresh_captcha()
+    )
+    UserService.password_reset(
+      $scope.model.email,
+      $scope.model.captcha,
+      () ->
+        $scope.succ_msg = "success"
+        $scope.fail_msg = null
+      ,
         (data) ->
           $scope.succ_msg = null
         $scope.fail_msg = data.error

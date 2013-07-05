@@ -6,12 +6,6 @@
 
 App.config ['$routeProvider', ($routeProvider) ->
   $routeProvider
-    .when '/sign_in',
-      template: $('#sign_in_html').html()
-      controller: 'SignInCtrl'
-    .when '/sign_up',
-      template: $('#sign_up_html').html(),
-      controller: 'SignUpCtrl'
     .when '/books',
       template: $('#books_html').html(),
       controller: 'BooksCtrl',
@@ -26,9 +20,6 @@ App.config ['$routeProvider', ($routeProvider) ->
         book: ['BooksService', '$route', (BooksService, $route) ->
           BooksService.book($route.current.params.id)
         ]
-    .when '/users/password_reset',
-      template: $('#password_reset_html').html()
-      controller: 'PasswordResetCtrl',
     .when '/users/password_modify',
       template: $('#password_modify_html').html()
       controller: 'PasswordModifyCtrl'
@@ -63,7 +54,8 @@ user_control = ($scope, $rootScope, UserService) ->
   $scope.signout = () ->
     UserService.signout()
 
-App.controller 'NaviBarCtrl', ['$scope', 'UserService', '$rootScope', ($scope, UserService, $rootScope) ->
+App.controller 'NaviBarCtrl', ['$scope', 'UserService', '$rootScope', 'Captcha', 'Panel', ($scope, UserService, $rootScope, Captcha, Panel) ->
+  $scope.Panel = Panel
   user_control($scope, $rootScope, UserService)
   open_modal = () ->
     $scope.shouldBeOpen = true
@@ -72,25 +64,25 @@ App.controller 'NaviBarCtrl', ['$scope', 'UserService', '$rootScope', ($scope, U
     $scope.shouldBeOpen = false
 
   $scope.sign_in_popup = () ->
-    $scope.panel = 'signin'
+    Panel.set_panel 'signin'
     open_modal()
 
   $scope.sign_up_popup = () ->
-    $scope.panel = 'signup'
+    Panel.set_panel 'signup'
     open_modal()
 
   $scope.reset_password_popup = () ->
-    $scope.panel = 'reset'
+    Panel.set_panel 'reset'
     open_modal()
 
   $scope.opts = {
     backdropFade: true,
     dialogFade:true
   }
-
 ]
 
-SignInCtrl = App.controller 'SignInCtrl', ($scope, UserService, $location, Captcha) ->
+SignInCtrl = App.controller 'SignInCtrl', ($scope, UserService, $location, Captcha, Panel) ->
+  $scope.Panel = Panel
   $scope.user = {}
   $scope.UserService = UserService
 
@@ -102,7 +94,7 @@ SignInCtrl = App.controller 'SignInCtrl', ($scope, UserService, $location, Captc
   $scope.submit_form = () ->
     UserService.signin $scope.user.username, $scope.user.password,  $scope.user.captcha
 
-SignInCtrl.$inject = ['$scope', 'UserService', '$location', 'Captcha']
+SignInCtrl.$inject = ['$scope', 'UserService', '$location', 'Captcha', 'Panel']
 
 SignUpCtrl = App.controller 'SignUpCtrl', ($scope, UserService, $location, Captcha) ->
 
@@ -156,8 +148,8 @@ App.controller 'PasswordResetCtrl', ['$scope', 'UserService', 'Captcha', ($scope
         $scope.succ_msg = "success"
         $scope.fail_msg = null
       ,
-        (data) ->
-          $scope.succ_msg = null
+      (data) ->
+        $scope.succ_msg = null
         $scope.fail_msg = data.error
         Captcha.refresh_captcha()
     )

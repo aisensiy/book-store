@@ -14,7 +14,7 @@
   <div class="span9">
     <ul class="media-list book-list clearfix">
       <li class="media" ng-repeat="book in books">
-      <img ng-src="{{book.cover_url}}" alt="" class="cover" />
+      <a href="#/books/{{book.objectId}}"><img ng-src="{{book.cover_url}}" alt="" class="cover" /></a>
         <span class="title">{{book.title}}</span>
         <rating value="5" max="5" readonly="true"></rating>
         </li>

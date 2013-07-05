@@ -1,0 +1,77 @@
+<div class="row col-wrap">
+  <div class="span9 col">
+    <div class="book-container clearfix">
+      <div class="book-meta">
+        <div class="wrapper">
+          <div class="cover pull-left">
+            <img ng-src="{{book.cover_url}}" alt="" />
+          </div>
+          <div class="info">
+            <h1>{{book.title}}</h1>
+            <p><span>作者：</span>{{book.author.join(', ')}}</p>
+            <p><span>副书名：</span>a hands-on guide to modeling, sculpting, materials, and rendering</p>
+            <p><span>ISBN：</span>{{book.isbn}}</p>
+            <p><span>文件格式：</span>PDF</p>
+            <p><span>文件大小：</span>48.56 MB</p>
+            <p><span>出版社：</span>{{book.publisher}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="span3 col wrapper">
+    <div class="device-container" ng-show="user">
+      <h1>Send to Devices</h1>
+      <button class="btn">Send to Boox</button>
+      <a href="{{download_link}}" target="_blank" class="btn btn-primary">Download</a>
+    </div>
+  </div>
+</div>
+<div class="row col-wrap">
+  <div class="span9 col">
+    <div class="summary-container">
+      <h1>Summary</h1>
+      <div class="description">
+        <p ng-bind-html-unsafe="book.summary | newlines">
+        </p>
+      </div>
+    </div>
+    <div class="comment-container">
+      <h1>评论</h1>
+      <ul class="media-list">
+        <% 5.times do %>
+          <li class="media">
+          <a href="" class="pull-left"><img src="/assets/user.png" alt="" /></a>
+          <div class="media-body">
+            <h5 class="media-heading"><a href="#" class="user-mention" target="_blank">细雨满地</a></h5>
+            <p></p><div>为了和首页统一。同时“发布”比“新建”好点。</div><p></p>
+            <div class="time pull-left"> 21 天前 </div>
+            <a href="/comments/939" class="del-comment-btn" data-confirm="确定删除么?" data-method="delete" rel="nofollow"><i class="icon-remove"></i></a>
+          </div>
+          </li>
+        <% end %>
+        <li class="media">
+        <form accept-charset="UTF-8" action="/projects/17/tasks/51/comments" class="new_comment" id="new_comment" method="post">
+          <div class="media-body">
+            <div>
+              <textarea class="full-width" cols="40" id="comment_content" name="comment[content]" rows="6"></textarea>
+              <input class="btn pull-right" name="commit" type="submit" value="发表评论">
+            </div>
+          </div>
+        </form>
+        </li>
+      </div>
+    </div>
+    <div class="span3 col wrapper">
+      <ul class="media-list book-list clearfix sidebar">
+        <% 3.times do %>
+          <li class="media">
+          <img src="/assets/book-cover2.png" alt="" />
+          <span class="title">货币、银行信贷与经济周期</span>
+          <rating value="3" max="5" readonly="true"></rating>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

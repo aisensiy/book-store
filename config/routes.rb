@@ -9,7 +9,7 @@ BooksLists::Application.routes.draw do
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
 
-  root :to => 'app#index'
+  root :to => 'app2#index'
   match 'mockup/:action' => 'mockup#:action'
   match 'mockup2/:action' => 'mockup2#:action'
 

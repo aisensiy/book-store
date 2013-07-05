@@ -29,6 +29,7 @@ gem 'easy_captcha'
 gem 'qiniu-rs'
 group :development, :test do
   gem "jasminerice"
+  gem "quiet_assets"
 end
 
 # To use ActiveModel has_secure_password
@@ -39,6 +40,8 @@ end
 
 # Use unicorn as the app server
 # gem 'unicorn'
+
+gem 'thin'
 
 # Deploy with Capistrano
 # gem 'capistrano'

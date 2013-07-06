@@ -168,8 +168,8 @@ PasswordModifyCtrl = App.controller 'PasswordModifyCtrl', ($scope, UserService) 
         $scope.succ_msg = '修改成功'
         $scope.fail_msg = null
       ,
-        () ->
-          $scope.succ_msg = null
+      () ->
+        $scope.succ_msg = null
         $scope.fail_msg = '修改失败'
     )
 

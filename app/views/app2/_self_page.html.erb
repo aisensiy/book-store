@@ -32,8 +32,8 @@
             <div class="control-group">
               <label>图书语言</label>
               <div class="book-options">
-                <label class="checkbox inline" ng-repeat="lang in langs">
-                  <input type="checkbox" name="lang[]" ng-model="lang.checked" value="{{lang.value}}"> {{lang.name}}
+                <label class="radio inline" ng-repeat="lang in langs">
+                  <input type="radio" name="x:lang" value="{{lang.value}}"> {{lang.name}}
                 </label>
               </div>
             </div>

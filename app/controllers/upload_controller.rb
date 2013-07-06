@@ -17,7 +17,7 @@ class UploadController < ApplicationController
       scope: Settings.qiniu_bucket,
       deadline: Time.now.to_i + 1.hour,
       returnUrl: url_for(controller: 'upload', action: 'callback'),
-      returnBody: '{"is_public": $(x:is_public), "content_type": $(mimeType), "file_key": $(etag), "url": $(x:url)}'
+      returnBody: '{"is_public": $(x:is_public), "content_type": $(mimeType), "file_key": $(etag), "url": $(x:url), "lang": $(x:lang)}'
     )
     render json: {token: token}
   end

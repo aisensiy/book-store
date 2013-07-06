@@ -14,46 +14,42 @@
     </div>
   </div>
   <div class="col span9 wrapper">
-    <form action="" class="">
+    <form name="book_form" method="post" action="http://up.qiniu.com/" enctype="multipart/form-data" ng-upload>
+      <div class="alert alert-success" ng-show="succ_msg">{{succ_msg}}</div>
+      <div class="alert alert-error" ng-show="fail_msg">{{fail_msg}}</div>
       <div class="row">
         <div class="span5">
           <div class="basic-info">
             <label>亚马逊或豆瓣链接</label>
-            <input type="text" class="span5" />
+            <input type="url" name="x:url" placeholder="http://book.douban.com/subject/6798611" class="span5" required ng-model="book.url">
             <label>上传电子书文件</label>
-            <input type="file" />
+            <input type="file" name="file" ng-model='model.upload' valid-file required style="line-height: normal;" />
+            <input name="token" type="hidden" value="{{token}}" />
           </div>
         </div>
         <div class="span4">
           <div class="extra-info">
             <div class="control-group">
-              <label>图书标签</label>
-              <span class="help-block">重要: 请在上传前检查文档得质量，选择合适得描述标签 </span>
+              <label>图书语言</label>
               <div class="book-options">
-                <label class="checkbox inline">
-                  <input type="checkbox" id="inlineCheckbox1" value="option1"> 中文简体
-                </label>
-                <label class="checkbox inline">
-                  <input type="checkbox" id="inlineCheckbox2" value="option2"> 中文繁体
-                </label>
-                <label class="checkbox inline">
-                  <input type="checkbox" id="inlineCheckbox3" value="option3"> 英文
-                </label>
-                <label class="checkbox inline">
-                  <input type="checkbox" id="inlineCheckbox3" value="option3"> 俄文
+                <label class="checkbox inline" ng-repeat="lang in langs">
+                  <input type="checkbox" name="lang[]" ng-model="lang.checked" value="{{lang.value}}"> {{lang.name}}
                 </label>
               </div>
             </div>
             <hr />
-            <label class="checkbox inline">
-              <input type="checkbox" id="inlineCheckbox3" value="option3"> 是否公开
+            <label for="" class="checkbox inline">
+              <input type="checkbox" name="x:is_public" value="1" ng-model="book.is_public" />
+              设为公开
             </label>
           </div>
         </div>
         <div class="span9">
           <div class="control-group submit">
             <div class="controls pull-right">
-              <button type="submit" class="btn">Submit</button>
+              <button type="submit" class="btn btn-primary"
+                ng-disabled="book_form.$invalid" ng-click="show_loading()"
+                upload-submit="submit_complete(content, completed)" >Submit</button>
             </div>
           </div>
         </div>

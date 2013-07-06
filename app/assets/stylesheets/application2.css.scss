@@ -7,6 +7,7 @@
 
 $bg-color: rgb(156, 200, 19);
 $bg-color-lighter: rgb(179, 230, 21);
+$bg-color-disabled: #CAE673;
 
 .btn {
   margin: 0;
@@ -27,6 +28,10 @@ $bg-color-lighter: rgb(179, 230, 21);
     color: white;
     border: 1px solid #ccc;
     background: $bg-color;
+  }
+
+  &[disabled] {
+    background: $bg-color-disabled !important;
   }
 }
 

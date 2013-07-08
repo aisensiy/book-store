@@ -11,8 +11,8 @@
             <p><span>作者：</span>{{book.author.join(', ')}}</p>
             <p><span>副书名：</span>a hands-on guide to modeling, sculpting, materials, and rendering</p>
             <p><span>ISBN：</span>{{book.isbn}}</p>
-            <p><span>文件格式：</span>PDF</p>
-            <p><span>文件大小：</span>48.56 MB</p>
+            <p><span>文件格式：</span>{{book.content_type.split('/')[1]}}</p>
+            <p><span>文件大小：</span>{{ book.size|filesize }}</p>
             <p><span>出版社：</span>{{book.publisher}}</p>
           </div>
         </div>

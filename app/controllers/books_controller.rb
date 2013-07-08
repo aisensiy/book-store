@@ -25,6 +25,7 @@ class BooksController < ApplicationController
     # params[:book][:file_key] = upload_resp['key']
 
     book_data.merge! params[:book]
+    book_data[:user_id] = session[:user_id]
 
     # create book
     resp = Book.create_book(session[:user_id], book_data)

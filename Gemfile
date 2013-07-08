@@ -42,6 +42,8 @@ end
 # gem 'unicorn'
 
 gem 'thin'
+gem 'multi_xml'
+gem 'vacuum'
 
 # Deploy with Capistrano
 # gem 'capistrano'

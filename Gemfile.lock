@@ -56,6 +56,7 @@ GEM
       yard (>= 0.7.0)
     erubis (2.7.0)
     eventmachine (1.0.3)
+    excon (0.23.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
     fssm (0.2.10)
@@ -69,6 +70,8 @@ GEM
     jasminerice (0.0.10)
       coffee-rails
       haml
+    jeff (0.6.4)
+      excon (~> 0.23.0)
     journey (1.0.4)
     jquery-rails (3.0.1)
       railties (>= 3.0, < 5.0)
@@ -172,6 +175,8 @@ GEM
     uglifier (2.1.0)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
+    vacuum (0.3.1)
+      jeff (~> 0.6.0)
     yard (0.8.6.1)
 
 PLATFORMS
@@ -185,6 +190,7 @@ DEPENDENCIES
   jasminerice
   jquery-rails
   less-rails
+  multi_xml
   qiniu-rs
   quiet_assets
   rails (= 3.2.13)
@@ -195,3 +201,4 @@ DEPENDENCIES
   thin
   twitter-bootstrap-rails
   uglifier (>= 1.0.3)
+  vacuum

@@ -228,3 +228,14 @@ ul.book-list {
 .modal-header .close {
   margin-top: -2px;
 }
+
+h2.category {
+  font-size: 15px;
+  border-bottom: 1px solid #f1f1f1;
+  line-height: 30px;
+  color: #bbb;
+  a {
+    float: right;
+    color: #bbb;
+  }
+}

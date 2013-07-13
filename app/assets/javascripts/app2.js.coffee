@@ -32,6 +32,10 @@ App.config ['$routeProvider', ($routeProvider) ->
         token: ['BooksService', (BooksService) ->
           BooksService.get_token()
         ]
+        books: ['BooksService', '$routeParams', (BooksService, $routeParams) ->
+          console.log 'load books won'
+          BooksService.books_own(1)
+        ]
       }
       require_auth: true
     .when '/books/:id/edit',
@@ -219,7 +223,10 @@ PasswordModifyCtrl = App.controller 'PasswordModifyCtrl', ($scope, UserService) 
 
 PasswordModifyCtrl.$inject = ['$scope', 'UserService']
 
-App.controller 'BookUploadCtrl', ['$scope', '$location', 'token', 'BooksService', '$filter', ($scope, $location, token, BooksService, $filter) ->
+App.controller 'BookUploadCtrl', ($scope, $location, token, BooksService, $filter, books) ->
+  $scope.books = books.data.results
+  $scope.paging = books.data.paging
+
   $scope.langs = [ {name: "中文简体", value: 'zh-CN'}, {name: "中文繁体", value: 'zh-TW'}, {name: "英文", value: 'en'}, {name: "俄文", value: 'ru'} ]
   $scope.token = token.data.token
   $scope.book =
@@ -246,4 +253,5 @@ App.controller 'BookUploadCtrl', ['$scope', '$location', 'token', 'BooksService'
         (data) ->
           $scope.fail_msg = data.error
       )
-]
+
+BookUploadCtrl.$inject = ['$scope', '$location', 'token', 'BooksService', '$filter', 'books']

@@ -26,7 +26,11 @@ BooksLists::Application.routes.draw do
       end
     end
 
-    resources :books, defaults: { format: 'json' }, only: [:create, :index, :update, :destroy, :show]
+    resources :books, defaults: { format: 'json' }, only: [:create, :index, :update, :destroy, :show] do
+      collection do
+        get :own
+      end
+    end
 
     post '/upload' => 'upload#post'
     get  '/upload/token' => 'upload#get_token'

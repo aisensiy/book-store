@@ -251,6 +251,13 @@ Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', '
     .error (data) ->
       fail && fail(data) || data
 
+  service.update_book = (id, book_data, succ, fail) ->
+    $http(
+      url: "/api/1/books/#{id}"
+      method: "PUT"
+      data: book_data
+    ).success(succ).error(fail)
+
 
   return service
 ]

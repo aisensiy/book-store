@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_filter :signin?, only: [:create]
+  before_filter :signin?, only: [:create, :update]
 
   def index
     resp = Book.get_books(params[:limit], params[:skip])
@@ -34,6 +34,8 @@ class BooksController < ApplicationController
   end
 
   def update
+    resp = Book.update_book(params[:id], session[:token], params[:book])
+    render status: resp.code, json: resp.body
   end
 
   def destroy

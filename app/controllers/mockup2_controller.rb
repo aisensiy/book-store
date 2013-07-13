@@ -21,4 +21,7 @@ class Mockup2Controller < ApplicationController
 
   def upload_book
   end
+
+  def edit_book
+  end
 end

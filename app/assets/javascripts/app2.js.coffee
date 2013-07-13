@@ -1,8 +1,9 @@
 #= require 'services'
 #= require 'directives'
 #= require 'filters'
+#= require 'angular-sanitize'
 
-@App = angular.module('App', ['Services', 'ngUpload', 'App.directives', 'App.filters', 'ui.bootstrap'])
+@App = angular.module('App', ['Services', 'ngUpload', 'App.directives', 'App.filters', 'ui.bootstrap', 'ngSanitize'])
 
 App.config ['$routeProvider', ($routeProvider) ->
   $routeProvider
@@ -33,6 +34,13 @@ App.config ['$routeProvider', ($routeProvider) ->
         ]
       }
       require_auth: true
+    .when '/books/:id/edit',
+      template: $('#book_edit_html').html()
+      controller: 'BookEditCtrl'
+      resolve:
+        book: ['BooksService', '$route', (BooksService, $route) ->
+          BooksService.book($route.current.params.id)
+        ]
     .otherwise({redirectTo: '/books'})
 ]
 
@@ -125,14 +133,50 @@ BooksCtrl = App.controller 'BooksCtrl', ($scope, books, BooksService) ->
 
 BooksCtrl.$inject = ['$scope', 'books', 'BooksService']
 
-App.controller 'BookCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', ($scope, book, $rootScope, BooksService, UserService) ->
+App.controller 'BookCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', '$sanitize', ($scope, book, $rootScope, BooksService, UserService, $sanitize) ->
   $scope.book = book.data
+  $scope.book_summary = $sanitize($scope.book.summary)
   user_control($scope, $rootScope, UserService)
   if $scope.user
     BooksService.get_download_token $scope.book.file_key, (data) ->
       $scope.download_link = data.link
 
   console.log book
+]
+
+App.controller 'BookEditCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', ($scope, book, $rootScope, BooksService, UserService) ->
+  $scope.book = book.data
+  $scope.book.rate ||= 0
+  $scope.tags = if $scope.book.douban_tags then (elem.name for elem in $scope.book.douban_tags) else []
+  $scope.book.tags = if $scope.book.tags then $scope.book.tags.join(" ") else ""
+
+  $scope.toggle_tag = (tag) ->
+    tags = @book.tags.replace(/^\s+|\s+$/, '').split(/\s+/)
+    index = tags.indexOf(tag)
+    if index == -1
+      if tags.length then tags.push(tag) else tags = [tag]
+    else
+      tags.splice(index, 1)
+
+    @book.tags = tags.join(" ")
+    console.log @book
+
+  $scope.rate_readonly = false
+  $scope.submit_form = () ->
+    book_id = $scope.book.objectId
+    $scope.book.tags = $scope.book.tags.split(/\s+/)
+    delete $scope.book.objectId
+    BooksService.update_book(
+      book_id,
+      $scope.book,
+      () ->
+        $scope.succ_msg = "updated successfully"
+        $scope.fail_msg = null
+      ,
+      (data) ->
+        $scope.succ_msg = null
+        $scope.fail_msg = data.error
+    )
 ]
 
 App.controller 'PasswordResetCtrl', ['$scope', 'UserService', 'Captcha', ($scope, UserService, Captcha) ->

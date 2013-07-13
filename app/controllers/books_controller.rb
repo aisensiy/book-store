@@ -2,7 +2,7 @@ class BooksController < ApplicationController
   before_filter :signin?, only: [:create, :update, :get_own_books]
 
   def index
-    resp = Book.get_books(params[:limit], params[:skip])
+    resp = Book.get_books(params[:limit], params[:skip], where: {'is_public' => true})
     render status: resp.code, json: resp
   end
 

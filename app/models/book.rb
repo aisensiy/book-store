@@ -1,5 +1,6 @@
 class Book < BaseClient
   def self.create_book(user_id, options)
+    options['is_public'] = (options['is_public'].to_i == 1)
     options[:ACL] = {
       "*" => {
         "read" => true

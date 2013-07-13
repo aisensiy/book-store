@@ -1,6 +1,6 @@
 <form action="" name="edit_book_form" ng-submit="submit_form()" >
   <div class="row">
-    <div class="span9 col">
+    <div class="span10 col offset1">
       <legend>编辑图书</legend>
       <div class="alert alert-error" ng-show="fail_msg">{{fail_msg}}</div>
       <div class="alert alert-success" ng-show="succ_msg">{{succ_msg}}</div>
@@ -33,17 +33,17 @@
   </div>
 
   <div class="row">
-    <div class="span9 col">
+    <div class="span10 offset1 col">
       <div class="summary-container">
         <h1>Summary</h1>
-        <textarea class="description span8" rows="13" ng-model="book.summary"></textarea>
+        <textarea class="description span9" rows="13" ng-model="book.summary"></textarea>
       </div>
     </div>
   </div>
 
   <div class="row">
-    <div class="span9">
-      <button class="btn pull-right">保存</button>
+    <div class="span10 offset1">
+      <button class="btn pull-right btn-large">保存</button>
     </div>
   </div>
 </form>

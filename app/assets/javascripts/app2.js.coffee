@@ -241,7 +241,7 @@ App.controller 'BookUploadCtrl', ['$scope', '$location', 'token', 'BooksService'
       BooksService.create_book(resp,
         (data) ->
           console.log data.objectId
-          $location.path("/books/#{data.objectId}")
+          $location.path("/books/#{data.objectId}/edit")
         ,
         (data) ->
           $scope.fail_msg = data.error

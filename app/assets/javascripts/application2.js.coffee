@@ -1,6 +1,7 @@
 #= require util
 #= require holder
 #= require jquery
+#= require twitter/bootstrap
 #= require angular
 #= require ng-upload
 #= require ui-bootstrap-tpls-0.3.0

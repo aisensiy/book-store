@@ -22,7 +22,7 @@
                 <div class="tag-wrapper clearfix">
                   <input type="text" class="span5" ng-model="book.tags" placeholder="用空格分割" />
                   <p>请用空格分隔标签</p>
-                  <span class="tag btn" ng-class="{disabled: book.tags.split(' ').indexOf(tag) != -1}"  ng-repeat="tag in tags" ng-click="toggle_tag(tag)">{{tag}}</span>
+                  <span class="tag" ng-class="{disabled: book.tags.split(' ').indexOf(tag) != -1}"  ng-repeat="tag in tags" ng-click="toggle_tag(tag)">{{tag}}</span>
                 </div>
               </div>
             </div>

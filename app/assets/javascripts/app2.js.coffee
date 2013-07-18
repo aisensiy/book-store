@@ -3,6 +3,8 @@
 #= require 'filters'
 #= require 'angular-sanitize'
 
+@GlobalTags = ["经济", "武侠", "小说", "经典", "人文", "科技"]
+
 @App = angular.module('App', ['Services', 'ngUpload', 'App.directives', 'App.filters', 'ui.bootstrap', 'ngSanitize'])
 
 App.config ['$routeProvider', ($routeProvider) ->
@@ -151,7 +153,11 @@ App.controller 'BookCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'Use
 App.controller 'BookEditCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', ($scope, book, $rootScope, BooksService, UserService) ->
   $scope.book = book.data
   $scope.book.rate ||= 0
+
+  # concat global tags and douban tags
   $scope.tags = if $scope.book.douban_tags then (elem.name for elem in $scope.book.douban_tags) else []
+  $scope.tags = $scope.tags.concat(GlobalTags).uniq()
+
   $scope.book.tags = if $scope.book.tags then $scope.book.tags.join(" ") else ""
 
   $scope.toggle_tag = (tag) ->
@@ -168,7 +174,9 @@ App.controller 'BookEditCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 
   $scope.rate_readonly = false
   $scope.submit_form = () ->
     book_id = $scope.book.objectId
+    # resplit tags
     $scope.book.tags = $scope.book.tags.split(/\s+/)
+    # $scope.book.tags = (tag is !/\s*/.test(tag) for tag in $scope.book.tags)
     delete $scope.book.objectId
     BooksService.update_book(
       book_id,

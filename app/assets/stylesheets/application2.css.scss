@@ -9,7 +9,7 @@ $bg-color: rgb(156, 200, 19);
 $bg-color-lighter: rgb(179, 230, 21);
 $bg-color-disabled: #CAE673;
 
-.btn {
+@mixin button {
   margin: 0;
   padding: 5px 15px;
   font-size: 12px;
@@ -19,6 +19,14 @@ $bg-color-disabled: #CAE673;
   -moz-border-radius: 4px;
   border-radius: 4px;
   color: white;
+}
+
+@mixin button_disabled {
+  background: $bg-color-disabled !important;
+}
+
+.btn {
+  @include button;
   &:hover, &:focus {
     color: white;
     border: 1px solid #bbb;
@@ -31,7 +39,14 @@ $bg-color-disabled: #CAE673;
   }
 
   &[disabled] {
-    background: $bg-color-disabled !important;
+    @include button_disabled;
+  }
+}
+
+.tag {
+  @include button;
+  &.disabled {
+    @include button_disabled;
   }
 }
 

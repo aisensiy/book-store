@@ -158,25 +158,36 @@ App.controller 'BookEditCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 
   $scope.tags = if $scope.book.douban_tags then (elem.name for elem in $scope.book.douban_tags) else []
   $scope.tags = $scope.tags.concat(GlobalTags).uniq()
 
-  $scope.book.tags = if $scope.book.tags then $scope.book.tags.join(" ") else ""
+  $scope.tags_input_value = if $scope.book.tags then $scope.book.tags.join(" ") else ""
+  $scope.$watch(
+    'book.tags',
+    (newValue, oldValue, scope) ->
+      scope.tags_input_value = newValue.join(' ')
+    ,
+    true
+  )
+
+  $scope.$watch(
+    'tags_input_value',
+    (newValue, oldValue, scope) ->
+      $scope.book.tags = if newValue && newValue.length then newValue.split(/\s+/) else []
+    ,
+    true
+  )
+
 
   $scope.toggle_tag = (tag) ->
-    tags = @book.tags.replace(/^\s+|\s+$/, '').split(/\s+/)
+    tags = @book.tags
     index = tags.indexOf(tag)
     if index == -1
       if tags.length then tags.push(tag) else tags = [tag]
     else
       tags.splice(index, 1)
 
-    @book.tags = tags.join(" ")
-    console.log @book
 
   $scope.rate_readonly = false
   $scope.submit_form = () ->
     book_id = $scope.book.objectId
-    # resplit tags
-    $scope.book.tags = $scope.book.tags.split(/\s+/)
-    # $scope.book.tags = (tag is !/\s*/.test(tag) for tag in $scope.book.tags)
     delete $scope.book.objectId
     BooksService.update_book(
       book_id,

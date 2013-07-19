@@ -150,7 +150,7 @@ App.controller 'BookCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'Use
   console.log book
 ]
 
-App.controller 'BookEditCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', ($scope, book, $rootScope, BooksService, UserService) ->
+App.controller 'BookEditCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', '$location', ($scope, book, $rootScope, BooksService, UserService, $location) ->
   $scope.book = book.data
   $scope.book.rate ||= 0
 
@@ -196,6 +196,7 @@ App.controller 'BookEditCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 
       () ->
         $scope.succ_msg = "updated successfully"
         $scope.fail_msg = null
+        $location.path('/book-upload')
       ,
       (data) ->
         $scope.succ_msg = null
@@ -266,6 +267,7 @@ BookUploadCtrl = App.controller 'BookUploadCtrl', ($scope, $location, token, Boo
     data = JSON.parse evt.target.responseText
     $scope.book.file_key = data.file_key
     $scope.book.content_type = data.content_type
+    $scope.book.size = data.size
 
     BooksService.create_book($scope.book,
       (data) ->

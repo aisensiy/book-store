@@ -162,7 +162,7 @@ App.controller 'BookEditCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 
   $scope.$watch(
     'book.tags',
     (newValue, oldValue, scope) ->
-      scope.tags_input_value = newValue.join(' ')
+      scope.tags_input_value = if newValue then newValue.join(' ') else ''
     ,
     true
   )
@@ -175,14 +175,15 @@ App.controller 'BookEditCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 
     true
   )
 
-
   $scope.toggle_tag = (tag) ->
-    tags = @book.tags
-    index = tags.indexOf(tag)
+    index = $scope.book.tags.indexOf(tag)
+    console.log "click #{tag}"
     if index == -1
-      if tags.length then tags.push(tag) else tags = [tag]
+      if $scope.book.tags.length then $scope.book.tags.push(tag) else $scope.book.tags = [tag]
     else
-      tags.splice(index, 1)
+      $scope.book.tags.splice(index, 1)
+
+    console.log $scope.book.tags
 
 
   $scope.rate_readonly = false
@@ -242,35 +243,69 @@ PasswordModifyCtrl = App.controller 'PasswordModifyCtrl', ($scope, UserService) 
 
 PasswordModifyCtrl.$inject = ['$scope', 'UserService']
 
-App.controller 'BookUploadCtrl', ($scope, $location, token, BooksService, $filter, books) ->
+BookUploadCtrl = App.controller 'BookUploadCtrl', ($scope, $location, token, BooksService, $filter, books) ->
   $scope.books = books.data.results
   $scope.paging = books.data.paging
 
   $scope.langs = [ {name: "中文简体", value: 'zh-CN'}, {name: "中文繁体", value: 'zh-TW'}, {name: "英文", value: 'en'}, {name: "俄文", value: 'ru'} ]
   $scope.token = token.data.token
+
   $scope.book =
     is_public: true
 
-  $scope.show_loading = () ->
-    $('#loading').toggle()
+  $scope.percentage = ''
 
-  $scope.submit_complete = (content, completed) ->
-    console.log arguments
-    return if not completed or content.length <= 0
-    json = content.match(/\{.*\}/)[0]
-    console.log json
-    resp = JSON.parse json
-    $('#loading').toggle()
-    if resp.error
-      $scope.fail_msg = resp.error
+  upload_progress = (evt) ->
+    if (evt.lengthComputable)
+      $scope.percentage = Math.round(evt.loaded * 100 / evt.total)
+      $('.progress .bar').width($scope.percentage + '%')
     else
-      BooksService.create_book(resp,
-        (data) ->
-          console.log data.objectId
-          $location.path("/books/#{data.objectId}/edit")
-        ,
-        (data) ->
-          $scope.fail_msg = data.error
-      )
+      alert 'unable to get progress bar'
+
+  upload_complete = (evt) ->
+    data = JSON.parse evt.target.responseText
+    $scope.book.file_key = data.file_key
+    $scope.book.content_type = data.content_type
+
+    BooksService.create_book($scope.book,
+      (data) ->
+        console.log data.objectId
+        $location.path("/books/#{data.objectId}/edit")
+        $scope.is_loading = false
+      ,
+      (data) ->
+        $scope.fail_msg = data.error
+        $scope.is_loading = false
+    )
+
+  upload_failed = (evt) ->
+    console.log 'failed upload'
+    $scope.fail_msg = 'failed upload'
+    $scope.is_loading = false
+
+  $scope.submit_form = () ->
+    $scope.is_loading = true
+
+    # make form
+    fd  = new FormData()
+    fd.append('file', book_form.file.files[0])
+    fd.append('token', book_form.token.value)
+
+    console.log fd
+
+    # make xhr
+    xhr = new XMLHttpRequest()
+    xhr.upload.addEventListener('progress', upload_progress)
+    xhr.addEventListener('load', upload_complete)
+    xhr.addEventListener('error', upload_failed)
+
+    xhr.open('POST', 'http://up.qiniu.com/')
+    xhr.send(fd)
 
 BookUploadCtrl.$inject = ['$scope', '$location', 'token', 'BooksService', '$filter', 'books']
+
+UploadCtrl = App.controller 'UploadCtrl', ($scope) ->
+
+
+
+UploadCtrl.$inject = ['$scope']

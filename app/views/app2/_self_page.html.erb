@@ -13,8 +13,8 @@
       </ul>
     </div>
   </div>
-  <div class="col span9 wrapper">
-    <form name="book_form" method="post" action="http://up.qiniu.com/" enctype="multipart/form-data" ng-upload>
+  <div class="col span9 wrapper" ng-controller="UploadCtrl">
+    <form name="book_form" enctype="multipart/form-data" ng-submit="submit_form()">
       <div class="alert alert-success" ng-show="succ_msg">{{succ_msg}}</div>
       <div class="alert alert-error" ng-show="fail_msg">{{fail_msg}}</div>
       <div class="row">
@@ -48,11 +48,13 @@
           <div class="control-group submit">
             <div class="controls pull-right">
               <button type="submit" class="btn btn-primary"
-                ng-disabled="book_form.$invalid" ng-click="show_loading()"
-                upload-submit="submit_complete(content, completed)" >Submit</button>
+                ng-disabled="book_form.$invalid || is_loading">Submit</button>
             </div>
           </div>
         </div>
+      </div>
+      <div class="progress">
+        <div class="bar" style="width: {{percentage}}%;"></div>
       </div>
     </form>
   </div>
@@ -64,9 +66,9 @@
     <div class="container">
       <ul class="media-list book-list clearfix">
         <li class="media" ng-repeat="book in books">
-          <a href="#/books/{{book.objectId}}"><img ng-src="{{book.cover_url}}" alt="" class="cover" /></a>
-          <span class="title">{{book.title}}</span>
-          <rating value="book.rate" max="5" readonly="true"></rating>
+        <a href="#/books/{{book.objectId}}"><img ng-src="{{book.cover_url}}" alt="" class="cover" /></a>
+        <span class="title">{{book.title}}</span>
+        <rating value="book.rate" max="5" readonly="true"></rating>
         </li>
       </ul>
     </div>

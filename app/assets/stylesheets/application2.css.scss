@@ -295,3 +295,11 @@ form div.info {
     user-select: none;
   }
 }
+
+form[name=book_form] {
+  margin-bottom: 0;
+  .progress {
+    margin-bottom: 0;
+    height: 10px;
+  }
+}

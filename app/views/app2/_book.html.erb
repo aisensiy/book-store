@@ -13,6 +13,7 @@
             <p><span>文件格式：</span>{{book.content_type.split('/')[1]}}</p>
             <p><span>文件大小：</span>{{ book.size|filesize }}</p>
             <p ng-show="book.publisher"><span>出版社：</span>{{book.publisher}}</p>
+            <p><span>评分：</span><rating value="book.rate" max="5" readonly="true"></rating></p>
             <p class="tag-wrapper">
               <span class="tag" ng-repeat="tag in book.tags">{{tag}}</span>
             </p>

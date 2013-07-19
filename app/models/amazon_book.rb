@@ -1,5 +1,8 @@
 require 'vacuum'
+require 'yaml'
 require 'multi_xml'
+require 'open-uri'
+require 'nokogiri'
 
 class AmazonBook
   include HTTParty
@@ -24,6 +27,7 @@ class AmazonBook
     @res = req.get(query: params)
 
     result = MultiXml.parse(@res.body)
+    Rails.logger.debug result.to_yaml
     item = result["ItemLookupResponse"]["Items"]["Item"]
 
     book['cover_url'] = item["LargeImage"]["URL"]
@@ -44,7 +48,18 @@ class AmazonBook
       book['summary'] = item["EditorialReviews"]["EditorialReview"]["Content"]
     end
 
+    book['ranting'] = {'average' => self.get_rating(item['CustomerReviews']['IFrameURL'])}
+
     book
+  end
+
+  def self.get_rating(src)
+    page = Nokogiri::HTML(open(src))
+    if !page.css('.asinReviewsSummary img')[0].nil?
+      page.css('.asinReviewsSummary img')[0]['alt'].to_f * 2
+    else
+      nil
+    end
   end
 
 end

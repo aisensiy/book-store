@@ -177,6 +177,12 @@ Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', '
     }
   ]
 
+  rate_process = (books) ->
+    for book in books
+      book.rate = book.rate || book.rating && book.rating.average / 2 || 0
+
+    books
+
   service.books_own = (page_no, succ, fail) ->
     page_no = page_no || 1
     per_page = 40
@@ -188,6 +194,7 @@ Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', '
         skip: (page_no - 1) * per_page
       }
     .success (data) ->
+      data.results = rate_process(data.results)
       data.paging =
         current_page: page_no
         total_page: Math.ceil(data.count / per_page)
@@ -208,6 +215,7 @@ Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', '
         skip: (page_no - 1) * per_page
       }
     .success (data) ->
+      data.results = rate_process(data.results)
       data.paging =
         current_page: page_no
         total_page: Math.ceil(data.count / per_page)
@@ -244,6 +252,7 @@ Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', '
       method: 'GET'
       cache: true
     .success (data) ->
+      data.rate = data.rate || data.rating && data.rating.average / 2 || 0
       data
     .error (data) ->
       data

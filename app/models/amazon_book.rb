@@ -48,7 +48,7 @@ class AmazonBook
       book['summary'] = item["EditorialReviews"]["EditorialReview"]["Content"]
     end
 
-    book['ranting'] = {'average' => self.get_rating(item['CustomerReviews']['IFrameURL'])}
+    book['rating'] = {'average' => self.get_rating(item['CustomerReviews']['IFrameURL'])}
 
     book
   end

@@ -24,7 +24,7 @@ class Book < BaseClient
   end
 
   def self.get_books(limit=40, skip=0, where={})
-    query = {count: 1, limit: limit, skip: skip, keys: 'title,author,cover_url,rate', order: '-createdAt'}
+    query = {count: 1, limit: limit, skip: skip, keys: 'title,author,cover_url,rate,rating', order: '-createdAt'}
     query[:where] = where[:where].to_json if where[:where]
     get("/1/classes/Book", query: query)
   end

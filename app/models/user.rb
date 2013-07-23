@@ -22,7 +22,7 @@ class User < BaseClient
   end
 
   def self.get_role(user_id)
-    body = get('/1/roles', query: %Q{where={"users": {"__type": "Pointer", "className": "User", "objectId": "#{user_id}"}}})
+    body = get('/1/roles', query: {"where" => %Q{{"users": {"__type": "Pointer", "className": "User", "objectId": "#{user_id}"}}}})
     results = body.parsed_response["results"]
     if results.size == 0
       nil

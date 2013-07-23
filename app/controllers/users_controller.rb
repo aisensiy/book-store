@@ -17,6 +17,8 @@ class UsersController < ApplicationController
 
     if resp.code == 200
       set_session(resp)
+      role = User.get_role(session[:user_id])
+      session[:user_role] = if role.nil? then 'Members' else role end
       session[:username] = params[:user][:username]
     end
 

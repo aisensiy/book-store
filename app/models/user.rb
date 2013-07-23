@@ -20,4 +20,14 @@ class User < BaseClient
   def self.password_reset(email)
     post("/1/requestPasswordReset", body: JSON.dump({email: email}))
   end
+
+  def self.get_role(user_id)
+    body = get('/1/roles', query: %Q{where={"users": {"__type": "Pointer", "className": "User", "objectId": "#{user_id}"}}})
+    results = body.parsed_response["results"]
+    if results.size == 0
+      nil
+    else
+      results[0]["name"]
+    end
+  end
 end

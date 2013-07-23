@@ -5,6 +5,9 @@
         <div class="wrapper">
           <div class="cover pull-left">
             <img ng-src="{{book.cover_url}}" alt="" />
+            <br />
+            <a href="#/books/{{book.objectId}}/edit" ng-show="book.write">edit book</a>
+            <br />
           </div>
           <div class="info">
             <h1>{{book.title}}</h1>

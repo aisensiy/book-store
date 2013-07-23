@@ -50,4 +50,8 @@ class UploadController < ApplicationController
     encode_sign = generate_encoded_digest(url)
     %Q(#{Settings.qiniu_appkey}:#{encode_sign})
   end
+
+  def generate_encoded_entry_uri(file_key)
+    urlsafe_base64_encode "#{file_key}:#{Settings.qiniu_bucket}"
+  end
 end

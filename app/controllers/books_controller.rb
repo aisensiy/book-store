@@ -3,6 +3,8 @@ class BooksController < ApplicationController
 
   def index
     resp = Book.get_books(params[:limit], params[:skip], where: {'is_public' => true})
+    logger.debug resp.inspect
+    process_authorities(resp.parsed_response['results'])
     render status: resp.code, json: resp
   end
 
@@ -48,7 +50,8 @@ class BooksController < ApplicationController
 
   def show
     resp = Book.get_book(params[:id])
-    render status: resp.code, json: resp.body
+    write_authority(resp.parsed_response)
+    render status: resp.code, json: resp
   end
 
   private
@@ -56,5 +59,23 @@ class BooksController < ApplicationController
     mat = url.match(/(\d+)\/?$/)
     return nil if not mat
     mat[1]
+  end
+
+  def write_authority(book)
+    return if !session[:user_id]
+    cur_user = session[:user_id]
+    role = session[:user_role] || "Members"
+    if book['ACL'][cur_user] && book['ACL'][cur_user]['write'] == true ||
+       book['ACL']["role:#{role}"] && book['ACL']["role:#{role}"]["write"] == true
+      book['write'] = true
+    end
+    book
+  end
+
+  def process_authorities(books)
+    books.each do |book|
+      write_authority(book)
+    end
+    books
   end
 end

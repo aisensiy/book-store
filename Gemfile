@@ -3,6 +3,7 @@ source 'http://ruby.taobao.org'
 gem 'rails', '3.2.13'
 
 gem 'sqlite3', group: [:development, :test]
+gem 'pg', group: :production
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

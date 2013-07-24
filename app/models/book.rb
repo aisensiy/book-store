@@ -1,5 +1,4 @@
 class Book < BaseClient
-  include UploadHelper
   def self.create_book(user_id, options)
     options[:ACL] = {
       "*" => {
@@ -28,5 +27,15 @@ class Book < BaseClient
     query = {count: 1, limit: limit, skip: skip, order: '-createdAt'}
     query[:where] = where[:where].to_json if where[:where]
     get("/1/classes/Book", query: query)
+  end
+
+  def self.delete_book(id, token)
+    headers = self.headers.merge({'X-Parse-Session-Token' => token})
+    delete("/1/classes/Book/#{id}", headers: headers)
+  end
+
+  def self.delete_file(url, access_token)
+    headers = {"Authorization" => "QBox #{access_token}"}
+    post(url, headers: headers)
   end
 end

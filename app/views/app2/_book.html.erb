@@ -1,12 +1,16 @@
 <div class="row col-wrap">
   <div class="span9 col">
     <div class="book-container clearfix">
+      <div class="alert alert-error" ng-show="fail_msg">{{fail_msg}}</div>
+      <div class="alert alert-success" ng-show="succ_msg">{{succ_msg}}</div>
       <div class="book-meta">
         <div class="wrapper">
           <div class="cover pull-left">
             <img ng-src="{{book.cover_url}}" alt="" />
             <br />
-            <a href="#/books/{{book.objectId}}/edit" ng-show="book.write">edit book</a>
+            <br />
+            <a href="#/books/{{book.objectId}}/edit" ng-show="book.write" class="btn">edit book</a>
+            <a href="" ng-show="book.write" class="btn" ng-click="delete_book(book)">delete book</a>
             <br />
           </div>
           <div class="info">

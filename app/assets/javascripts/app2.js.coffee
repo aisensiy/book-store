@@ -143,13 +143,28 @@ BooksCtrl = App.controller 'BooksCtrl', ($scope, books, BooksService) ->
 
 BooksCtrl.$inject = ['$scope', 'books', 'BooksService']
 
-App.controller 'BookCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', '$sanitize', ($scope, book, $rootScope, BooksService, UserService, $sanitize) ->
+App.controller 'BookCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', '$sanitize', '$location', ($scope, book, $rootScope, BooksService, UserService, $sanitize, $location) ->
   $scope.book = book.data
   $scope.book_summary = $sanitize($scope.book.summary)
   user_control($scope, $rootScope, UserService)
   if $scope.user
     BooksService.get_download_token $scope.book.file_key, (data) ->
       $scope.download_link = data.link
+
+  $scope.delete_book = (book) ->
+    return if !confirm('Are you sure to delete the book')
+    BooksService.delete_book(
+      book.objectId,
+      book.file_key,
+      () ->
+        $scope.succ_msg = 'delete book successfully'
+        $scope.fail_msg = null
+        $location.path('/')
+      ,
+      () ->
+        $scope.fail_msg = 'delete book failed'
+        $scope.succ_msg = null
+    )
 
   console.log book
 ]

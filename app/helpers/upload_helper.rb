@@ -20,4 +20,21 @@ module UploadHelper
     urlsafe_base64_encode(hmac.digest)
   end
 
+  def generate_access_token(access_key, secret_key, url, params)
+    uri = URI.parse(url)
+    access = uri.path
+    query_string = uri.query
+    access += '?' + query_string if !query_string.nil? && !query_string.empty?
+    access += "\n";
+    if params.is_a?(Hash)
+        total_param = params.map do |key, value|
+            %Q(#{CGI.escape(key.to_s)}=#{CGI.escape(value.to_s).gsub('+', '%20')})
+        end
+        access += total_param.join("&")
+    end
+    hmac = HMAC::SHA1.new(secret_key)
+    hmac.update(access)
+    encoded_digest = urlsafe_base64_encode(hmac.digest)
+    %Q(#{access_key}:#{encoded_digest})
+  end
 end

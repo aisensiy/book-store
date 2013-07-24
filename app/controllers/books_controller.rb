@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
-  before_filter :signin?, only: [:create, :update, :get_own_books]
+  include UploadHelper
+  before_filter :signin?, only: [:create, :update, :get_own_books, :destroy]
 
   def index
     resp = Book.get_books(params[:limit], params[:skip], where: {'is_public' => true})
@@ -46,6 +47,9 @@ class BooksController < ApplicationController
   end
 
   def destroy
+    resp = Book.delete_book(params[:id], session[:token])
+    delete_file(params[:file_key]) if resp.code == 200
+    render status: resp.code, json: resp
   end
 
   def show
@@ -77,5 +81,12 @@ class BooksController < ApplicationController
       write_authority(book)
     end
     books
+  end
+
+  def delete_file(file_key)
+    token = urlsafe_base64_encode "#{Settings.qiniu_bucket}:#{file_key}"
+    url = "http://rs.qbox.me/delete/#{token}"
+    access_token = generate_access_token(Settings.qiniu_appkey, Settings.qiniu_appsecret, url, nil)
+    Book.delete_file(url, access_token)
   end
 end

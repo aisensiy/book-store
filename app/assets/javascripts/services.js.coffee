@@ -286,6 +286,13 @@ Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', '
       data: book_data
     ).success(succ).error(fail)
 
+  service.delete_book = (id, file_key, succ, fail) ->
+    $http(
+      url: "/api/1/books/#{id}"
+      method: "DELETE"
+      params:
+        file_key: file_key
+    ).success(succ).error(fail)
 
   return service
 ]

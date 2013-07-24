@@ -48,3 +48,5 @@ gem 'vacuum'
 
 # To use debugger
 # gem 'debugger'
+gem "kaminari" # optional for pagination support
+gem "parse_resource", "~> 1.8.0"

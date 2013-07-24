@@ -47,16 +47,20 @@ App.config ['$routeProvider', ($routeProvider) ->
         book: ['BooksService', '$route', (BooksService, $route) ->
           BooksService.book($route.current.params.id)
         ]
+      require_auth: true
+      require_write: true
     .otherwise({redirectTo: '/books'})
 ]
 
 App.run ['$rootScope', 'UserService', '$location', ($rootScope, UserService, $location) ->
   UserService.current_user()
   $rootScope.$on '$routeChangeStart', (event, next, current) ->
+    console.log 'route change'
     console.log arguments
     if next.require_auth && !$rootScope.user
       $location.path('/')
 ]
+
 
 user_control = ($scope, $rootScope, UserService) ->
   $scope.$on 'user:signin', () ->
@@ -153,6 +157,7 @@ App.controller 'BookCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'Use
 App.controller 'BookEditCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', '$location', ($scope, book, $rootScope, BooksService, UserService, $location) ->
   $scope.book = book.data
   $scope.book.rate ||= 0
+  $location.path("/books/#{$scope.book.objectId}") if !$scope.book.write
 
   # concat global tags and douban tags
   $scope.tags = if $scope.book.douban_tags then (elem.name for elem in $scope.book.douban_tags) else []

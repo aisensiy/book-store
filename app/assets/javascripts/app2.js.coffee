@@ -148,7 +148,7 @@ App.controller 'BookCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'Use
   $scope.book_summary = $sanitize($scope.book.summary)
   user_control($scope, $rootScope, UserService)
   if $scope.user
-    BooksService.get_download_token $scope.book.file_key, (data) ->
+    BooksService.get_download_token $scope.book.file_key, $scope.book.file_name, (data) ->
       $scope.download_link = data.link
 
   $scope.delete_book = (book) ->
@@ -288,6 +288,7 @@ BookUploadCtrl = App.controller 'BookUploadCtrl', ($scope, $location, token, Boo
     $scope.book.file_key = data.file_key
     $scope.book.content_type = data.content_type
     $scope.book.size = data.size
+    $scope.book.file_name = data.file_name
 
     BooksService.create_book($scope.book,
       (data) ->

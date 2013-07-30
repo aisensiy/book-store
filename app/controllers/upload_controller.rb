@@ -13,22 +13,12 @@ class UploadController < ApplicationController
   end
 
   def get_token
-    token = generate_upload_token(
-      scope: Settings.qiniu_bucket,
-      deadline: Time.now.to_i + 1.hour,
-      returnBody: '{"file_name": $(fname), "is_public": $(x:is_public), "content_type": $(mimeType), "file_key": $(etag), "url": $(x:url), "lang": $(x:lang), "size": $(fsize)}'
-    )
+    token = Book.get_upload_token
     render json: {token: token}
   end
 
   def get_download_token
-    opts = {
-      scope: Settings.qiniu_bucket,
-      deadline: Time.now.to_i + 1.hour,
-      key: params[:file_key]
-    }
-    token = generate_download_token(opts, params[:file_name])
-    url = "http://#{opts[:scope]}.qiniudn.com/#{opts[:key]}?download/#{params[:file_name]}&e=#{opts[:deadline]}&token=#{token}"
+    url = Book.get_download_token(params[:file_key], params[:file_name])
     render json: {link: url}
   end
 
@@ -38,20 +28,4 @@ class UploadController < ApplicationController
     render json: return_data
   end
 
-  private
-  def generate_upload_token(opts={})
-    signature = urlsafe_base64_encode(opts.to_json)
-    encoded_digest = generate_encoded_digest(signature)
-    %Q(#{Settings.qiniu_appkey}:#{encoded_digest}:#{signature})
-  end
-
-  def generate_download_token(opts={}, file_name)
-    url = "http://#{opts[:scope]}.qiniudn.com/#{opts[:key]}?download/#{file_name}&e=#{opts[:deadline]}"
-    encode_sign = generate_encoded_digest(url)
-    %Q(#{Settings.qiniu_appkey}:#{encode_sign})
-  end
-
-  def generate_encoded_entry_uri(file_key)
-    urlsafe_base64_encode "#{file_key}:#{Settings.qiniu_bucket}"
-  end
 end

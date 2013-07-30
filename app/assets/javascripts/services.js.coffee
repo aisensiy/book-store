@@ -295,5 +295,11 @@ Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', '
         file_key: file_key
     ).success(succ).error(fail)
 
+  service.send_to_device =  (book_id, succ, fail) ->
+    $http(
+      url: "/api/1/books/#{book_id}/send_to_device"
+      method: "POST"
+    ).success(succ).error(fail)
+
   return service
 ]

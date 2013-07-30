@@ -30,6 +30,9 @@ BooksLists::Application.routes.draw do
       collection do
         get :own
       end
+      member do
+        post :send_to_device
+      end
     end
 
     post '/upload' => 'upload#post'

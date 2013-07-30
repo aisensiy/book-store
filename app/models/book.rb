@@ -1,4 +1,6 @@
 class Book < BaseClient
+  extend UploadHelper
+
   def self.create_book(user_id, options)
     options[:ACL] = {
       "*" => {
@@ -34,8 +36,46 @@ class Book < BaseClient
     delete("/1/classes/Book/#{id}", headers: headers)
   end
 
-  def self.delete_file(url, access_token)
+  def self.delete_file(file_key)
+    token = self.urlsafe_base64_encode "#{Settings.qiniu_bucket}:#{file_key}"
+    url = "http://rs.qbox.me/delete/#{token}"
+    access_token = self.generate_access_token(Settings.qiniu_appkey, Settings.qiniu_appsecret, url, nil)
     headers = {"Authorization" => "QBox #{access_token}"}
     post(url, headers: headers)
+  end
+
+  def self.get_download_token(file_key, file_name)
+    opts = {
+      scope: Settings.qiniu_bucket,
+      deadline: Time.now.to_i + 1.hour,
+      key: file_key
+    }
+    token = self.generate_download_token(opts, file_name)
+    "http://#{opts[:scope]}.qiniudn.com/#{opts[:key]}?download/#{file_name}&e=#{opts[:deadline]}&token=#{token}"
+  end
+
+  def self.get_upload_token()
+    self.generate_upload_token(
+      scope: Settings.qiniu_bucket,
+      deadline: Time.now.to_i + 1.hour,
+      returnBody: '{"file_name": $(fname), "is_public": $(x:is_public), "content_type": $(mimeType), "file_key": $(etag), "url": $(x:url), "lang": $(x:lang), "size": $(fsize)}'
+    )
+  end
+
+  private
+  def self.generate_upload_token(opts={})
+    signature = urlsafe_base64_encode(opts.to_json)
+    encoded_digest = self.generate_encoded_digest(signature)
+    %Q(#{Settings.qiniu_appkey}:#{encoded_digest}:#{signature})
+  end
+
+  def self.generate_download_token(opts={}, file_name)
+    url = "http://#{opts[:scope]}.qiniudn.com/#{opts[:key]}?download/#{file_name}&e=#{opts[:deadline]}"
+    encode_sign = self.generate_encoded_digest(url)
+    %Q(#{Settings.qiniu_appkey}:#{encode_sign})
+  end
+
+  def self.generate_encoded_entry_uri(file_key)
+    urlsafe_base64_encode "#{file_key}:#{Settings.qiniu_bucket}"
   end
 end

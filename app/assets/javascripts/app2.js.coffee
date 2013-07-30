@@ -166,6 +166,18 @@ App.controller 'BookCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'Use
         $scope.succ_msg = null
     )
 
+  $scope.send_to_device = (book) ->
+    BooksService.send_to_device(
+      book.objectId,
+      () ->
+        $scope.succ_msg = 'send this book to your device successfully'
+        $scope.fail_msg = null
+      ,
+      () ->
+        $scope.succ_msg = null
+        $scope.fail_msg = 'failed to send book to your device'
+    )
+
   console.log book
 ]
 

@@ -3,6 +3,10 @@ class User < BaseClient
     post('/1/users', body: JSON.dump(options))
   end
 
+  def self.get_user(id)
+    get("/1/users/#{id}")
+  end
+
   def self.remove(user_id, token)
     headers = self.headers.merge({'X-Parse-Session-Token' => token})
     delete("/1/users/#{user_id}", headers: headers)

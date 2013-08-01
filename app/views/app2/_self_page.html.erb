@@ -7,7 +7,7 @@
       </div>
       <hr />
       <ul class="items unstyled">
-        <li><span>Books: </span>20</li>
+        <li><span>Books: </span>{{books.count}}</li>
         <li><span>Devices: </span>PDF</li>
         <li><a href="#/users/password_modify">change password</a></li>
       </ul>
@@ -65,7 +65,7 @@
     <h2 class="category">My Books</h2>
     <div class="container">
       <ul class="media-list book-list clearfix">
-        <li class="media" ng-repeat="book in books">
+        <li class="media" ng-repeat="book in books.results">
         <a href="#/books/{{book.objectId}}"><img ng-src="{{book.cover_url}}" alt="" class="cover" /></a>
         <span class="title">{{book.title}}</span>
         <rating value="book.rate" max="5" readonly="true"></rating>

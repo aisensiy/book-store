@@ -1,0 +1,16 @@
+<div class="row books">
+  <div class="span12">
+    <h2 class="category">Popular</h2>
+    <ul class="media-list book-list clearfix">
+      <li class="media" ng-repeat="book in books">
+        <a href="#/books/{{book.objectId}}"><img ng-src="{{book.cover_url}}" alt="" class="cover" /></a>
+        <span class="title">{{book.title}}</span>
+        <rating value="book.rate" max="5" readonly="true"></rating>
+      </li>
+    </ul>
+    <div class="paginate-wrapper" ng-show="paging">
+      <pagination num-pages="paging.total_page" on-select-page="pageChanged(page)" current-page="paging.current_page" class="pagination" previous-text="&laquo;" next-text="&raquo;"></pagination>
+    </div>
+  </div>
+</div>
+

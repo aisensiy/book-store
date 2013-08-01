@@ -118,64 +118,6 @@ Services.factory 'UserService', ['$rootScope', '$location', '$q', '$timeout', 'H
 
 Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', '$http', ($rootScope, $location, $q, $timeout, $http) ->
   service = {}
-  books = [
-    {
-      id: '1',
-      title: '麦田守望者',
-      author: '马丁 安东尼等',
-      image_url: '/assets/book-cover.png',
-      private: true,
-      user: 'aisensiy'
-    },
-    {
-      id: '4',
-      title: '麦田守望者',
-      author: '马丁 安东尼等',
-      image_url: '/assets/book-cover.png',
-      private: true,
-      user: 'aisensiy'
-    },
-    {
-      id: '5',
-      title: '麦田守望者',
-      author: '马丁 安东尼等',
-      image_url: '/assets/book-cover.png',
-      private: true,
-      user: 'aisensiy'
-    },
-    {
-      id: '6',
-      title: '麦田守望者',
-      author: '马丁 安东尼等',
-      image_url: '/assets/book-cover.png',
-      private: true,
-      user: 'aisensiy'
-    },
-    {
-      id: '7',
-      title: '麦田守望者',
-      author: '马丁 安东尼等',
-      image_url: '/assets/book-cover.png',
-      private: true,
-      user: 'aisensiy'
-    },
-    {
-      id: '8',
-      title: '麦田守望者',
-      author: '马丁 安东尼等',
-      image_url: '/assets/book-cover.png',
-      private: true,
-      user: 'aisensiy'
-    },
-    {
-      id: '9',
-      title: '麦田守望者',
-      author: '马丁 安东尼等',
-      image_url: '/assets/book-cover.png',
-      private: false,
-      user: 'ranhui'
-    }
-  ]
 
   rate_process = (books) ->
     for book in books
@@ -302,4 +244,6 @@ Services.factory 'BooksService', ['$rootScope', '$location', '$q', '$timeout', '
     ).success(succ).error(fail)
 
   return service
+
 ]
+

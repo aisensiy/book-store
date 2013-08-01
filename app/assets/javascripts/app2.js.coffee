@@ -2,10 +2,24 @@
 #= require 'directives'
 #= require 'filters'
 #= require 'angular-sanitize'
+#= require 'angular-resource'
+#= require_self
+#= require './controllers/books_list_ctrl'
 
 @GlobalTags = ["经济", "武侠", "小说", "经典", "人文", "科技"]
 
-@App = angular.module('App', ['Services', 'ngUpload', 'App.directives', 'App.filters', 'ui.bootstrap', 'ngSanitize'])
+@App = angular.module('App', ['Services', 'ngUpload', 'App.directives', 'App.filters', 'ui.bootstrap', 'ngSanitize', 'ngResource'])
+
+App.factory 'Book', ($resource) ->
+  $resource '/api/1/books/:id/:verb', {'id': '@objectId'},
+    own: { method: 'GET', params: {verb: 'own'}, isArray: false },
+    send_to_device: { method: 'POST', params: {verb: 'send_to_device'}}
+    query: { method: 'GET', params: {}, isArray: false }
+
+App.factory 'Upload', ($resource) ->
+  $resource '/api/1/upload/:verb', {},
+    upload_token: { method: 'GET', params: {verb: 'token'} }
+    download_token: { method: 'GET', params: {verb: 'download_token'} }
 
 App.config ['$routeProvider', ($routeProvider) ->
   $routeProvider
@@ -13,15 +27,26 @@ App.config ['$routeProvider', ($routeProvider) ->
       template: $('#books_html').html(),
       controller: 'BooksCtrl',
       resolve:
-        books: ['BooksService', '$routeParams', (BooksService, $routeParams) ->
-          BooksService.books_popular(1)
+        books: ['$q', 'Book', ($q, Book) ->
+          deferred = $q.defer()
+          Book.query({skip: 0, limit: 8}, (data) ->
+            deferred.resolve(data)
+          )
+          deferred.promise
         ]
+    .when '/books/popular',
+      template: $('#books_list_html').html(),
+      controller: 'BooksListCtrl'
     .when '/books/:id',
       template: $('#book_html').html(),
       controller: 'BookCtrl',
       resolve:
-        book: ['BooksService', '$route', (BooksService, $route) ->
-          BooksService.book($route.current.params.id)
+        book: ['Book', '$route', '$q', (Book, $route, $q) ->
+          deferred = $q.defer()
+          Book.get({id: $route.current.params.id}, (data) ->
+            deferred.resolve(data)
+          )
+          deferred.promise
         ]
     .when '/users/password_modify',
       template: $('#password_modify_html').html()
@@ -31,12 +56,19 @@ App.config ['$routeProvider', ($routeProvider) ->
       template: $('#book_new_html').html()
       controller: 'BookUploadCtrl'
       resolve: {
-        token: ['BooksService', (BooksService) ->
-          BooksService.get_token()
+        token: ['Upload', '$q', (Upload, $q) ->
+          deferred = $q.defer()
+          Upload.upload_token({ts: +new Date}, (data) ->
+            deferred.resolve(data)
+          )
+          deferred.promise
         ]
-        books: ['BooksService', '$routeParams', (BooksService, $routeParams) ->
-          console.log 'load books won'
-          BooksService.books_own(1)
+        books: ['Book', '$q', (Book, $q) ->
+          deferred = $q.defer()
+          Book.own({skip: 0, limit: 8}, (data) ->
+            deferred.resolve(data)
+          )
+          deferred.promise
         ]
       }
       require_auth: true
@@ -44,8 +76,12 @@ App.config ['$routeProvider', ($routeProvider) ->
       template: $('#book_edit_html').html()
       controller: 'BookEditCtrl'
       resolve:
-        book: ['BooksService', '$route', (BooksService, $route) ->
-          BooksService.book($route.current.params.id)
+        book: ['Book', '$route', '$q', (Book, $route, $q) ->
+          deferred = $q.defer()
+          Book.get({id: $route.current.params.id}, (data) ->
+            deferred.resolve(data)
+          )
+          deferred.promise
         ]
       require_auth: true
       require_write: true
@@ -133,8 +169,8 @@ SignUpCtrl = App.controller 'SignUpCtrl', ($scope, UserService, $location, Captc
 SignUpCtrl.$inject = ['$scope', 'UserService', '$location', 'Captcha']
 
 BooksCtrl = App.controller 'BooksCtrl', ($scope, books, BooksService) ->
-  $scope.books = books.data.results
-  $scope.paging = books.data.paging
+  $scope.books = books.results
+  # $scope.paging = books.data.paging
 
   $scope.pageChanged = (page) ->
     BooksService.books_popular page, (data) ->
@@ -144,7 +180,7 @@ BooksCtrl = App.controller 'BooksCtrl', ($scope, books, BooksService) ->
 BooksCtrl.$inject = ['$scope', 'books', 'BooksService']
 
 App.controller 'BookCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', '$sanitize', '$location', ($scope, book, $rootScope, BooksService, UserService, $sanitize, $location) ->
-  $scope.book = book.data
+  $scope.book = book
   $scope.book_summary = $sanitize($scope.book.summary)
   user_control($scope, $rootScope, UserService)
   if $scope.user
@@ -182,7 +218,7 @@ App.controller 'BookCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'Use
 ]
 
 App.controller 'BookEditCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', '$location', ($scope, book, $rootScope, BooksService, UserService, $location) ->
-  $scope.book = book.data
+  $scope.book = book
   $scope.book.rate ||= 0
   $location.path("/books/#{$scope.book.objectId}") if !$scope.book.write
 
@@ -277,11 +313,11 @@ PasswordModifyCtrl = App.controller 'PasswordModifyCtrl', ($scope, UserService) 
 PasswordModifyCtrl.$inject = ['$scope', 'UserService']
 
 BookUploadCtrl = App.controller 'BookUploadCtrl', ($scope, $location, token, BooksService, $filter, books) ->
-  $scope.books = books.data.results
-  $scope.paging = books.data.paging
+  $scope.books = books
+  # $scope.paging = books.data.paging
 
   $scope.langs = [ {name: "中文简体", value: 'zh-CN'}, {name: "中文繁体", value: 'zh-TW'}, {name: "英文", value: 'en'}, {name: "俄文", value: 'ru'} ]
-  $scope.token = token.data.token
+  $scope.token = token.token
 
   $scope.book =
     is_public: true

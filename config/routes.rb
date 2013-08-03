@@ -29,6 +29,8 @@ BooksLists::Application.routes.draw do
     resources :books, defaults: { format: 'json' }, only: [:create, :index, :update, :destroy, :show] do
       collection do
         get :own
+        get :week_top
+        get :month_top
       end
       member do
         post :send_to_device

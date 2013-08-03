@@ -15,6 +15,8 @@ App.factory 'Book', ($resource) ->
     own: { method: 'GET', params: {verb: 'own'}, isArray: false },
     send_to_device: { method: 'POST', params: {verb: 'send_to_device'}}
     query: { method: 'GET', params: {}, isArray: false }
+    week_top: { method: 'GET', params: {verb: 'week_top'}, isArray: true }
+    month_top: { method: 'GET', params: {verb: 'month_top'}, isArray: true }
 
 App.factory 'Upload', ($resource) ->
   $resource '/api/1/upload/:verb', {},
@@ -167,16 +169,17 @@ SignUpCtrl = App.controller 'SignUpCtrl', ($scope, UserService, $location, Captc
 
 SignUpCtrl.$inject = ['$scope', 'UserService', '$location', 'Captcha']
 
-BooksCtrl = App.controller 'BooksCtrl', ($scope, books, BooksService) ->
+BooksCtrl = App.controller 'BooksCtrl', ($scope, books, BooksService, Book) ->
   $scope.books = books.results
+  $scope.week_top = Book.week_top({limit: 5})
   # $scope.paging = books.data.paging
 
-  $scope.pageChanged = (page) ->
-    BooksService.books_popular page, (data) ->
-      $scope.books = data.results
-      $scope.paging = data.paging
+  # $scope.pageChanged = (page) ->
+  #   BooksService.books_popular page, (data) ->
+  #     $scope.books = data.results
+  #     $scope.paging = data.paging
 
-BooksCtrl.$inject = ['$scope', 'books', 'BooksService']
+BooksCtrl.$inject = ['$scope', 'books', 'BooksService', 'Book']
 
 
 App.controller 'BookEditCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', '$location', ($scope, book, $rootScope, BooksService, UserService, $location) ->

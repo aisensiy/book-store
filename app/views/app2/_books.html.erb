@@ -45,15 +45,13 @@
       -->
     </div>
     <div class="span3">
-      <h2 class="category">Top5</h2>
+      <h2 class="category">Top5 by Week</h2>
       <ul class="media-list book-list clearfix sidebar">
-        <% 5.times do %>
-          <li class="media">
-          <img src="/assets/book-cover2.png" alt="" class="cover" />
-          <span class="title">货币、银行信贷与经济周期</span>
-          <rating value="3" max="5" readonly="true"></rating>
+          <li class="media" ng-repeat="book in week_top">
+            <a href="#/books/{{book.objectId}}"><img ng-src="{{book.cover_url}}" alt="" class="cover" /></a>
+            <span class="title">{{book.title}}</span>
+            <rating value="book.rate" max="5" readonly="true"></rating>
           </li>
-        <% end %>
       </ul>
     </div>
   </div>

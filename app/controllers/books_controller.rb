@@ -8,6 +8,18 @@ class BooksController < ApplicationController
     render status: resp.code, json: resp
   end
 
+  def month_top
+    cur_month = Time.now.strftime('%Y %M')
+    books = range_top('month', cur_month, 'book', params[:limit] || 10)
+    render status: 200, json: books
+  end
+
+  def week_top
+    cur_week = Time.now.strftime('%Y %W')
+    books = range_top('week', cur_week, 'book', params[:limit] || 10)
+    render status: 200, json: books
+  end
+
   def own
     resp = Book.get_books(params[:limit], params[:skip], where: {'user_id' => session[:user_id]})
     render status: resp.code, json: resp
@@ -64,6 +76,27 @@ class BooksController < ApplicationController
   end
 
   private
+
+  def range_top(range_type, range, type, limit)
+    Parse::Query.new('Book').tap do |book_query|
+      book_query.eq('objectId', {
+        '$select' => {
+          'query' => {
+            'className' => 'DownloadRecord',
+            'where' => {
+              'range' => range,
+              'range_type' => range_type,
+              'type' => type
+            }
+          },
+          'key' => 'item_id',
+          'order_by' => '-count',
+          'limit' => limit
+        }
+      })
+    end.get
+  end
+
   def get_book_id_from_url(url)
     mat = url.match(/(\d+)\/?$/)
     return nil if not mat

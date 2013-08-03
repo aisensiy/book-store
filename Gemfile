@@ -42,6 +42,7 @@ gem 'nokogiri'
 gem 'thin'
 gem 'multi_xml'
 gem 'vacuum'
+gem 'parse-ruby-client'
 
 # Deploy with Capistrano
 # gem 'capistrano'

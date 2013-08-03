@@ -29,9 +29,50 @@ class UploadFile < BaseClient
     download_file['user_id'] = user_id
 
     download_file.save
+
+    if download_file.id
+      self.create_or_increase_download_record(item_id, type)
+    end
   end
 
   private
+  def self.create_or_increase_download_record(item_id, type)
+    time = Time.now
+    cur_week = time.strftime '%Y %W'
+    cur_month = time.strftime '%Y %m'
+
+    month_record = Parse::Query.new('DownloadRecord').eq('range_type', 'month').eq('range', cur_month).get.first
+    if month_record.nil?
+      self.create_download_record(item_id, type, cur_month, 'month')
+    else
+      self.increase_download_record(month_record)
+    end
+
+    week_record = Parse::Query.new('DownloadRecord').eq('range_type', 'week').eq('range', cur_week).get.first
+    if week_record.nil?
+      self.create_download_record(item_id, type, cur_week, 'week')
+    else
+      self.increase_download_record(week_record)
+    end
+  end
+
+  def self.create_download_record(item_id, type, range, range_type)
+    obj = Parse::Object.new('DownloadRecord',
+                            {
+                              'item_id' => item_id,
+                              'type' => type,
+                              'range' => range,
+                              'range_type' => range_type,
+                              'count' => 1
+                            }
+                           )
+    obj.save
+  end
+
+  def self.increase_download_record(obj)
+    obj['count'] = Parse::Increment.new(1)
+    obj.save
+  end
   def self.sanitize(name)
     sanitize_regexp = /[^[:word:]\.\-\+]/
     name = name.gsub("\\", "/") # work-around for IE

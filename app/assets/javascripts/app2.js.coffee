@@ -4,7 +4,7 @@
 #= require 'angular-sanitize'
 #= require 'angular-resource'
 #= require_self
-#= require './controllers/books_list_ctrl'
+#= require_tree './controllers'
 
 @GlobalTags = ["经济", "武侠", "小说", "经典", "人文", "科技"]
 
@@ -97,8 +97,7 @@ App.run ['$rootScope', 'UserService', '$location', ($rootScope, UserService, $lo
       $location.path('/')
 ]
 
-
-user_control = ($scope, $rootScope, UserService) ->
+@user_control = ($scope, $rootScope, UserService) ->
   $scope.$on 'user:signin', () ->
     $scope.user = $rootScope.user
 
@@ -179,43 +178,6 @@ BooksCtrl = App.controller 'BooksCtrl', ($scope, books, BooksService) ->
 
 BooksCtrl.$inject = ['$scope', 'books', 'BooksService']
 
-App.controller 'BookCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', '$sanitize', '$location', ($scope, book, $rootScope, BooksService, UserService, $sanitize, $location) ->
-  $scope.book = book
-  $scope.book_summary = $sanitize($scope.book.summary)
-  user_control($scope, $rootScope, UserService)
-  if $scope.user
-    BooksService.get_download_token $scope.book.file_key, $scope.book.file_name, (data) ->
-      $scope.download_link = data.link
-
-  $scope.delete_book = (book) ->
-    return if !confirm('Are you sure to delete the book')
-    BooksService.delete_book(
-      book.objectId,
-      book.file_key,
-      () ->
-        $scope.succ_msg = 'delete book successfully'
-        $scope.fail_msg = null
-        $location.path('/')
-      ,
-      () ->
-        $scope.fail_msg = 'delete book failed'
-        $scope.succ_msg = null
-    )
-
-  $scope.send_to_device = (book) ->
-    BooksService.send_to_device(
-      book.objectId,
-      () ->
-        $scope.succ_msg = 'send this book to your device successfully'
-        $scope.fail_msg = null
-      ,
-      () ->
-        $scope.succ_msg = null
-        $scope.fail_msg = 'failed to send book to your device'
-    )
-
-  console.log book
-]
 
 App.controller 'BookEditCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', '$location', ($scope, book, $rootScope, BooksService, UserService, $location) ->
   $scope.book = book

@@ -2,6 +2,7 @@ require 'hmac-sha1'
 
 class UploadController < ApplicationController
   include UploadHelper
+  before_filter :signin?
 
   def post
     uploaded_io = params[:upload]
@@ -18,8 +19,9 @@ class UploadController < ApplicationController
   end
 
   def get_download_token
-    url = Book.get_download_token(params[:file_key], params[:file_name])
-    render json: {link: url}
+    download_file =
+      UploadFile.create_download_file(params[:item_id], 'book', session[:user_id])
+    render json: {link: download_file['url']}
   end
 
   def callback

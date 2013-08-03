@@ -59,7 +59,7 @@ class BooksController < ApplicationController
 
   def send_to_device
     user = User.get_user(session[:user_id]).parsed_response
-    resp = Push.send_url_to_user_device(user['email'], 'book', params[:id])
+    resp = Push.send_url_to_user_device(user, 'book', params[:id])
     render status: resp.code, json: resp
   end
 

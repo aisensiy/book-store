@@ -33,7 +33,7 @@
     <div class="device-container" >
       <h1>Send to Devices</h1>
       <button class="btn" ng-show="user" ng-click="send_to_device(book)">Send to Boox</button>
-      <a href="{{download_link}}" target="_blank" class="btn btn-primary" ng-show="user">Download</a>
+      <a href="" ng-click="get_download_url()" target="_blank" class="btn btn-primary" ng-show="user">Download</a>
       <p ng-hide="user">Login and then you can download the book.</p>
     </div>
   </div>

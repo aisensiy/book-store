@@ -41,18 +41,17 @@ class UploadFile < BaseClient
     cur_week = time.strftime '%Y %W'
     cur_month = time.strftime '%Y %m'
 
-    month_record = Parse::Query.new('DownloadRecord').eq('range_type', 'month').eq('range', cur_month).get.first
-    if month_record.nil?
-      self.create_download_record(item_id, type, cur_month, 'month')
-    else
-      self.increase_download_record(month_record)
-    end
+    self.create_or_increase_reccord(item_id, type, cur_week, 'week')
+    self.create_or_increase_reccord(item_id, type, cur_month, 'month')
+    self.create_or_increase_reccord(item_id, type, '', 'total')
+  end
 
-    week_record = Parse::Query.new('DownloadRecord').eq('range_type', 'week').eq('range', cur_week).get.first
-    if week_record.nil?
-      self.create_download_record(item_id, type, cur_week, 'week')
+  def self.create_or_increase_reccord(item_id, type, range, range_type)
+    record = Parse::Query.new('DownloadRecord').eq('item_id', item_id).eq('range_type', range_type).eq('range', range).get.first
+    if record.nil?
+      self.create_download_record(item_id, type, range, range_type)
     else
-      self.increase_download_record(week_record)
+      self.increase_download_record(record)
     end
   end
 

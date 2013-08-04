@@ -31,6 +31,7 @@ BooksLists::Application.routes.draw do
         get :own
         get :week_top
         get :month_top
+        get :recommend
       end
       member do
         post :send_to_device

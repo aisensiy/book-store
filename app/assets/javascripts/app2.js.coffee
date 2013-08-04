@@ -17,6 +17,7 @@ App.factory 'Book', ($resource) ->
     query: { method: 'GET', params: {}, isArray: false }
     week_top: { method: 'GET', params: {verb: 'week_top'}, isArray: true }
     month_top: { method: 'GET', params: {verb: 'month_top'}, isArray: true }
+    recommend: { method: 'GET', params: {verb: 'recommend'}, isArray: true }
 
 App.factory 'Upload', ($resource) ->
   $resource '/api/1/upload/:verb', {},
@@ -32,6 +33,13 @@ App.config ['$routeProvider', ($routeProvider) ->
         books: ['$q', 'Book', ($q, Book) ->
           deferred = $q.defer()
           Book.query({skip: 0, limit: 8}, (data) ->
+            deferred.resolve(data)
+          )
+          deferred.promise
+        ]
+        recommends: ['$q', 'Book', ($q, Book) ->
+          deferred = $q.defer()
+          Book.recommend({limit: 8}, (data) ->
             deferred.resolve(data)
           )
           deferred.promise
@@ -169,8 +177,9 @@ SignUpCtrl = App.controller 'SignUpCtrl', ($scope, UserService, $location, Captc
 
 SignUpCtrl.$inject = ['$scope', 'UserService', '$location', 'Captcha']
 
-BooksCtrl = App.controller 'BooksCtrl', ($scope, books, BooksService, Book) ->
+BooksCtrl = App.controller 'BooksCtrl', ($scope, books, BooksService, Book, recommends) ->
   $scope.books = books.results
+  $scope.recommends = recommends
   $scope.week_top = Book.week_top({limit: 5})
   # $scope.paging = books.data.paging
 
@@ -179,7 +188,7 @@ BooksCtrl = App.controller 'BooksCtrl', ($scope, books, BooksService, Book) ->
   #     $scope.books = data.results
   #     $scope.paging = data.paging
 
-BooksCtrl.$inject = ['$scope', 'books', 'BooksService', 'Book']
+BooksCtrl.$inject = ['$scope', 'books', 'BooksService', 'Book', 'recommends']
 
 
 App.controller 'BookEditCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', '$location', ($scope, book, $rootScope, BooksService, UserService, $location) ->

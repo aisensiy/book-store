@@ -20,6 +20,33 @@ class BooksController < ApplicationController
     render status: 200, json: books
   end
 
+  def recommend
+    books = Parse::Query.new('Book').tap do |q|
+      q.greater_than 'priority', 0
+      q.or(Parse::Query.new('Book').tap do |or_query|
+        or_query.eq('objectId', {
+          '$select' => {
+            'query' => {
+              'className' => 'DownloadRecord',
+              'where' => {
+                'range' => '',
+                'range_type' => 'total',
+                'type' => 'book'
+              }
+            },
+            'key' => 'item_id',
+            'order_by' => '-count',
+            'limit' => params[:limit]
+          }
+        })
+      end)
+      q.order_by = '-priority,-count'
+      q.limit = params[:limit]
+    end.get
+
+    render status: 200, json: books
+  end
+
   def own
     resp = Book.get_books(params[:limit], params[:skip], where: {'user_id' => session[:user_id]})
     render status: resp.code, json: resp

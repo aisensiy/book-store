@@ -44,10 +44,10 @@ class Book < BaseClient
     post(url, headers: headers)
   end
 
-  def self.get_download_token(file_key, file_name)
+  def self.get_download_token(file_key, file_name, deadline=1.hour)
     opts = {
       scope: Settings.qiniu_bucket,
-      deadline: Time.now.to_i + 1.hour,
+      deadline: Time.now.to_i + deadline,
       key: file_key
     }
     token = self.generate_download_token(opts, file_name)

@@ -16,6 +16,7 @@ class UsersController < ApplicationController
     resp = User.signin(params[:user])
 
     if resp.code == 200
+      Parse::User.authenticate params[:user][:username], params[:user][:password]
       set_session(resp)
       role = User.get_role(session[:user_id])
       session[:user_role] = if role.nil? then 'Members' else role end

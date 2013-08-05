@@ -1,8 +1,9 @@
 App = angular.module('App')
 
-App.controller 'BookCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', '$sanitize', '$location', 'Upload', ($scope, book, $rootScope, BooksService, UserService, $sanitize, $location, Upload) ->
+controller = App.controller 'BookCtrl', ($scope, book, $rootScope, BooksService, UserService, $sanitize, $location, Upload, Comment) ->
   $scope.book = book
   $scope.book_summary = $sanitize($scope.book.summary)
+  $scope.comments = Comment.query {book_id: book.objectId}
 
   $scope.get_download_url = () ->
     popup_download = (url) ->
@@ -46,5 +47,10 @@ App.controller 'BookCtrl', ['$scope', 'book', '$rootScope', 'BooksService', 'Use
         $scope.fail_msg = 'failed to send book to your device'
     )
 
-  console.log book
-]
+  $scope.create_comment = (new_comment) ->
+    comment = new Comment(new_comment)
+    comment.$save {book_id: $scope.book.objectId}, (data) ->
+      $scope.comments.push data
+      $scope.new_comment = {}
+
+controller.$inject = ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', '$sanitize', '$location', 'Upload', 'Comment']

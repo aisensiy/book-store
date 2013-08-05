@@ -24,6 +24,9 @@ App.factory 'Upload', ($resource) ->
     upload_token: { method: 'GET', params: {verb: 'token'} }
     download_token: { method: 'GET', params: {verb: 'download_token'} }
 
+App.factory 'Comment', ($resource) ->
+  $resource '/api/1/books/:book_id/comments/:id', {}, {}
+
 App.config ['$routeProvider', ($routeProvider) ->
   $routeProvider
     .when '/books',

@@ -36,6 +36,7 @@ BooksLists::Application.routes.draw do
       member do
         post :send_to_device
       end
+      resources :comments, only: [:index, :create, :destroy]
     end
 
     post '/upload' => 'upload#post'

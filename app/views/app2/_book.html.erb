@@ -56,11 +56,11 @@
             <h5 class="media-heading"><a href="#" class="user-mention" target="_blank">{{comment.user.username}}</a></h5>
             <p></p><div>{{comment.content}}</div><p></p>
             <div class="time pull-left">{{comment.createdAt | date:'yy-MM-dd HH:mm:ss'}}</div>
-            <a href="/comments/939" class="del-comment-btn" data-confirm="确定删除么?" data-method="delete" rel="nofollow"><i class="icon-remove"></i></a>
+            <a ng-click="delete_comment(comment)" ng-show="comment.write" href="" class="del-comment-btn" data-confirm="确定删除么?" data-method="delete" rel="nofollow"><i class="icon-remove"></i></a>
           </div>
         </li>
         <li class="media">
-        <form accept-charset="UTF-8" class="new_comment" id="new_comment" ng-submit="create_comment(new_comment)">
+        <form ng-show="user" accept-charset="UTF-8" class="new_comment" id="new_comment" ng-submit="create_comment(new_comment)">
           <div class="media-body">
             <div>
               <textarea class="full-width" cols="40" id="comment_content" name="comment[content]" rows="6" ng-model="new_comment.content"></textarea>

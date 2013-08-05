@@ -43,6 +43,7 @@ gem 'thin'
 gem 'multi_xml'
 gem 'vacuum'
 gem 'parse-ruby-client'
+gem 'strong_parameters'
 
 # Deploy with Capistrano
 # gem 'capistrano'

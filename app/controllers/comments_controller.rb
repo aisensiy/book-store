@@ -1,4 +1,5 @@
 class CommentsController < ApplicationController
+  include AppHelper
   before_filter :signin?, only: [:destory, :create]
 
   def index
@@ -10,13 +11,25 @@ class CommentsController < ApplicationController
     end
     comment_query.include = 'user'
     comments = comment_query.get
+    process_authorities(comments)
     render json: comments
   end
 
   def create
-    @comment = Parse::Object.new('Comment', params[:comment])
+    @comment = Parse::Object.new('Comment', comment_params)
     @comment['book'] = {'__type' => 'Pointer', 'className' => 'Book', 'objectId' => params[:book_id]}
     @comment['user'] = {'__type' => 'Pointer', 'className' => '_User', 'objectId' => session[:user_id]}
+    @comment[:ACL] = {
+      "*" => {
+        "read" => true
+      },
+      "role:Admins" => {
+        "write" => true
+      },
+      session[:user_id] => {
+        "write" => true
+      }
+    }
     @comment.save
 
     render json: @comment, status: 201
@@ -30,5 +43,10 @@ class CommentsController < ApplicationController
       @comment.parse_delete
       render status: 200, json: @comment
     end
+  end
+
+  private
+  def comment_params
+    params.require(:comment).permit(:content)
   end
 end

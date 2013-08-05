@@ -50,6 +50,7 @@ controller = App.controller 'BookCtrl', ($scope, book, $rootScope, BooksService,
   $scope.create_comment = (new_comment) ->
     comment = new Comment(new_comment)
     comment.$save {book_id: $scope.book.objectId}, (data) ->
+      data.user = $rootScope.user
       $scope.comments.push data
       $scope.new_comment = {}
 

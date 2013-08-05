@@ -80,7 +80,7 @@ class BooksController < ApplicationController
   end
 
   def update
-    resp = Book.update_book(params[:id], session[:token], params[:book])
+    resp = Book.update_book(params[:id], session[:token], book_params)
     render status: resp.code, json: resp.body
   end
 
@@ -103,6 +103,12 @@ class BooksController < ApplicationController
   end
 
   private
+
+  def book_params
+    params.require(:book).permit(:author, :cover_url, :is_public, :isbn, :lang,
+                                 :priority, :publisher, :rate, :rating, :summary,
+                                 :tags, :title, :url)
+  end
 
   def range_top(range_type, range, type, limit)
     Parse::Query.new('Book').tap do |book_query|

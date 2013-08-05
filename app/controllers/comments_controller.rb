@@ -19,14 +19,6 @@ class CommentsController < ApplicationController
     @comment['user'] = {'__type' => 'Pointer', 'className' => '_User', 'objectId' => session[:user_id]}
     @comment.save
 
-    book = Parse.get('Book', params[:book_id])
-    book.array_add_relation('comments', @comment.pointer)
-    book.save
-
-    user = Parse.get('_User', session[:user_id])
-    user.array_add_relation 'comments', @comment.pointer
-    user.save
-
     render json: @comment, status: 201
   end
 

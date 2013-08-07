@@ -7,10 +7,8 @@
         <div class="wrapper">
           <div class="cover pull-left">
             <img ng-src="{{book.cover_url}}" alt="" />
-            <br />
-            <br />
-            <a href="#/books/{{book.objectId}}/edit" ng-show="book.write" class="btn">edit book</a>
-            <a href="" ng-show="book.write" class="btn" ng-click="delete_book(book)">delete book</a>
+            <a href="#/books/{{book.objectId}}/edit" ng-show="book.write" class="btn same-width-btn" >edit book</a>
+            <a href="" ng-show="book.write" class="btn same-width-btn" ng-click="delete_book(book)">delete book</a>
             <br />
           </div>
           <div class="info">
@@ -22,7 +20,7 @@
             <p ng-show="book.publisher"><span>出版社：</span>{{book.publisher}}</p>
             <p><span>评分：</span><rating value="book.rate" max="5" readonly="true"></rating></p>
             <p class="tag-wrapper">
-              <span class="tag" ng-repeat="tag in book.tags">{{tag}}</span>
+              <span class="tag" ng-repeat="tag in book.tags" ng-show="tag.length">{{tag}}</span>
             </p>
           </div>
         </div>

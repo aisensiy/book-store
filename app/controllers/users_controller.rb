@@ -3,13 +3,14 @@ class UsersController < ApplicationController
   before_filter :captcha_validate, only: [:signin, :create, :password_reset]
 
   def create
-    params[:user].delete :captcha
-    resp = User.signup(params[:user])
-    if resp.code == 201
-      set_session(resp)
-      session[:username] = params[:user][:username]
+    begin
+      user = Parse::User.new(user_params)
+      user.save
+    rescue Exception => e
+      render status: 403, json: e
+    else
+      render json: user
     end
-    render status: resp.code, json: resp.body
   end
 
   def signin
@@ -58,5 +59,9 @@ class UsersController < ApplicationController
       render status: 403, json: {error: 'invalid captcha'}
       return false
     end
+  end
+
+  def user_params
+    params.require(:user).permit(:username, :password, :email)
   end
 end

@@ -217,6 +217,27 @@ ul.book-list {
   .media a.pull-left {
     margin-right: 30px;
   }
+  .media {
+    position: relative;
+    padding: .5em;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    transition: all .3s;
+    &:hover {
+      background-color: #eaeaea;
+      .del-comment-btn {
+        display: block;
+      }
+    }
+    .del-comment-btn {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      color: black;
+      text-decoration: none;
+      display: none;
+    }
+  }
 }
 
 .submit {

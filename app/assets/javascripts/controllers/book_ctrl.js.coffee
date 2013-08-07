@@ -51,7 +51,14 @@ controller = App.controller 'BookCtrl', ($scope, book, $rootScope, BooksService,
     comment = new Comment(new_comment)
     comment.$save {book_id: $scope.book.objectId}, (data) ->
       data.user = $rootScope.user
+      data.write = true
       $scope.comments.push data
       $scope.new_comment = {}
+
+  $scope.delete_comment = (comment, index) ->
+    c = new Comment(comment)
+    c.$remove {id: c.objectId, book_id: $scope.book.objectId}, (data) ->
+      $scope.comments.splice(index, 1)
+
 
 controller.$inject = ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', '$sanitize', '$location', 'Upload', 'Comment']

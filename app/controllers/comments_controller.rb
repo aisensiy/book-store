@@ -35,10 +35,11 @@ class CommentsController < ApplicationController
     render json: @comment, status: 201
   end
 
-  def destory
-    @commemt = Parse::Query.new('Comment').eq('objectId', params[:id]).eq('user_id', session[:user_id]).get.first
+  def destroy
+    @comment = Parse::Query.new('Comment').eq('objectId', params[:id]).get.first
+    logger.debug @comment.inspect
     if @comment.nil?
-      render status: 404, json: @comment
+      render status: 404, json: {}
     else
       @comment.parse_delete
       render status: 200, json: @comment

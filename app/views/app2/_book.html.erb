@@ -56,7 +56,7 @@
             <h5 class="media-heading"><a href="#" class="user-mention" target="_blank">{{comment.user.username}}</a></h5>
             <p></p><div>{{comment.content}}</div><p></p>
             <div class="time pull-left">{{comment.createdAt | date:'yy-MM-dd HH:mm:ss'}}</div>
-            <a ng-click="delete_comment(comment)" ng-show="comment.write" href="" class="del-comment-btn" data-confirm="确定删除么?" data-method="delete" rel="nofollow"><i class="icon-remove"></i></a>
+            <a ng-click="delete_comment(comment, $index)" ng-show="comment.write" href="" class="del-comment-btn" data-confirm="确定删除么?" data-method="delete" rel="nofollow"><i class="icon-remove"></i></a>
           </div>
         </li>
         <li class="media">

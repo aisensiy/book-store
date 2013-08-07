@@ -1,9 +1,10 @@
 App = angular.module('App')
 
-controller = App.controller 'BookCtrl', ($scope, book, $rootScope, BooksService, UserService, $sanitize, $location, Upload, Comment) ->
+controller = App.controller 'BookCtrl', ($scope, book, $rootScope, BooksService, UserService, $sanitize, $location, Upload, Comment, Book) ->
   $scope.book = book
   $scope.book_summary = $sanitize($scope.book.summary)
   $scope.comments = Comment.query {book_id: book.objectId}
+  $scope.week_top = Book.week_top({limit: 5})
 
   $scope.get_download_url = () ->
     popup_download = (url) ->
@@ -61,4 +62,4 @@ controller = App.controller 'BookCtrl', ($scope, book, $rootScope, BooksService,
       $scope.comments.splice(index, 1)
 
 
-controller.$inject = ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', '$sanitize', '$location', 'Upload', 'Comment']
+controller.$inject = ['$scope', 'book', '$rootScope', 'BooksService', 'UserService', '$sanitize', '$location', 'Upload', 'Comment', 'Book']

@@ -3,7 +3,6 @@ class BooksController < ApplicationController
 
   def index
     resp = Book.get_books(params[:limit], params[:skip], where: {'is_public' => true})
-    logger.debug resp.inspect
     process_authorities(resp.parsed_response['results'])
     render status: resp.code, json: resp
   end
@@ -80,8 +79,17 @@ class BooksController < ApplicationController
   end
 
   def update
-    resp = Book.update_book(params[:id], session[:token], book_params)
-    render status: resp.code, json: resp.body
+    begin
+      book = Parse.get('Book', params[:id])
+      book.send :parse, params[:book]
+      book.save
+      render json: book
+    # resp = Book.update_book(params[:id], session[:token], book_params)
+    # render status: resp.code, json: resp.body
+    rescue Exception => e
+      render 403, json: e
+    end
+
   end
 
   def destroy

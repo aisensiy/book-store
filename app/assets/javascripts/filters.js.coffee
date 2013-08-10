@@ -21,5 +21,11 @@ App.filter('newlines', () ->
     else
       return text + ' B'
 )
+.filter('description', () ->
+  (text) ->
+    ps = text.split(/\n/)
+    outputs = ["<p>#{p}</p>" for p in ps]
+    return outputs.join '\n'
+)
 
 

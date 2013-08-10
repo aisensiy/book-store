@@ -2,7 +2,12 @@ App = angular.module('App')
 
 controller = App.controller 'BookCtrl', ($scope, book, $rootScope, BooksService, UserService, $sanitize, $location, Upload, Comment, Book) ->
   $scope.book = book
-  $scope.book_summary = $sanitize($scope.book.summary)
+  description_process = (text) ->
+    ps = text.split(/\n/)
+    outputs = ("<p>#{p}</p>" for p in ps)
+    return outputs.join(' ')
+
+  $scope.book_summary = $sanitize(description_process($scope.book.summary))
   $scope.comments = Comment.query {book_id: book.objectId}
   $scope.week_top = Book.week_top({limit: 5})
 

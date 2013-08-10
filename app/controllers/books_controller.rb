@@ -81,7 +81,7 @@ class BooksController < ApplicationController
   def update
     begin
       book = Parse.get('Book', params[:id])
-      book.send :parse, params[:book]
+      book.send :parse, book_params
       book.save
       render json: book
     # resp = Book.update_book(params[:id], session[:token], book_params)

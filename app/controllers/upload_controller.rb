@@ -21,6 +21,7 @@ class UploadController < ApplicationController
   def get_download_token
     download_file =
       UploadFile.create_download_file(params[:item_id], 'book', session[:user_id])
+    logger.debug download_file.inspect
     render json: {link: download_file['url']}
   end
 

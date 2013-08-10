@@ -51,7 +51,7 @@ class Book < BaseClient
       key: file_key
     }
     token = self.generate_download_token(opts, file_name)
-    "http://#{opts[:scope]}.qiniudn.com/#{opts[:key]}?download/#{file_name}&e=#{opts[:deadline]}&token=#{token}"
+    "http://#{opts[:scope]}.qiniudn.com/#{opts[:key]}?download/#{URI::encode file_name}&e=#{opts[:deadline]}&token=#{token}"
   end
 
   def self.get_upload_token()
@@ -70,7 +70,7 @@ class Book < BaseClient
   end
 
   def self.generate_download_token(opts={}, file_name)
-    url = "http://#{opts[:scope]}.qiniudn.com/#{opts[:key]}?download/#{file_name}&e=#{opts[:deadline]}"
+    url = "http://#{opts[:scope]}.qiniudn.com/#{opts[:key]}?download/#{URI::encode file_name}&e=#{opts[:deadline]}"
     encode_sign = self.generate_encoded_digest(url)
     %Q(#{Settings.qiniu_appkey}:#{encode_sign})
   end

@@ -33,6 +33,8 @@ class UploadFile < BaseClient
     if download_file.id
       self.create_or_increase_download_record(item_id, type)
     end
+
+    download_file
   end
 
   private

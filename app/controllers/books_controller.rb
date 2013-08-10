@@ -148,6 +148,9 @@ class BooksController < ApplicationController
     return if !session[:user_id]
     cur_user = session[:user_id]
     role = session[:user_role] || "Members"
+    logger.debug '=' * 20
+    logger.debug role
+    logger.debug book['ACL']['write'].inspect
     if book['ACL'][cur_user] && book['ACL'][cur_user]['write'] == true ||
        book['ACL']["role:#{role}"] && book['ACL']["role:#{role}"]["write"] == true
       book['write'] = true

@@ -34,11 +34,11 @@ EasyCaptcha.setup do |config|
   # end
 
   # configure generator
-  # config.generator :default do |generator|
+  config.generator :default do |generator|
 
     # Font
-    # generator.font_size              = 24
-    # generator.font_fill_color        = '#333333'
+    generator.font_size              = 30
+    generator.font_fill_color        = '#000000'
     # generator.font_stroke_color      = '#000000'
     # generator.font_stroke            = 0
     # generator.font_family            = File.expand_path('../../resources/afont.ttf', __FILE__)
@@ -56,11 +56,11 @@ EasyCaptcha.setup do |config|
     # generator.sketch_sigma           = 1
 
     # Implode
-    # generator.implode                = 0.1
+    generator.implode                = 0
 
     # Blur
-    # generator.blur                   = true
+    generator.blur                   = false
     # generator.blur_radius            = 1
     # generator.blur_sigma             = 2
-  # end
+  end
 end

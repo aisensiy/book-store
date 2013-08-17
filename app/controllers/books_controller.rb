@@ -52,11 +52,15 @@ class BooksController < ApplicationController
   end
 
   def create
-    if params[:book][:url] =~ /douban/
-    # get douban data
-      book_data = DoubanBook.get_book get_book_id_from_url(params[:book][:url])
-    else
-      book_data = AmazonBook.get_book params[:book][:url]
+    book_data = {}
+
+    if params[:book][:url]
+      if params[:book][:url] =~ /douban/
+      # get douban data
+        book_data = DoubanBook.get_book get_book_id_from_url(params[:book][:url])
+      else
+        book_data = AmazonBook.get_book params[:book][:url]
+      end
     end
 
     if not book_data
@@ -80,12 +84,13 @@ class BooksController < ApplicationController
 
   def update
     begin
-      book = Parse.get('Book', params[:id])
-      book.send :parse, book_params
-      book.save
-      render json: book
-    # resp = Book.update_book(params[:id], session[:token], book_params)
-    # render status: resp.code, json: resp.body
+      # book = Parse.get('Book', params[:id])
+      logger.debug book_params.inspect
+      # book.send :parse, book_params
+      # book.save
+      # render json: book
+      resp = Book.update_book(params[:id], session[:token], book_params)
+      render status: resp.code, json: resp.body
     rescue Exception => e
       render 403, json: e
     end
@@ -93,9 +98,10 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    resp = Book.delete_book(params[:id], session[:token])
-    delete_file(params[:file_key]) if resp.code == 200
-    render status: resp.code, json: resp
+    book = Parse::Query.new("Book").eq("objectId", params[:id]).get.first
+    book.parse_delete
+    delete_file(params[:file_key])
+    render status: 200, json: {}
   end
 
   def show
@@ -148,9 +154,9 @@ class BooksController < ApplicationController
     return if !session[:user_id]
     cur_user = session[:user_id]
     role = session[:user_role] || "Members"
-    logger.debug '=' * 20
-    logger.debug role
-    logger.debug book['ACL']['write'].inspect
+    # logger.debug '=' * 20
+    # logger.debug role
+    # logger.debug book['ACL']['write'].inspect
     if book['ACL'][cur_user] && book['ACL'][cur_user]['write'] == true ||
        book['ACL']["role:#{role}"] && book['ACL']["role:#{role}"]["write"] == true
       book['write'] = true

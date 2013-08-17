@@ -8,11 +8,12 @@
         <div class="book-meta">
           <div class="wrapper">
             <div class="cover pull-left">
-              <img ng-src="{{book.cover_url}}" alt="" />
+              <img ng-src="{{book.cover_url || '/assets/book-cover2.png'}}" alt="" />
             </div>
             <div class="info">
               <h1><label>标题: </label><input type="text" class="span5" ng-model="book.title" /></h1>
-              <p><label>作者: </label><input type="text" value="aisensiy" class="span5" ng-model="book.author" /></p>
+              <p><label>封面: </label><input type="text" class="span5" ng-model="book.cover_url" /></p>
+              <p><label>作者: </label><input type="text" class="span5" ng-model="book.author" /></p>
               <!--<p><span>副书名: </span><input type="text" value="a hands-on guide to modeling, sculpting, materials, and rendering" class="span5" /></p>-->
               <p><label>ISBN: </label><input type="text" value="1-59327-477-7" class="span5" ng-model="book.isbn" /></p>
               <p><label>出版社: </label><input type="text" value="" class="span5" ng-model="book.publisher" /></p>

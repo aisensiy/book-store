@@ -3,6 +3,7 @@ App = angular.module('App')
 controller = App.controller 'BookCtrl', ($scope, book, $rootScope, BooksService, UserService, $sanitize, $location, Upload, Comment, Book) ->
   $scope.book = book
   description_process = (text) ->
+    return '' if not text
     ps = text.split(/\n/)
     outputs = ("<p>#{p}</p>" for p in ps)
     return outputs.join(' ')

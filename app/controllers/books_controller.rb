@@ -117,7 +117,6 @@ class BooksController < ApplicationController
   end
 
   private
-
   def book_params
     params.require(:book).permit(:author, :cover_url, :is_public, :isbn, :lang,
                                  :priority, :publisher, :rate, :rating, :summary,

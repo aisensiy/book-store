@@ -19,34 +19,24 @@ end
 
 gem "twitter-bootstrap-rails"
 gem 'jquery-rails'
+
 gem 'httparty'
+gem 'parse-ruby-client'
+gem 'qiniu-rs'
+
 gem 'rails_config'
 gem 'easy_captcha'
-gem 'qiniu-rs'
+gem 'strong_parameters'
+
 group :development, :test do
   gem "jasminerice"
   gem "quiet_assets"
 end
 
 gem 'nokogiri'
+gem 'vacuum'
+gem 'rmagick', require: 'RMagick'
+gem 'multi_xml'
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the app server
-# gem 'unicorn'
 
 gem 'thin'
-gem 'multi_xml'
-gem 'vacuum'
-gem 'parse-ruby-client'
-gem 'strong_parameters'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'debugger'

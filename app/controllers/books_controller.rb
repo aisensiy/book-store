@@ -105,8 +105,8 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    book = Parse::Query.new("Book").eq("objectId", params[:id]).get.first
-    book.parse_delete
+    # book = Parse::Query.new("Book").eq("objectId", params[:id]).get.first
+    Book.delete_book(params[:id], session[:token])
     delete_file(params[:file_key])
     render status: 200, json: {}
   end

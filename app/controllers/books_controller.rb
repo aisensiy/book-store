@@ -7,6 +7,13 @@ class BooksController < ApplicationController
     render status: resp.code, json: resp
   end
 
+  def search
+    where = {'$or' => [{'title' => {'$regex' => params[:q]}}]}
+    resp = Book.get_books(params[:limit], params[:skip], where: where)
+    process_authorities(resp.parsed_response['results'])
+    render status: resp.code, json: resp
+  end
+
   def month_top
     cur_month = Time.now.strftime('%Y %M')
     books = range_top('month', cur_month, 'book', params[:limit] || 10)

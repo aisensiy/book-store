@@ -1,6 +1,6 @@
 <div class="row books">
   <div class="span12">
-    <h2 class="category">Popular</h2>
+    <h2 class="category">{{header}}</h2>
     <ul class="media-list book-list clearfix">
       <li class="media" ng-repeat="book in books">
         <a href="#/books/{{book.objectId}}"><img ng-src="{{book.cover_url}}" alt="" class="cover" /></a>

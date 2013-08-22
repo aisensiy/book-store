@@ -18,6 +18,7 @@ App.factory 'Book', ($resource) ->
     week_top: { method: 'GET', params: {verb: 'week_top'}, isArray: true }
     month_top: { method: 'GET', params: {verb: 'month_top'}, isArray: true }
     recommend: { method: 'GET', params: {verb: 'recommend'}, isArray: true }
+    search: { method: 'GET', params: {verb: 'search'}, isArray: false }
 
 App.factory 'Upload', ($resource) ->
   $resource '/api/1/upload/:verb', {},
@@ -50,6 +51,9 @@ App.config ['$routeProvider', ($routeProvider) ->
     .when '/books/popular',
       template: $('#books_list_html').html(),
       controller: 'BooksListCtrl'
+    .when '/books/search/:q',
+      template: $('#books_list_html').html(),
+      controller: 'BooksSearchListCtrl'
     .when '/books/:id',
       template: $('#book_html').html(),
       controller: 'BookCtrl',
@@ -120,11 +124,14 @@ App.run ['$rootScope', 'UserService', '$location', ($rootScope, UserService, $lo
   $scope.signout = () ->
     UserService.signout()
 
-App.controller 'NaviBarCtrl', ['$scope', 'UserService', '$rootScope', 'Captcha', 'Panel', ($scope, UserService, $rootScope, Captcha, Panel) ->
+App.controller 'NaviBarCtrl', ['$scope', 'UserService', '$rootScope', 'Captcha', 'Panel', '$location', ($scope, UserService, $rootScope, Captcha, Panel, $location) ->
   $scope.Panel = Panel
   user_control($scope, $rootScope, UserService)
   open_modal = () ->
     $scope.shouldBeOpen = true
+
+  $scope.submit_form = () ->
+    $location.path("/books/search/#{$scope.q}")
 
   $scope.close_modal = () ->
     $scope.shouldBeOpen = false

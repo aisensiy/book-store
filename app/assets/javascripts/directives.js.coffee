@@ -1,12 +1,15 @@
 App = angular.module('App.directives', [])
 
+
 App.directive('validFile', () ->
   return {
     require: 'ngModel',
     link: (scope, el, attrs, ngModel) ->
-      el.bind 'change', () ->
+      el.bind 'change', (evt) ->
         scope.$apply () ->
           ngModel.$setViewValue(el.val())
+          if el[0].files.length
+            scope.book.content_type = el[0].files[0].type
           return
 
       return

@@ -26,6 +26,8 @@ BooksLists::Application.routes.draw do
       end
     end
 
+    resource :images, defaults: { format: 'json' }, only: [:index, :create, :update, :show, :destroy]
+
     resources :books, defaults: { format: 'json' }, only: [:create, :index, :update, :destroy, :show] do
       collection do
         get :own

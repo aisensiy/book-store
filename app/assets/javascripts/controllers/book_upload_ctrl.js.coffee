@@ -1,6 +1,6 @@
 App = angular.module('App')
 
-BookUploadCtrl = App.controller 'BookUploadCtrl', ($scope, $location, token, BooksService, $filter, books) ->
+BookUploadCtrl = App.controller 'BookUploadCtrl', ($scope, $location, token, BooksService, $filter, books, Image) ->
   $scope.books = books
   # $scope.paging = books.data.paging
 
@@ -34,16 +34,21 @@ BookUploadCtrl = App.controller 'BookUploadCtrl', ($scope, $location, token, Boo
     $scope.book.size = data.size
     $scope.book.file_name = data.file_name
 
-    BooksService.create_book($scope.book,
-      (data) ->
-        console.log data.objectId
-        $location.path("/books/#{data.objectId}/edit")
-        $scope.is_loading = false
-      ,
-      (data) ->
-        $scope.fail_msg = data.error
-        $scope.is_loading = false
-    )
+    if /^image/.test(data.content_type)
+      image = new Image($scope.book)
+      image.$save (data) ->
+        $location.path("/images/#{data.objectId}")
+    else
+      BooksService.create_book($scope.book,
+        (data) ->
+          console.log data.objectId
+          $location.path("/books/#{data.objectId}/edit")
+          $scope.is_loading = false
+        ,
+        (data) ->
+          $scope.fail_msg = data.error
+          $scope.is_loading = false
+      )
 
   upload_failed = (evt) ->
     console.log 'failed upload'
@@ -69,7 +74,7 @@ BookUploadCtrl = App.controller 'BookUploadCtrl', ($scope, $location, token, Boo
     xhr.open('POST', 'http://up.qiniu.com/')
     xhr.send(fd)
 
-BookUploadCtrl.$inject = ['$scope', '$location', 'token', 'BooksService', '$filter', 'books']
+BookUploadCtrl.$inject = ['$scope', '$location', 'token', 'BooksService', '$filter', 'books', 'Image']
 
 UploadCtrl = App.controller 'UploadCtrl', ($scope) ->
 

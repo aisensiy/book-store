@@ -1,0 +1,64 @@
+class Image < BaseClient
+  extend UploadHelper
+
+  def self.create_book(user_id, options)
+    options[:ACL] = {
+      "*" => {
+        "read" => true
+      },
+      "role:Admins" => {
+        "write" => true
+      },
+      user_id => {
+        "write" => true
+      }
+    }
+    post('/1/classes/Image', body: JSON.dump(options))
+  end
+
+  def self.update_book(book_id, token, options)
+    headers = self.headers.merge({'X-Parse-Session-Token' => token})
+    put("/1/classes/Image/#{book_id}", body: JSON.dump(options), headers: headers)
+  end
+
+  def self.get_book(id)
+    get("/1/classes/Image/#{id}")
+  end
+
+  def self.get_books(limit=40, skip=0, where={})
+    query = {count: 1, limit: limit, skip: skip, order: '-createdAt'}
+    query[:where] = where[:where].to_json if where[:where]
+    get("/1/classes/Image", query: query)
+  end
+
+  def self.delete_book(id, token)
+    headers = self.headers.merge({'X-Parse-Session-Token' => token})
+    delete("/1/classes/Image/#{id}", headers: headers)
+  end
+
+  def self.delete_file(file_key)
+    token = self.urlsafe_base64_encode "#{Settings.qiniu_bucket}:#{file_key}"
+    url = "http://rs.qbox.me/delete/#{token}"
+    access_token = self.generate_access_token(Settings.qiniu_appkey, Settings.qiniu_appsecret, url, nil)
+    headers = {"Authorization" => "QBox #{access_token}"}
+    post(url, headers: headers)
+  end
+
+  def self.get_download_token(file_key, file_name, deadline=1.hour)
+    opts = {
+      scope: Settings.qiniu_bucket,
+      deadline: Time.now.to_i + deadline,
+      key: file_key
+    }
+    token = self.generate_download_token(opts, file_name)
+    "http://#{opts[:scope]}.qiniudn.com/#{opts[:key]}?download/#{URI::encode file_name}&e=#{opts[:deadline]}&token=#{token}"
+  end
+
+  def self.get_upload_token()
+    self.generate_upload_token(
+      scope: Settings.qiniu_bucket,
+      deadline: Time.now.to_i + 1.hour,
+      returnBody: '{"file_name": $(fname), "is_public": $(x:is_public), "content_type": $(mimeType), "file_key": $(etag), "url": $(x:url), "lang": $(x:lang), "size": $(fsize)}'
+    )
+  end
+end

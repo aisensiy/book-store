@@ -10,6 +10,10 @@
 
 @App = angular.module('App', ['Services', 'ngUpload', 'App.directives', 'App.filters', 'ui.bootstrap', 'ngSanitize', 'ngResource'])
 
+App.factory 'Image', ($resource) ->
+  $resource '/api/1/images/:id/:verb', {'id': '@objectId'},
+    query: { method: 'GET', params: {}, isArray: false }
+
 App.factory 'Book', ($resource) ->
   $resource '/api/1/books/:id/:verb', {'id': '@objectId'},
     own: { method: 'GET', params: {verb: 'own'}, isArray: false },

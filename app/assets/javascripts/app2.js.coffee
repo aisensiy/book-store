@@ -48,7 +48,7 @@ App.config ['$routeProvider', ($routeProvider) ->
           )
           deferred.promise
         ]
-    .when '/books/popular',
+    .when '/books/newest',
       template: $('#books_list_html').html(),
       controller: 'BooksListCtrl'
     .when '/books/search/:q',

@@ -3,7 +3,7 @@ class Klass < BaseClient
     @klass = klass
   end
 
-  def create
+  def create(user_id, options={})
     options[:ACL] = {
       "*" => {
         "read" => true
@@ -62,6 +62,26 @@ class Klass < BaseClient
       deadline: Time.now.to_i + 1.hour,
       returnBody: '{"file_name": $(fname), "is_public": $(x:is_public), "content_type": $(mimeType), "file_key": $(etag), "url": $(x:url), "lang": $(x:lang), "size": $(fsize)}'
     )
+  end
+
+  def range_top(range_type, range, type, limit)
+    Parse::Query.new(@klass).tap do |klass_query|
+      klass_query.eq('objectId', {
+        '$select' => {
+          'query' => {
+            'className' => 'DownloadRecord',
+            'where' => {
+              'range' => range,
+              'range_type' => range_type,
+              'type' => @klass.underscore
+            }
+          },
+          'key' => 'item_id',
+          'order_by' => '-count',
+          'limit' => limit
+        }
+      })
+    end.get
   end
 
   private

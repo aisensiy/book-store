@@ -1,28 +1,32 @@
 class BooksController < ApplicationController
   before_filter :signin?, only: [:send_to_device, :create, :update, :get_own_books, :destroy]
 
+  before_filter do
+    @BookClient = Klass.new('Book')
+  end
+
   def index
-    resp = Book.get_books(params[:limit], params[:skip], where: {'is_public' => true})
+    resp = @BookClient.query(params[:limit], params[:skip], where: {'is_public' => true})
     process_authorities(resp.parsed_response['results'])
     render status: resp.code, json: resp
   end
 
   def search
     where = {'$or' => [{'title' => {'$regex' => params[:q]}}]}
-    resp = Book.get_books(params[:limit], params[:skip], where: where)
+    resp = @BookClient.query(params[:limit], params[:skip], where: where)
     process_authorities(resp.parsed_response['results'])
     render status: resp.code, json: resp
   end
 
   def month_top
     cur_month = Time.now.strftime('%Y %M')
-    books = range_top('month', cur_month, 'book', params[:limit] || 10)
+    books = @BookClient.range_top('month', cur_month, params[:limit] || 10)
     render status: 200, json: books
   end
 
   def week_top
     cur_week = Time.now.strftime('%Y %W')
-    books = range_top('week', cur_week, 'book', params[:limit] || 10)
+    books = @BookClient.range_top('week', cur_week, params[:limit] || 10)
     render status: 200, json: books
   end
 
@@ -54,7 +58,7 @@ class BooksController < ApplicationController
   end
 
   def own
-    resp = Book.get_books(params[:limit], params[:skip], where: {'user_id' => session[:user_id]})
+    resp = @BookClient.query(params[:limit], params[:skip], where: {'user_id' => session[:user_id]})
     render status: resp.code, json: resp
   end
 
@@ -79,7 +83,7 @@ class BooksController < ApplicationController
     book_data[:user_id] = session[:user_id]
 
     # create book
-    resp = Book.create_book(session[:user_id], book_data)
+    resp = @BookClient.create(session[:user_id], book_data)
 
     if resp.code == 201
       book_data[:objectId] = resp['objectId']
@@ -91,12 +95,7 @@ class BooksController < ApplicationController
 
   def update
     begin
-      # book = Parse.get('Book', params[:id])
-      logger.debug book_params.inspect
-      # book.send :parse, book_params
-      # book.save
-      # render json: book
-      resp = Book.update_book(params[:id], session[:token], book_params)
+      resp = @BookClient.update(params[:id], session[:token], book_params)
       render status: resp.code, json: resp.body
     rescue Exception => e
       render 403, json: e
@@ -105,14 +104,13 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    # book = Parse::Query.new("Book").eq("objectId", params[:id]).get.first
-    Book.delete_book(params[:id], session[:token])
-    delete_file(params[:file_key])
+    @BookClient.destroy(params[:id], session[:token])
+    @BookClient.delete_file(file_key)
     render status: 200, json: {}
   end
 
   def show
-    resp = Book.get_book(params[:id])
+    resp = @BookClient.get(params[:id])
     write_authority(resp.parsed_response)
     render status: resp.code, json: resp
   end
@@ -125,29 +123,7 @@ class BooksController < ApplicationController
 
   private
   def book_params
-    params.require(:book).permit(:author, :cover_url, :is_public, :isbn, :lang,
-                                 :priority, :publisher, :rate, :rating, :summary,
-                                 :tags, :title, :url)
-  end
-
-  def range_top(range_type, range, type, limit)
-    Parse::Query.new('Book').tap do |book_query|
-      book_query.eq('objectId', {
-        '$select' => {
-          'query' => {
-            'className' => 'DownloadRecord',
-            'where' => {
-              'range' => range,
-              'range_type' => range_type,
-              'type' => type
-            }
-          },
-          'key' => 'item_id',
-          'order_by' => '-count',
-          'limit' => limit
-        }
-      })
-    end.get
+    params.require(:book).permit(:cover_url, :is_public, :isbn, :lang, :priority, :publisher, :rate, :rating, :summary, :title, :url, :tags => [], :author => [])
   end
 
   def get_book_id_from_url(url)
@@ -160,9 +136,6 @@ class BooksController < ApplicationController
     return if !session[:user_id]
     cur_user = session[:user_id]
     role = session[:user_role] || "Members"
-    # logger.debug '=' * 20
-    # logger.debug role
-    # logger.debug book['ACL']['write'].inspect
     if book['ACL'][cur_user] && book['ACL'][cur_user]['write'] == true ||
        book['ACL']["role:#{role}"] && book['ACL']["role:#{role}"]["write"] == true
       book['write'] = true
@@ -176,9 +149,4 @@ class BooksController < ApplicationController
     end
     books
   end
-
-  def delete_file(file_key)
-    Book.delete_file(file_key)
-  end
-
 end

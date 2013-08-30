@@ -5,5 +5,4 @@ class BaseClient
           "Content-Type" => "application/json"
   format :json
   base_uri 'https://api.parse.com'
-  debug_output
 end

@@ -1,16 +1,20 @@
 class ImagesController < ApplicationController
   respond_to :json
 
-  def index
-    @images = Parse::Query.new('Image').tap do |q|
-      q.limit = params[:limit]
-      q.skip  = params[:skip]
-    end.get
+  before_filter do
+    @ImageClient = Klas.new('Image')
+  end
 
-    respond_with @images
+  def index
+    resp = @ImageClient.query(params[:limit], params[:skip], where: {'is_public' => true})
+    process_authorities(resp.parsed_response['results'])
+    render status: resp.code, json: resp
   end
 
   def show
+    resp = @ImageClient.get(params[:id])
+    write_authority(resp.parsed_response)
+    render status: resp.code, json: resp
   end
 
   def create
@@ -21,9 +25,18 @@ class ImagesController < ApplicationController
   end
 
   def update
+    begin
+      resp = @ImageClient.update(params[:id], session[:token], image_params)
+      render status: resp.code, json: resp.body
+    rescue Exception => e
+      render 403, json: e
+    end
   end
 
   def destroy
+    @ImageClient.destroy(params[:id], session[:token])
+    @ImageClient.delete_file(file_key)
+    render status: 200, json: {}
   end
 
   private

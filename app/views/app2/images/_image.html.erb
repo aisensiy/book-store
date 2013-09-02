@@ -1,0 +1,32 @@
+<div class="row col-wrap">
+  <div class="span9 col">
+    <div class="picture-container clearfix">
+      <div class="alert alert-error" ng-show="fail_msg">{{fail_msg}}</div>
+      <div class="alert alert-success" ng-show="succ_msg">{{succ_msg}}</div>
+      <div class="book-meta">
+        <div class="wrapper">
+          <div class="picture-cover pull-left">
+            <img ng-src="http://bookstore.qiniudn.com/{{image.file_key}}?imageView/2/w/200" alt="" />
+          </div>
+          <div class="info">
+            <h1>{{image.title}}</h1>
+            <p><span>文件格式：</span>{{image.content_type.split('/')[1]}}</p>
+            <p><span>文件大小：</span>{{image.size|filesize }}</p>
+            <p><span>评分：</span><rating value="book.rate" max="5" readonly="true"></rating></p>
+            <p class="tag-wrapper">
+              <span class="tag" ng-repeat="tag in book.tags" ng-show="tag.length">{{tag}}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="span3 col wrapper">
+    <div class="device-container" >
+      <h1>Send to Devices</h1>
+      <button class="btn" ng-show="user" ng-click="send_to_device(book)">Send to Boox</button>
+      <a href="" ng-click="get_download_url()" target="_blank" class="btn btn-primary" ng-show="user">Download</a>
+      <p ng-hide="user">Login and then you can download the book.</p>
+    </div>
+  </div>
+</div>

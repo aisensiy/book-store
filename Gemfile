@@ -31,6 +31,7 @@ gem 'strong_parameters'
 group :development, :test do
   gem "jasminerice"
   gem "quiet_assets"
+  gem 'debugger'
 end
 
 gem 'nokogiri'
@@ -38,5 +39,3 @@ gem 'vacuum'
 gem 'rmagick', require: 'RMagick'
 gem 'multi_xml'
 
-
-gem 'thin'

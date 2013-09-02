@@ -12,7 +12,13 @@
 
 App.factory 'Image', ($resource) ->
   $resource '/api/1/images/:id/:verb', {'id': '@objectId'},
+    own: { method: 'GET', params: {verb: 'own'}, isArray: false },
+    send_to_device: { method: 'POST', params: {verb: 'send_to_device'}}
     query: { method: 'GET', params: {}, isArray: false }
+    week_top: { method: 'GET', params: {verb: 'week_top'}, isArray: true }
+    month_top: { method: 'GET', params: {verb: 'month_top'}, isArray: true }
+    recommend: { method: 'GET', params: {verb: 'recommend'}, isArray: true }
+    search: { method: 'GET', params: {verb: 'search'}, isArray: false }
 
 App.factory 'Book', ($resource) ->
   $resource '/api/1/books/:id/:verb', {'id': '@objectId'},
@@ -52,6 +58,24 @@ App.config ['$routeProvider', ($routeProvider) ->
           )
           deferred.promise
         ]
+    .when '/images',
+      template: $('#images_html').html(),
+      controller: 'ImagesCtrl',
+      resolve:
+        images: ['$q', 'Image', ($q, Image) ->
+          deferred = $q.defer()
+          Image.query({skip: 0, limit: 8}, (data) ->
+            deferred.resolve(data)
+          )
+          deferred.promise
+        ]
+        recommends: ['$q', 'Image', ($q, Image) ->
+          deferred = $q.defer()
+          Image.recommend({limit: 8}, (data) ->
+            deferred.resolve(data)
+          )
+          deferred.promise
+        ]
     .when '/books/newest',
       template: $('#books_list_html').html(),
       controller: 'BooksListCtrl'
@@ -65,6 +89,17 @@ App.config ['$routeProvider', ($routeProvider) ->
         book: ['Book', '$route', '$q', (Book, $route, $q) ->
           deferred = $q.defer()
           Book.get({id: $route.current.params.id}, (data) ->
+            deferred.resolve(data)
+          )
+          deferred.promise
+        ]
+    .when '/images/:id',
+      template: $('#image_html').html(),
+      controller: 'ImageCtrl',
+      resolve:
+        image: ['Image', '$route', '$q', (Image, $route, $q) ->
+          deferred = $q.defer()
+          Image.get({id: $route.current.params.id}, (data) ->
             deferred.resolve(data)
           )
           deferred.promise
@@ -106,7 +141,6 @@ App.config ['$routeProvider', ($routeProvider) ->
         ]
       require_auth: true
       require_write: true
-    .otherwise({redirectTo: '/books'})
 ]
 
 App.run ['$rootScope', 'UserService', '$location', ($rootScope, UserService, $location) ->

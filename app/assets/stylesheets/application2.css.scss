@@ -211,6 +211,13 @@ ul.book-list {
   }
 }
 
+.picture-container {
+  @include container;
+  .info {
+    margin-left: 220px;
+  }
+}
+
 .full-width {
   width: 97.5%;
 }
@@ -264,6 +271,10 @@ ul.book-list {
 .cover {
   width: 101px;
   height: 147px;
+}
+
+.picture-cover {
+  width: 200px;
 }
 
 #loading {

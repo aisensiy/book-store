@@ -22,7 +22,7 @@ controller = App.controller 'BookCtrl', ($scope, book, $rootScope, BooksService,
     if $scope.download_link
       popup_download($scope.download_link)
     else
-      Upload.download_token {item_id: $scope.book.objectId, object_type: 'book'}, (data) ->
+      Upload.download_token {item_id: $scope.book.objectId}, (data) ->
         $scope.download_link = data.link
         popup_download($scope.download_link)
 

@@ -1,4 +1,5 @@
 class BooksController < ApplicationController
+  include AppHelper
   before_filter :signin?, only: [:send_to_device, :create, :update, :get_own_books, :destroy]
 
   before_filter do
@@ -132,21 +133,4 @@ class BooksController < ApplicationController
     mat[1]
   end
 
-  def write_authority(book)
-    return if !session[:user_id]
-    cur_user = session[:user_id]
-    role = session[:user_role] || "Members"
-    if book['ACL'][cur_user] && book['ACL'][cur_user]['write'] == true ||
-       book['ACL']["role:#{role}"] && book['ACL']["role:#{role}"]["write"] == true
-      book['write'] = true
-    end
-    book
-  end
-
-  def process_authorities(books)
-    books.each do |book|
-      write_authority(book)
-    end
-    books
-  end
 end

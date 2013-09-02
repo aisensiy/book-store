@@ -1,4 +1,6 @@
 class Klass < BaseClient
+  include UploadHelper
+
   def initialize(klass)
     @klass = klass
   end
@@ -15,7 +17,7 @@ class Klass < BaseClient
         "write" => true
       }
     }
-    self.class.post('/1/classes/#{@klass}', body: JSON.dump(options))
+    self.class.post("/1/classes/#{@klass}", body: JSON.dump(options))
   end
 
   def update(id, token, options)
@@ -64,7 +66,7 @@ class Klass < BaseClient
     )
   end
 
-  def range_top(range_type, range, type, limit)
+  def range_top(range_type, range, limit)
     Parse::Query.new(@klass).tap do |klass_query|
       klass_query.eq('objectId', {
         '$select' => {
@@ -84,7 +86,6 @@ class Klass < BaseClient
     end.get
   end
 
-  private
   def generate_upload_token(opts={})
     signature = urlsafe_base64_encode(opts.to_json)
     encoded_digest = self.generate_encoded_digest(signature)

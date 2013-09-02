@@ -26,7 +26,15 @@ BooksLists::Application.routes.draw do
       end
     end
 
-    resource :images, defaults: { format: 'json' }, only: [:index, :create, :update, :show, :destroy]
+    resources :images, defaults: { format: 'json' }, only: [:index, :create, :update, :show, :destroy] do
+      collection do
+        get :own
+        get :week_top
+        get :month_top
+        get :recommend
+        get :search
+      end
+    end
 
     resources :books, defaults: { format: 'json' }, only: [:create, :index, :update, :destroy, :show] do
       collection do

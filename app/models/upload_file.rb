@@ -20,8 +20,9 @@ class UploadFile < BaseClient
   end
 
   def self.create_download_file(item_id, type, user_id, deadline=1.hour)
-    obj = Parse.get type.classify, item_id
-    url = type.classify.constantize.get_download_token obj['file_key'], obj['file_name'], deadline
+    client = Klass.new(type.classify)
+    obj = client.get item_id
+    url = client.get_download_token obj['file_key'], obj['file_name'], deadline
 
     download_file = Parse::Object.new('DownloadFile')
     download_file['type'] = type

@@ -82,8 +82,14 @@ class ImagesController < ApplicationController
 
   def destroy
     @ImageClient.destroy(params[:id], session[:token])
-    @ImageClient.delete_file(file_key)
+    @ImageClient.delete_file(params[:file_key])
     render status: 200, json: {}
+  end
+
+  def send_to_device
+    user = User.get_user(session[:user_id]).parsed_response
+    resp = Push.send_url_to_user_device(user, 'image', params[:id])
+    render status: resp.code, json: resp
   end
 
   private

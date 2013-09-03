@@ -106,7 +106,7 @@ class BooksController < ApplicationController
 
   def destroy
     @BookClient.destroy(params[:id], session[:token])
-    @BookClient.delete_file(file_key)
+    @BookClient.delete_file(params[:file_key])
     render status: 200, json: {}
   end
 

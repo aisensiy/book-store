@@ -7,6 +7,9 @@
         <div class="wrapper">
           <div class="picture-cover pull-left">
             <img ng-src="http://bookstore.qiniudn.com/{{image.file_key}}?imageView/2/w/200" alt="" />
+            <a href="#/images/{{image.objectId}}/edit" ng-show="image.write" class="btn same-width-btn" >edit image</a>
+            <a href="" ng-show="image.write" class="btn same-width-btn" ng-click="delete_image(image)">delete image</a>
+            <br />
           </div>
           <div class="info">
             <h1>{{image.title}}</h1>
@@ -14,7 +17,7 @@
             <p><span>文件大小：</span>{{image.size|filesize }}</p>
             <p><span>评分：</span><rating value="image.rate" max="5" readonly="true"></rating></p>
             <p class="tag-wrapper">
-              <span class="tag" ng-repeat="tag in book.tags" ng-show="tag.length">{{tag}}</span>
+              <span class="tag" ng-repeat="tag in image.tags" ng-show="tag.length">{{tag}}</span>
             </p>
           </div>
         </div>
@@ -24,9 +27,9 @@
   <div class="span3 col wrapper">
     <div class="device-container" >
       <h1>Send to Devices</h1>
-      <button class="btn" ng-show="user" ng-click="send_to_device(book)">Send to Boox</button>
+      <button class="btn" ng-show="user" ng-click="send_to_device(image)">Send to Boox</button>
       <a href="" ng-click="get_download_url()" target="_blank" class="btn btn-primary" ng-show="user">Download</a>
-      <p ng-hide="user">Login and then you can download the book.</p>
+      <p ng-hide="user">Login and then you can download the image.</p>
     </div>
   </div>
 </div>

@@ -5,7 +5,9 @@
       <li class="media" ng-repeat="image in recommends">
       <a href="#/images/{{image.objectId}}"><img ng-src="{{image.file_key | thumb}}" alt="" class="picture-cover" /></a>
         <span class="title">{{image.title}}</span>
-        <rating value="image.rate || 0" max="5" readonly="true"></rating>
+        <div class="{{!image.rate && 'invisible' || 'visible'}}">
+          <rating value="image.rate || 0" max="5" readonly="true"></rating>
+        </div>
       </li>
     </ul>
     <div class="clearfix"></div>
@@ -14,7 +16,9 @@
       <li class="media" ng-repeat="image in images">
       <a href="#/images/{{image.objectId}}"><img ng-src="{{image.file_key | thumb}}" alt="" class="picture-cover" /></a>
         <span class="title">{{image.title}}</span>
-        <rating value="image.rate || 0" max="5" readonly="true" ng-class="{invisible: (image.rate === 0)}"></rating>
+        <div class="{{!image.rate && 'invisible' || 'visible'}}">
+          <rating value="image.rate || 0" max="5" readonly="true"></rating>
+        </div>
       </li>
     </ul>
     <div class="clearfix"></div>
@@ -23,7 +27,9 @@
       <li class="media" ng-repeat="image in month_top">
         <a href="#/images/{{image.objectId}}"><img ng-src="{{image.file_key | thumb}}" alt="" class="picture-cover" /></a>
         <span class="title">{{image.title}}</span>
-        <rating value="image.rate || 0" max="5" readonly="true"></rating>
+        <div class="{{!image.rate && 'invisible' || 'visible'}}">
+          <rating value="image.rate || 0" max="5" readonly="true"></rating>
+        </div>
       </li>
     </ul>
     </div>
@@ -33,7 +39,9 @@
           <li class="media" ng-repeat="image in week_top">
             <a href="#/images/{{image.objectId}}"><img ng-src="{{image.file_key | thumb}}" alt="" class="picture-cover" /></a>
             <span class="title">{{image.title}}</span>
-            <rating value="image.rate || 0" max="5" readonly="true"></rating>
+            <div class="{{!image.rate && 'invisible' || 'visible'}}">
+              <rating value="image.rate || 0" max="5" readonly="true"></rating>
+            </div>
           </li>
       </ul>
     </div>

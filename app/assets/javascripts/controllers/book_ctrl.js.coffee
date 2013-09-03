@@ -9,7 +9,7 @@ controller = App.controller 'BookCtrl', ($scope, book, $rootScope, BooksService,
     return outputs.join(' ')
 
   $scope.book_summary = $sanitize(description_process($scope.book.summary))
-  $scope.comments = Comment.query {book_id: book.objectId}
+  $scope.comments = Comment.query {mode: 'books', model_id: book.objectId}
   $scope.week_top = Book.week_top({limit: 5})
 
   $scope.get_download_url = () ->
@@ -56,7 +56,7 @@ controller = App.controller 'BookCtrl', ($scope, book, $rootScope, BooksService,
 
   $scope.create_comment = (new_comment) ->
     comment = new Comment(new_comment)
-    comment.$save {book_id: $scope.book.objectId}, (data) ->
+    comment.$save {model: 'books', model_id: $scope.book.objectId}, (data) ->
       data.user = $rootScope.user
       data.write = true
       $scope.comments.push data
@@ -64,7 +64,7 @@ controller = App.controller 'BookCtrl', ($scope, book, $rootScope, BooksService,
 
   $scope.delete_comment = (comment, index) ->
     c = new Comment(comment)
-    c.$remove {id: c.objectId, book_id: $scope.book.objectId}, (data) ->
+    c.$remove {model: 'books', id: c.objectId, model_id: $scope.book.objectId}, (data) ->
       $scope.comments.splice(index, 1)
 
 

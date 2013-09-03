@@ -75,12 +75,8 @@ class ImagesController < ApplicationController
   end
 
   def update
-    begin
-      resp = @ImageClient.update(params[:id], session[:token], image_params)
-      render status: resp.code, json: resp.body
-    rescue Exception => e
-      render 403, json: e
-    end
+    resp = @ImageClient.update(params[:id], session[:token], image_params)
+    render status: resp.code, json: resp.body
   end
 
   def destroy
@@ -91,6 +87,6 @@ class ImagesController < ApplicationController
 
   private
   def image_params
-
+    params.require(:image).permit(:is_public, :priority, :rate, :rating, :title, :tags => [])
   end
 end

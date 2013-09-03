@@ -34,6 +34,9 @@ BooksLists::Application.routes.draw do
         get :recommend
         get :search
       end
+      member do
+        post :send_to_device
+      end
     end
 
     resources :books, defaults: { format: 'json' }, only: [:create, :index, :update, :destroy, :show] do
@@ -47,8 +50,11 @@ BooksLists::Application.routes.draw do
       member do
         post :send_to_device
       end
-      resources :comments, only: [:index, :create, :destroy]
     end
+
+    get '/:model/:model_id/comments' => 'comments#index'
+    post '/:model/:model_id/comments' => 'comments#craete'
+    delete '/:model/:model_id/comments/:id' => 'comments#destroy'
 
     post '/upload' => 'upload#post'
     get  '/upload/token' => 'upload#get_token'

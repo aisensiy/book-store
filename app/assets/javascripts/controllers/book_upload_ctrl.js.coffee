@@ -37,7 +37,7 @@ BookUploadCtrl = App.controller 'BookUploadCtrl', ($scope, $location, token, Boo
     if /^image/.test(data.content_type)
       image = new Image($scope.book)
       image.$save (data) ->
-        $location.path("/images/#{data.objectId}")
+        $location.path("/images/#{data.objectId}/edit")
     else
       BooksService.create_book($scope.book,
         (data) ->

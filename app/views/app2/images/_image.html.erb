@@ -12,7 +12,7 @@
             <h1>{{image.title}}</h1>
             <p><span>文件格式：</span>{{image.content_type.split('/')[1]}}</p>
             <p><span>文件大小：</span>{{image.size|filesize }}</p>
-            <p><span>评分：</span><rating value="book.rate" max="5" readonly="true"></rating></p>
+            <p><span>评分：</span><rating value="image.rate" max="5" readonly="true"></rating></p>
             <p class="tag-wrapper">
               <span class="tag" ng-repeat="tag in book.tags" ng-show="tag.length">{{tag}}</span>
             </p>
@@ -30,3 +30,30 @@
     </div>
   </div>
 </div>
+<div class="row col-wrap">
+  <div class="span9 col">
+    <div class="comment-container">
+      <h1>评论</h1>
+      <ul class="media-list">
+        <li class="media" ng-repeat="comment in comments">
+          <a href="" class="pull-left"><img src="/assets/user.png" alt="" /></a>
+          <div class="media-body">
+            <h5 class="media-heading"><a href="#" class="user-mention" target="_blank">{{comment.user.username}}</a></h5>
+            <p></p><div>{{comment.content}}</div><p></p>
+            <div class="time pull-left">{{comment.createdAt | date:'yy-MM-dd HH:mm:ss'}}</div>
+            <a ng-click="delete_comment(comment, $index)" ng-show="comment.write" href="" class="del-comment-btn" data-confirm="确定删除么?" data-method="delete" rel="nofollow"><i class="icon-remove"></i></a>
+          </div>
+        </li>
+        <li class="media">
+        <form ng-show="user" accept-charset="UTF-8" class="new_comment" id="new_comment" ng-submit="create_comment(new_comment)">
+          <div class="media-body">
+            <div>
+              <textarea class="full-width" cols="40" id="comment_content" name="comment[content]" rows="6" ng-model="new_comment.content"></textarea>
+              <input class="btn pull-right" name="commit" type="submit" value="发表评论">
+            </div>
+          </div>
+        </form>
+        </li>
+      </div>
+    </div>
+  </div>

@@ -5,8 +5,8 @@ class CommentsController < ApplicationController
   def index
     comment_query = Parse::Query.new("Comment").tap do |q|
       q.eq('book', Parse::Pointer.new({
-        'className' => 'Book',
-        'objectId' => params[:book_id]
+        'className' => params[:model].singularize,
+        'objectId' => params[:model_id]
       }))
     end
     comment_query.include = 'user'
@@ -17,7 +17,7 @@ class CommentsController < ApplicationController
 
   def create
     @comment = Parse::Object.new('Comment', comment_params)
-    @comment['book'] = {'__type' => 'Pointer', 'className' => 'Book', 'objectId' => params[:book_id]}
+    @comment['parent'] = {'__type' => 'Pointer', 'className' => params[:model].singularize.classify, 'objectId' => params[:model_id]}
     @comment['user'] = {'__type' => 'Pointer', 'className' => '_User', 'objectId' => session[:user_id]}
     @comment[:ACL] = {
       "*" => {
@@ -37,7 +37,6 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment = Parse::Query.new('Comment').eq('objectId', params[:id]).get.first
-    logger.debug @comment.inspect
     if @comment.nil?
       render status: 404, json: {}
     else

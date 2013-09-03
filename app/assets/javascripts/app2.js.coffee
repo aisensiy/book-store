@@ -19,6 +19,7 @@ App.factory 'Image', ($resource) ->
     month_top: { method: 'GET', params: {verb: 'month_top'}, isArray: true }
     recommend: { method: 'GET', params: {verb: 'recommend'}, isArray: true }
     search: { method: 'GET', params: {verb: 'search'}, isArray: false }
+    update: { method: 'PUT' }
 
 App.factory 'Book', ($resource) ->
   $resource '/api/1/books/:id/:verb', {'id': '@objectId'},
@@ -29,6 +30,7 @@ App.factory 'Book', ($resource) ->
     month_top: { method: 'GET', params: {verb: 'month_top'}, isArray: true }
     recommend: { method: 'GET', params: {verb: 'recommend'}, isArray: true }
     search: { method: 'GET', params: {verb: 'search'}, isArray: false }
+    update: { method: 'PUT' }
 
 App.factory 'Upload', ($resource) ->
   $resource '/api/1/upload/:verb', {},
@@ -36,7 +38,7 @@ App.factory 'Upload', ($resource) ->
     download_token: { method: 'GET', params: {verb: 'download_token'} }
 
 App.factory 'Comment', ($resource) ->
-  $resource '/api/1/books/:book_id/comments/:id', {}, {}
+  $resource '/api/1/:model/:model_id/comments/:id', {}, {}
 
 App.config ['$routeProvider', ($routeProvider) ->
   $routeProvider
@@ -128,6 +130,19 @@ App.config ['$routeProvider', ($routeProvider) ->
         ]
       }
       require_auth: true
+    .when '/images/:id/edit',
+      template: $('#image_edit_html').html()
+      controller: 'ImageEditCtrl'
+      resolve:
+        image: ['Image', '$route', '$q', (Image, $route, $q) ->
+          deferred = $q.defer()
+          Image.get({id: $route.current.params.id}, (data) ->
+            deferred.resolve(data)
+          )
+          deferred.promise
+        ]
+      require_auth: true
+      require_write: true
     .when '/books/:id/edit',
       template: $('#book_edit_html').html()
       controller: 'BookEditCtrl'
@@ -148,7 +163,7 @@ App.run ['$rootScope', 'UserService', '$location', ($rootScope, UserService, $lo
   $rootScope.$on '$routeChangeStart', (event, next, current) ->
     console.log 'route change'
     console.log arguments
-    if next.require_auth && !$rootScope.user
+    if next && next.require_auth && !$rootScope.user
       $location.path('/')
 ]
 

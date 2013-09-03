@@ -245,6 +245,7 @@ BooksCtrl = App.controller 'BooksCtrl', ($scope, books, BooksService, Book, reco
   $scope.books = books.results
   $scope.recommends = recommends
   $scope.week_top = Book.week_top({limit: 5})
+  $scope.month_top = Book.month_top {limit: 8}
   # $scope.paging = books.data.paging
 
   # $scope.pageChanged = (page) ->

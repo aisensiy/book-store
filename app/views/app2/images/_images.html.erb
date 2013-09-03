@@ -18,9 +18,9 @@
       </li>
     </ul>
     <div class="clearfix"></div>
-    <h2 class="category">Popular <a href="#">more... </a></h2>
+    <h2 class="category">Popular</h2>
     <ul class="media-list book-list clearfix">
-      <li class="media" ng-repeat="image in images">
+      <li class="media" ng-repeat="image in month_top">
         <a href="#/images/{{image.objectId}}"><img ng-src="http://bookstore.qiniudn.com/{{image.file_key}}?imageView/2/w/200" alt="" class="picture-cover" /></a>
         <span class="title">{{image.title}}</span>
         <rating value="image.rate" max="5" readonly="true"></rating>

@@ -20,7 +20,8 @@ class ImagesController < ApplicationController
   end
 
   def month_top
-    cur_month = Time.now.strftime('%Y %M')
+    cur_month = Time.now.strftime('%Y %m')
+    logger.debug "===== #{cur_month} ====="
     images = @ImageClient.range_top('month', cur_month, params[:limit] || 10)
     render status: 200, json: images
   end

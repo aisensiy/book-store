@@ -30,9 +30,9 @@
       </li>
     </ul>
     <div class="clearfix"></div>
-    <h2 class="category">Popular <a href="#">more... </a></h2>
+    <h2 class="category">Popular</h2>
     <ul class="media-list book-list clearfix">
-      <li class="media" ng-repeat="book in books">
+      <li class="media" ng-repeat="book in month_top">
         <a href="#/books/{{book.objectId}}"><img ng-src="{{book.cover_url}}" alt="" class="cover" /></a>
         <span class="title">{{book.title}}</span>
         <rating value="book.rate" max="5" readonly="true"></rating>

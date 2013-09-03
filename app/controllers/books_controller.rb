@@ -20,7 +20,7 @@ class BooksController < ApplicationController
   end
 
   def month_top
-    cur_month = Time.now.strftime('%Y %M')
+    cur_month = Time.now.strftime('%Y %m')
     books = @BookClient.range_top('month', cur_month, params[:limit] || 10)
     render status: 200, json: books
   end

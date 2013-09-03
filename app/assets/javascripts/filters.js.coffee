@@ -27,5 +27,9 @@ App.filter('newlines', () ->
     outputs = ["<p>#{p}</p>" for p in ps]
     return outputs.join '\n'
 )
+.filter('thumb', () ->
+  (text) ->
+    "http://bookstore.qiniudn.com/#{text}?imageMogr/v2/thumbnail/!200x200r/gravity/Center/crop/200x200"
+)
 
 

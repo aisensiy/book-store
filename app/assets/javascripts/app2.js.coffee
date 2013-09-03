@@ -157,6 +157,7 @@ App.config ['$routeProvider', ($routeProvider) ->
         ]
       require_auth: true
       require_write: true
+    .otherwise { redirectTo: '/books' }
 ]
 
 App.run ['$rootScope', 'UserService', '$location', ($rootScope, UserService, $location) ->

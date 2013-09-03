@@ -53,7 +53,7 @@ BooksLists::Application.routes.draw do
     end
 
     get '/:model/:model_id/comments' => 'comments#index'
-    post '/:model/:model_id/comments' => 'comments#craete'
+    post '/:model/:model_id/comments' => 'comments#create'
     delete '/:model/:model_id/comments/:id' => 'comments#destroy'
 
     post '/upload' => 'upload#post'

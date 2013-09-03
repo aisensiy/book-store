@@ -9,7 +9,7 @@ controller = App.controller 'BookCtrl', ($scope, book, $rootScope, BooksService,
     return outputs.join(' ')
 
   $scope.book_summary = $sanitize(description_process($scope.book.summary))
-  $scope.comments = Comment.query {mode: 'books', model_id: book.objectId}
+  $scope.comments = Comment.query {model: 'books', model_id: book.objectId}
   $scope.week_top = Book.week_top({limit: 5})
 
   $scope.get_download_url = () ->
@@ -56,7 +56,11 @@ controller = App.controller 'BookCtrl', ($scope, book, $rootScope, BooksService,
 
   $scope.create_comment = (new_comment) ->
     comment = new Comment(new_comment)
-    comment.$save {model: 'books', model_id: $scope.book.objectId}, (data) ->
+    Comment.save
+      model: 'books'
+      model_id: $scope.book.objectId
+    , comment: new_comment
+    , (data) ->
       data.user = $rootScope.user
       data.write = true
       $scope.comments.push data

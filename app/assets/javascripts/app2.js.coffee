@@ -38,7 +38,8 @@ App.factory 'Upload', ($resource) ->
     download_token: { method: 'GET', params: {verb: 'download_token'} }
 
 App.factory 'Comment', ($resource) ->
-  $resource '/api/1/:model/:model_id/comments/:id', {}, {}
+  $resource '/api/1/:model/:model_id/comments/:id', {},
+    query: { method: 'GET', isArray: true }
 
 App.config ['$routeProvider', ($routeProvider) ->
   $routeProvider

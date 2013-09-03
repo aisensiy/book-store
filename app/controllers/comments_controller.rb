@@ -4,8 +4,8 @@ class CommentsController < ApplicationController
 
   def index
     comment_query = Parse::Query.new("Comment").tap do |q|
-      q.eq('book', Parse::Pointer.new({
-        'className' => params[:model].singularize,
+      q.eq(params[:model].singularize, Parse::Pointer.new({
+        'className' => params[:model].singularize.classify,
         'objectId' => params[:model_id]
       }))
     end
@@ -17,7 +17,7 @@ class CommentsController < ApplicationController
 
   def create
     @comment = Parse::Object.new('Comment', comment_params)
-    @comment['parent'] = {'__type' => 'Pointer', 'className' => params[:model].singularize.classify, 'objectId' => params[:model_id]}
+    @comment[params[:model].singularize] = {'__type' => 'Pointer', 'className' => params[:model].singularize.classify, 'objectId' => params[:model_id]}
     @comment['user'] = {'__type' => 'Pointer', 'className' => '_User', 'objectId' => session[:user_id]}
     @comment[:ACL] = {
       "*" => {

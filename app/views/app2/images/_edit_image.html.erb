@@ -1,7 +1,7 @@
 <form action="" name="edit_image_form" ng-submit="submit_form()" >
   <div class="row">
     <div class="span10 col offset1">
-      <legend>编辑壁纸</legend>
+      <legend><%= t 'image_edit' %></legend>
       <div class="alert alert-error" ng-show="fail_msg">{{fail_msg}}</div>
       <div class="alert alert-success" ng-show="succ_msg">{{succ_msg}}</div>
       <div class="picture-container clearfix">
@@ -11,13 +11,13 @@
               <img ng-src="http://bookstore.qiniudn.com/{{image.file_key}}?imageView/2/w/200" alt="" />
             </div>
             <div class="info">
-              <h1><label>标题: </label><input type="text" class="span5" ng-model="image.title" /></h1>
-              <p><label>给个评价吧: </label><rating value="image.rate" max="5" readonly="rate_readonly"></rating></p>
+              <h1><label><%= t 'title' %>: </label><input type="text" class="span5" ng-model="image.title" /></h1>
+              <p><label><%= t 'rate' %>: </label><rating value="image.rate" max="5" readonly="rate_readonly"></rating></p>
               <div>
-                <label class="tag-label">添加标签: </label>
+                <label class="tag-label"><%= t 'tag_add' %>: </label>
                 <div class="tag-wrapper clearfix">
-                  <input type="text" class="span5" ng-model="tags_input_value" placeholder="用空格分割" />
-                  <p>请用空格分隔标签</p>
+                  <input type="text" class="span5" ng-model="tags_input_value" placeholder="" />
+                  <p><%= t 'space_split_message' %></p>
                   <span class="tag" ng-class="{disabled: image.tags.indexOf(tag) != -1}"  ng-repeat="tag in tags" ng-click="toggle_tag(tag)">{{tag}}</span>
                 </div>
               </div>
@@ -30,7 +30,7 @@
 
   <div class="row">
     <div class="span10 offset1">
-      <button class="btn pull-right btn-large">保存</button>
+      <button class="btn pull-right btn-large"><%= t 'save' %></button>
     </div>
   </div>
 </form>

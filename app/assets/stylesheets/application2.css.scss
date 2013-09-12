@@ -25,6 +25,10 @@ $bg-color-disabled: #CAE673;
   width: 5.6em;
 }
 
+.same-width-btn-for-image {
+  width: 8.5em;
+}
+
 @mixin button_disabled {
   background: $bg-color-disabled !important;
 }

@@ -1,5 +1,22 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
-  hello: "Hello world"
+  forgot_password: 'Forgot password'
+  register: 'Register'
+  username: 'Username'
+  sign_in: 'Login'
+  sign_up: 'Sign Up'
+  sign_out: 'Sign out'
+  cancel: 'Cancel'
+  password: 'Password'
+  password_invalid: 'Unequal password'
+  reset_password: 'Reset Password'
+  captcha: 'Captcha'
+  email: 'Email'
+  email_invalid: 'Invalid email'
+  send_reset_email: 'Send Reset Password Mail'
+  upload: 'Upload'
+  profile: 'Profile'
+  search: 'Search'
+  book: 'Book'
+  wallpaper: 'Wallpaper'
+
+

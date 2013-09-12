@@ -1,7 +1,7 @@
 <form action="" name="edit_book_form" ng-submit="submit_form()" >
   <div class="row">
     <div class="span10 col offset1">
-      <legend>编辑图书</legend>
+      <legend><%= t 'book_edit' %></legend>
       <div class="alert alert-error" ng-show="fail_msg">{{fail_msg}}</div>
       <div class="alert alert-success" ng-show="succ_msg">{{succ_msg}}</div>
       <div class="book-container clearfix">
@@ -11,18 +11,18 @@
               <img ng-src="{{book.cover_url || '/assets/book-cover2.png'}}" alt="" />
             </div>
             <div class="info">
-              <h1><label>标题: </label><input type="text" class="span5" ng-model="book.title" /></h1>
-              <p><label>封面: </label><input type="text" class="span5" ng-model="book.cover_url" /></p>
-              <p><label>作者: </label><input type="text" class="span5" ng-model="book.author" /></p>
+              <h1><label><%= t 'title' %>: </label><input type="text" class="span5" ng-model="book.title" /></h1>
+              <p><label><%= t 'cover' %>: </label><input type="text" class="span5" ng-model="book.cover_url" /></p>
+              <p><label><%= t 'author' %>: </label><input type="text" class="span5" ng-model="book.author" /></p>
               <!--<p><span>副书名: </span><input type="text" value="a hands-on guide to modeling, sculpting, materials, and rendering" class="span5" /></p>-->
               <p><label>ISBN: </label><input type="text" value="1-59327-477-7" class="span5" ng-model="book.isbn" /></p>
-              <p><label>出版社: </label><input type="text" value="" class="span5" ng-model="book.publisher" /></p>
-              <p><label>给个评价吧: </label><rating value="book.rate" max="5" readonly="rate_readonly"></rating></p>
+              <p><label><%= t 'publisher' %>: </label><input type="text" value="" class="span5" ng-model="book.publisher" /></p>
+              <p><label><%= t 'rate' %>: </label><rating value="book.rate" max="5" readonly="rate_readonly"></rating></p>
               <div>
-                <label class="tag-label">添加标签: </label>
+                <label class="tag-label"><%= t 'tag_add' %>: </label>
                 <div class="tag-wrapper clearfix">
-                  <input type="text" class="span5" ng-model="tags_input_value" placeholder="用空格分割" />
-                  <p>请用空格分隔标签</p>
+                  <input type="text" class="span5" ng-model="tags_input_value" placeholder="" />
+                  <p><%= t 'space_split_message' %></p>
                   <span class="tag" ng-class="{disabled: book.tags.indexOf(tag) != -1}"  ng-repeat="tag in tags" ng-click="toggle_tag(tag)">{{tag}}</span>
                 </div>
               </div>
@@ -36,7 +36,7 @@
   <div class="row">
     <div class="span10 offset1 col">
       <div class="summary-container">
-        <h1>Summary</h1>
+        <h1><%= t 'summary' %></h1>
         <textarea class="description span9" rows="13" ng-model="book.summary"></textarea>
       </div>
     </div>
@@ -44,7 +44,7 @@
 
   <div class="row">
     <div class="span10 offset1">
-      <button class="btn pull-right btn-large">保存</button>
+      <button class="btn pull-right btn-large"><%= t 'save' %></button>
     </div>
   </div>
 </form>

@@ -7,18 +7,18 @@
         <div class="wrapper">
           <div class="cover pull-left">
             <img ng-src="{{book.cover_url}}" alt="" />
-            <a href="#/books/{{book.objectId}}/edit" ng-show="book.write" class="btn same-width-btn" >edit book</a>
-            <a href="" ng-show="book.write" class="btn same-width-btn" ng-click="delete_book(book)">delete book</a>
+            <a href="#/books/{{book.objectId}}/edit" ng-show="book.write" class="btn same-width-btn" ><%= t 'book_edit' %></a>
+            <a href="" ng-show="book.write" class="btn same-width-btn" ng-click="delete_book(book)"><%= t 'book_delete' %></a>
             <br />
           </div>
           <div class="info">
             <h1>{{book.title}}</h1>
-            <p><span>作者：</span>{{book.author.join(', ')}}</p>
+            <p><span><%= t 'author' %>：</span>{{book.author.join(', ')}}</p>
             <p ng-show="book.isbn"><span>ISBN：</span>{{book.isbn}}</p>
-            <p><span>文件格式：</span>{{book.content_type.split('/')[1]}}</p>
-            <p><span>文件大小：</span>{{ book.size|filesize }}</p>
-            <p ng-show="book.publisher"><span>出版社：</span>{{book.publisher}}</p>
-            <p><span>评分：</span><rating value="book.rate" max="5" readonly="true"></rating></p>
+            <p><span><%= t 'file_type' %>：</span>{{book.content_type.split('/')[1]}}</p>
+            <p><span><%= t 'file_size' %>：</span>{{ book.size|filesize }}</p>
+            <p ng-show="book.publisher"><span><%= t 'publisher' %>：</span>{{book.publisher}}</p>
+            <p><span><%= t 'rate' %>：</span><rating value="book.rate" max="5" readonly="true"></rating></p>
             <p class="tag-wrapper">
               <span class="tag" ng-repeat="tag in book.tags" ng-show="tag.length">{{tag}}</span>
             </p>
@@ -29,22 +29,22 @@
   </div>
   <div class="span3 col wrapper">
     <div class="device-container" >
-      <h1>Send to Devices</h1>
+      <h1><%= t 'send_to_device' %></h1>
       <button class="btn" ng-show="user" ng-click="send_to_device(book)">Send to Boox</button>
       <a href="" ng-click="get_download_url()" target="_blank" class="btn btn-primary" ng-show="user">Download</a>
-      <p ng-hide="user">Login and then you can download the book.</p>
+      <p ng-hide="user"><%= t 'login_for_download' %></p>
     </div>
   </div>
 </div>
 <div class="row col-wrap">
   <div class="span9 col">
     <div class="summary-container">
-      <h1>Summary</h1>
+      <h1><%= t 'summary' %></h1>
       <div class="description" ng-bind-html="book_summary">
       </div>
     </div>
     <div class="comment-container">
-      <h1>评论</h1>
+      <h1><%= t 'comments' %></h1>
       <ul class="media-list">
         <li class="media" ng-repeat="comment in comments">
           <a href="" class="pull-left"><img src="/assets/user.png" alt="" /></a>
@@ -52,7 +52,7 @@
             <h5 class="media-heading"><a href="#" class="user-mention" target="_blank">{{comment.user.username}}</a></h5>
             <p></p><div>{{comment.content}}</div><p></p>
             <div class="time pull-left">{{comment.createdAt | date:'yy-MM-dd HH:mm:ss'}}</div>
-            <a ng-click="delete_comment(comment, $index)" ng-show="comment.write" href="" class="del-comment-btn" data-confirm="确定删除么?" data-method="delete" rel="nofollow"><i class="icon-remove"></i></a>
+            <a ng-click="delete_comment(comment, $index)" ng-show="comment.write" href="" class="del-comment-btn" data-confirm="<%= 'delete_confirm' %>?" data-method="delete" rel="nofollow"><i class="icon-remove"></i></a>
           </div>
         </li>
         <li class="media">
@@ -60,7 +60,7 @@
           <div class="media-body">
             <div>
               <textarea class="full-width" cols="40" id="comment_content" name="comment[content]" rows="6" ng-model="new_comment.content"></textarea>
-              <input class="btn pull-right" name="commit" type="submit" value="发表评论">
+              <input class="btn pull-right" name="commit" type="submit" value="<%= t 'send_comment' %>">
             </div>
           </div>
         </form>

@@ -12,7 +12,7 @@
 
 <div class="row books">
   <div class="span9">
-    <h2 class="category">Recommendations</h2>
+    <h2 class="category"><%= t 'recommendation' %></h2>
     <ul class="media-list book-list clearfix">
       <li class="media" ng-repeat="book in recommends">
         <a href="#/books/{{book.objectId}}"><img ng-src="{{book.cover_url}}" alt="" class="cover" /></a>
@@ -21,7 +21,7 @@
       </li>
     </ul>
     <div class="clearfix"></div>
-    <h2 class="category">Newest <a href="#/books/newest">more... </a></h2>
+    <h2 class="category"><%= t 'newest' %> <a href="#/books/newest"><%= t 'more' %>... </a></h2>
     <ul class="media-list book-list clearfix">
       <li class="media" ng-repeat="book in books">
         <a href="#/books/{{book.objectId}}"><img ng-src="{{book.cover_url}}" alt="" class="cover" /></a>
@@ -30,7 +30,7 @@
       </li>
     </ul>
     <div class="clearfix"></div>
-    <h2 class="category">Popular</h2>
+    <h2 class="category"><%= t 'popular' %></h2>
     <ul class="media-list book-list clearfix">
       <li class="media" ng-repeat="book in month_top">
         <a href="#/books/{{book.objectId}}"><img ng-src="{{book.cover_url}}" alt="" class="cover" /></a>
@@ -45,7 +45,7 @@
       -->
     </div>
     <div class="span3">
-      <h2 class="category">Top 5 by Week</h2>
+      <h2 class="category"><%= t 'top5byweek' %></h2>
       <ul class="media-list book-list clearfix sidebar">
           <li class="media" ng-repeat="book in week_top">
             <a href="#/books/{{book.objectId}}"><img ng-src="{{book.cover_url}}" alt="" class="cover" /></a>

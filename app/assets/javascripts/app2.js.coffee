@@ -267,7 +267,7 @@ App.controller 'PasswordResetCtrl', ['$scope', 'UserService', 'Captcha', ($scope
       $scope.model.email,
       $scope.model.captcha,
       () ->
-        $scope.succ_msg = "success"
+        $scope.succ_msg = I18n.t('update_succ_message')
         $scope.fail_msg = null
       ,
       (data) ->
@@ -287,12 +287,12 @@ PasswordModifyCtrl = App.controller 'PasswordModifyCtrl', ($scope, UserService) 
       $scope.model.oldpassword,
       $scope.model.password,
       () ->
-        $scope.succ_msg = '修改成功'
+        $scope.succ_msg = I18n.t('update_succ_message')
         $scope.fail_msg = null
       ,
       () ->
         $scope.succ_msg = null
-        $scope.fail_msg = '修改失败'
+        $scope.fail_msg = I18n.t('update_fail_message')
     )
 
 PasswordModifyCtrl.$inject = ['$scope', 'UserService']

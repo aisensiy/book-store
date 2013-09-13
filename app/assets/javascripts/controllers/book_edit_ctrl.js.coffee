@@ -45,7 +45,7 @@ App.controller 'BookEditCtrl', ['$scope', 'book', '$rootScope', 'Book', 'UserSer
       id: book_id
     , book: $scope.book
     , () ->
-      $scope.succ_msg = "updated successfully"
+      $scope.succ_msg = I18n.t('update_succ_message')
       $scope.fail_msg = null
       $location.path('/books/' + book_id)
     , (data) ->

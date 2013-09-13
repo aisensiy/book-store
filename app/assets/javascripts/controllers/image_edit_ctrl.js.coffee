@@ -45,7 +45,7 @@ App.controller 'ImageEditCtrl', ['$scope', 'image', '$rootScope', 'UserService',
       id: image_id
     , image: $scope.image
     , (response) ->
-      $scope.succ_msg = "updated successfully"
+      $scope.succ_msg = I18n.t('update_succ_message')
       $scope.fail_msg = null
       $location.path('/images/' + image_id)
 ]

@@ -28,17 +28,17 @@ controller = App.controller 'BookCtrl', ($scope, book, $rootScope, BooksService,
 
 
   $scope.delete_book = (book) ->
-    return if !confirm('Are you sure to delete the book')
+    return if !confirm(I18n.t('delete_confirm'))
     BooksService.delete_book(
       book.objectId,
       book.file_key,
       () ->
-        $scope.succ_msg = 'delete book successfully'
+        $scope.succ_msg = I18n.t('book_delete_succ_message')
         $scope.fail_msg = null
         $location.path('/')
       ,
       () ->
-        $scope.fail_msg = 'delete book failed'
+        $scope.fail_msg = I18n.t('book_delete_fail_message')
         $scope.succ_msg = null
     )
 
@@ -46,12 +46,12 @@ controller = App.controller 'BookCtrl', ($scope, book, $rootScope, BooksService,
     BooksService.send_to_device(
       book.objectId,
       () ->
-        $scope.succ_msg = 'send this book to your device successfully'
+        $scope.succ_msg = I18n.t 'book_send_succ_message'
         $scope.fail_msg = null
       ,
       () ->
         $scope.succ_msg = null
-        $scope.fail_msg = 'failed to send book to your device'
+        $scope.fail_msg = I18n.t 'book_send_fail_message'
     )
 
   $scope.create_comment = (new_comment) ->

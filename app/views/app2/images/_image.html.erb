@@ -13,9 +13,9 @@
           </div>
           <div class="info">
             <h1>{{image.title}}</h1>
-            <p><span>文件格式：</span>{{image.content_type.split('/')[1]}}</p>
-            <p><span>文件大小：</span>{{image.size|filesize }}</p>
-            <p><span>评分：</span><rating value="image.rate" max="5" readonly="true"></rating></p>
+            <p><span><%= t 'file_type' %>：</span>{{image.content_type.split('/')[1]}}</p>
+            <p><span><%= t 'file_size' %>：</span>{{image.size|filesize }}</p>
+            <p><span><%= t 'rate' %>：</span><rating value="image.rate" max="5" readonly="true"></rating></p>
             <p class="tag-wrapper">
               <span class="tag" ng-repeat="tag in image.tags" ng-show="tag.length">{{tag}}</span>
             </p>
@@ -26,17 +26,17 @@
   </div>
   <div class="span3 col wrapper">
     <div class="device-container" >
-      <h1>Send to Devices</h1>
+      <h1><%= t 'send_to_device' %></h1>
       <button class="btn" ng-show="user" ng-click="send_to_device(image)">Send to Boox</button>
       <a href="" ng-click="get_download_url()" target="_blank" class="btn btn-primary" ng-show="user">Download</a>
-      <p ng-hide="user">Login and then you can download the image.</p>
+      <p ng-hide="user"><%= t 'login_for_download' %></p>
     </div>
   </div>
 </div>
 <div class="row col-wrap">
   <div class="span9 col">
     <div class="comment-container">
-      <h1>评论</h1>
+      <h1><%= t 'comments' %></h1>
       <ul class="media-list">
         <li class="media" ng-repeat="comment in comments">
           <a href="" class="pull-left"><img src="/assets/user.png" alt="" /></a>
@@ -44,7 +44,7 @@
             <h5 class="media-heading"><a href="#" class="user-mention" target="_blank">{{comment.user.username}}</a></h5>
             <p></p><div>{{comment.content}}</div><p></p>
             <div class="time pull-left">{{comment.createdAt | date:'yy-MM-dd HH:mm:ss'}}</div>
-            <a ng-click="delete_comment(comment, $index)" ng-show="comment.write" href="" class="del-comment-btn" data-confirm="确定删除么?" data-method="delete" rel="nofollow"><i class="icon-remove"></i></a>
+            <a ng-click="delete_comment(comment, $index)" ng-show="comment.write" href="" class="del-comment-btn" data-confirm="<%= t 'delete_confirm' %>" data-method="delete" rel="nofollow"><i class="icon-remove"></i></a>
           </div>
         </li>
         <li class="media">
@@ -52,7 +52,7 @@
           <div class="media-body">
             <div>
               <textarea class="full-width" cols="40" id="comment_content" name="comment[content]" rows="6" ng-model="new_comment.content"></textarea>
-              <input class="btn pull-right" name="commit" type="submit" value="发表评论">
+              <input class="btn pull-right" name="commit" type="submit" value="<%= t 'send_comment' %>">
             </div>
           </div>
         </form>

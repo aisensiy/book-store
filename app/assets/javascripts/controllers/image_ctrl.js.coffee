@@ -25,26 +25,26 @@ controller = App.controller 'ImageCtrl', ($scope, image, $rootScope, BooksServic
 
 
   $scope.delete_image = (image) ->
-    return if !confirm('Are you sure to delete the image')
+    return if !confirm(I18n.t('delete_confirm'))
     Image.delete
       id: image.objectId
       file_key: image.file_key
     , () ->
-      $scope.succ_msg = 'delete image successfully'
+      $scope.succ_msg = I18n.t('image_delete_succ_message')
       $scope.fail_msg = null
       $location.path('/images')
     , () ->
-      $scope.fail_msg = 'delete image failed'
+      $scope.fail_msg = I18n.t('image_delete_fail_message')
       $scope.succ_msg = null
 
   $scope.send_to_device = (image) ->
     image = new Image(image)
     image.$send_to_device () ->
-      $scope.succ_msg = 'send this image to your device successfully'
+      $scope.succ_msg = I18n.t('image_send_succ_message')
       $scope.fail_msg = null
     , () ->
       $scope.succ_msg = null
-      $scope.fail_msg = 'failed to send image to your device'
+      $scope.fail_msg = I18n.t('image_send_fail_message')
 
   $scope.create_comment = (new_comment) ->
     comment = new Comment(new_comment)

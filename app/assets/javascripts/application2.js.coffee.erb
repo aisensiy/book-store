@@ -5,8 +5,13 @@
 #= require angular
 #= require ng-upload
 #= require ui-bootstrap-tpls-0.3.0
+#= require i18n
+#= require i18n/translations
+#= require_self
 #= require app2
 
+I18n.defaultLocale = "<%= I18n.default_locale %>"
+I18n.locale = "<%= I18n.locale %>"
 `
 window.ModalDemoCtrl = function ($scope) {
 

@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/fnando/i18n-js.git
+  revision: eab4137f83777963f0ebe6960704a7f64fd8911d
+  specs:
+    i18n-js (2.1.2)
+      i18n
+
 GEM
   remote: http://ruby.taobao.org/
   specs:
@@ -209,6 +216,7 @@ DEPENDENCIES
   debugger
   easy_captcha
   httparty
+  i18n-js!
   jasminerice
   jquery-rails
   less-rails

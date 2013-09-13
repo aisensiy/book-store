@@ -56,5 +56,11 @@ zh-CN:
   tag_add: '添加标签'
   space_split_message: '请用空格分隔标签'
   save: '保存'
+  categories:
+  - 商业
+  - 小说
+  - 科学
+  - 人文
+  - 历史
 
 

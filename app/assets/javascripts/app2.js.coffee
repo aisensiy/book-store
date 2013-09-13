@@ -6,7 +6,7 @@
 #= require_self
 #= require_tree './controllers'
 
-@GlobalTags = ["经济", "武侠", "小说", "经典", "人文", "科技"]
+@GlobalTags = I18n.t('categories')
 
 @App = angular.module('App', ['Services', 'ngUpload', 'App.directives', 'App.filters', 'ui.bootstrap', 'ngSanitize', 'ngResource'])
 

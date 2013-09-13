@@ -5,6 +5,8 @@
 #= require angular
 #= require ng-upload
 #= require ui-bootstrap-tpls-0.3.0
+#= require i18n
+#= require i18n/translations
 #= require app2
 
 `

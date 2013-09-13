@@ -2,6 +2,7 @@ App = angular.module('App')
 
 BookUploadCtrl = App.controller 'BookUploadCtrl', ($scope, $location, token, BooksService, $filter, books, Image) ->
   $scope.books = books
+  $scope.images = Image.own({limit: 8, skip: 0})
   # $scope.paging = books.data.paging
 
   $scope.langs = [ {name: "中文简体", value: 'zh-CN'}, {name: "中文繁体", value: 'zh-TW'}, {name: "英文", value: 'en'}, {name: "俄文", value: 'ru'} ]

@@ -65,7 +65,13 @@ class ImagesController < ApplicationController
     render status: resp.code, json: resp
   end
 
+  def own
+    resp = @ImageClient.query(params[:limit], params[:skip], where: {'user_id' => session[:user_id]})
+    render status: resp.code, json: resp
+  end
+
   def create
+    params[:image][:user_id] = session[:user_id]
     resp = @ImageClient.create(session[:user_id], params[:image])
 
     if resp.code == 201

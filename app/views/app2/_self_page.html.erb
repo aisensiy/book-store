@@ -75,3 +75,18 @@
     </div>
   </div>
 </div>
+
+<div class="row books">
+  <div class="span12">
+    <h2 class="category"><%= t 'image_own' %></h2>
+    <div class="container">
+      <ul class="media-list book-list clearfix">
+        <li class="media" ng-repeat="image in images.results">
+        <a href="{{image.objectId}}"><img ng-src="{{image.file_key | thumb}}" alt="" class="picture-cover" /></a>
+        <span class="title">{{image.title}}</span>
+        <rating value="image.rate" max="5" readonly="true"></rating>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

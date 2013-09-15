@@ -51,10 +51,13 @@ BookUploadCtrl = App.controller 'BookUploadCtrl', ($scope, $location, token, Boo
           $scope.is_loading = false
       )
 
+    $scope.xhr = null if $scope.xhr
+
   upload_failed = (evt) ->
     console.log 'failed upload'
     $scope.fail_msg = 'failed upload'
     $scope.is_loading = false
+    $scope.xhr = null if $scope.xhr
 
   $scope.submit_form = () ->
     $scope.is_loading = true
@@ -74,6 +77,12 @@ BookUploadCtrl = App.controller 'BookUploadCtrl', ($scope, $location, token, Boo
 
     xhr.open('POST', 'http://up.qiniu.com/')
     xhr.send(fd)
+    $scope.xhr = xhr
+
+  $scope.cancel = () ->
+    if $scope.xhr
+      $scope.xhr.abort()
+    $('.progress .bar').width('0')
 
 BookUploadCtrl.$inject = ['$scope', '$location', 'token', 'BooksService', '$filter', 'books', 'Image']
 

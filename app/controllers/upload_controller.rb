@@ -14,7 +14,7 @@ class UploadController < ApplicationController
   end
 
   def get_token
-    token = Book.get_upload_token
+    token = Klass.new(Book).get_upload_token
     render json: {token: token}
   end
 

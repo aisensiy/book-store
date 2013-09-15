@@ -50,6 +50,7 @@
             <div class="controls pull-right">
               <button type="submit" class="btn btn-primary"
                 ng-disabled="book_form.$invalid || is_loading"><%= t 'submit' %></button>
+              <button ng-disabled="book_form.$invalid || !is_loading" ng-click="cancel()" class="btn btn-primary"><%= t 'cancel' %></button>
             </div>
           </div>
         </div>

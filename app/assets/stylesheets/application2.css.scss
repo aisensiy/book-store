@@ -358,3 +358,7 @@ form[name=book_form] {
   margin-top: 30px;
   border-top: 1px solid #e5e5e5;
 }
+
+.navbar-search input {
+  @include border-radius(5px !important);
+}

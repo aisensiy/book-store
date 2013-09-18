@@ -68,6 +68,7 @@
       </div>
     </div>
     <div class="span3 col wrapper">
+      <h2 class="category"><%= t 'top5byweek' %></h2>
       <ul class="media-list book-list clearfix sidebar">
         <li class="media" ng-repeat="book in week_top">
           <a href="#/books/{{book.objectId}}"><img ng-src="{{book.cover_url}}" alt="" class="cover" /></a>

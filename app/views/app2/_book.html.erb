@@ -20,7 +20,7 @@
             <p ng-show="book.publisher"><span><%= t 'publisher' %>：</span>{{book.publisher}}</p>
             <p><span><%= t 'rate' %>：</span><rating value="book.rate" max="5" readonly="true"></rating></p>
             <p class="tag-wrapper">
-              <span class="tag" ng-repeat="tag in book.tags" ng-show="tag.length">{{tag}}</span>
+              <a href="#/books/tag/{{tag}}" ng-repeat="tag in book.tags" ng-show="tag.length"><span class="tag" >{{tag}}</span></a>
             </p>
           </div>
         </div>

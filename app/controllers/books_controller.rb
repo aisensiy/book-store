@@ -7,16 +7,18 @@ class BooksController < ApplicationController
   end
 
   def index
-    resp = @BookClient.query(params[:limit], params[:skip], where: {'is_public' => true})
-    process_authorities(resp.parsed_response['results'])
-    render status: resp.code, json: resp
+    where = {"is_public" => true}
+    query_with_where(where)
   end
 
   def search
     where = {'$or' => [{'title' => {'$regex' => params[:q]}}]}
-    resp = @BookClient.query(params[:limit], params[:skip], where: where)
-    process_authorities(resp.parsed_response['results'])
-    render status: resp.code, json: resp
+    query_with_where(where)
+  end
+
+  def tag
+    where = {"tags" => params[:tag]}
+    query_with_where(where)
   end
 
   def month_top
@@ -133,4 +135,9 @@ class BooksController < ApplicationController
     mat[1]
   end
 
+  def query_with_where(where)
+    resp = @BookClient.query(params[:limit], params[:skip], where: where)
+    process_authorities(resp.parsed_response['results'])
+    render status: resp.code, json: resp
+  end
 end

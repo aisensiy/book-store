@@ -33,6 +33,7 @@ BooksLists::Application.routes.draw do
         get :month_top
         get :recommend
         get :search
+        get :tag
       end
       member do
         post :send_to_device
@@ -46,6 +47,7 @@ BooksLists::Application.routes.draw do
         get :month_top
         get :recommend
         get :search
+        get :tag
       end
       member do
         post :send_to_device

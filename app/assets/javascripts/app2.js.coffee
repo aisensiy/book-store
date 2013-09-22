@@ -15,6 +15,7 @@ App.factory 'Image', ($resource) ->
     own: { method: 'GET', params: {verb: 'own'}, isArray: false },
     send_to_device: { method: 'POST', params: {verb: 'send_to_device'}}
     query: { method: 'GET', params: {}, isArray: false }
+    tag: { method: 'GET', params: {verb: 'tag'}, isArray: false }
     week_top: { method: 'GET', params: {verb: 'week_top'}, isArray: true }
     month_top: { method: 'GET', params: {verb: 'month_top'}, isArray: true }
     recommend: { method: 'GET', params: {verb: 'recommend'}, isArray: true }
@@ -26,6 +27,7 @@ App.factory 'Book', ($resource) ->
     own: { method: 'GET', params: {verb: 'own'}, isArray: false },
     send_to_device: { method: 'POST', params: {verb: 'send_to_device'}}
     query: { method: 'GET', params: {}, isArray: false }
+    tag: { method: 'GET', params: {verb: 'tag'}, isArray: false }
     week_top: { method: 'GET', params: {verb: 'week_top'}, isArray: true }
     month_top: { method: 'GET', params: {verb: 'month_top'}, isArray: true }
     recommend: { method: 'GET', params: {verb: 'recommend'}, isArray: true }
@@ -85,6 +87,9 @@ App.config ['$routeProvider', ($routeProvider) ->
     .when '/books/search/:q',
       template: $('#books_list_html').html(),
       controller: 'BooksSearchListCtrl'
+    .when '/books/tag/:q',
+      template: $('#books_list_html').html(),
+      controller: 'BooksTagListCtrl',
     .when '/books/:id',
       template: $('#book_html').html(),
       controller: 'BookCtrl',
@@ -107,6 +112,12 @@ App.config ['$routeProvider', ($routeProvider) ->
           )
           deferred.promise
         ]
+    .when '/images/search/:q',
+      template: $('#images_list_html').html(),
+      controller: 'ImageSearchListCtrl'
+    .when '/images/tag/:q',
+      template: $('#images_list_html').html(),
+      controller: 'ImageTagListCtrl'
     .when '/users/password_modify',
       template: $('#password_modify_html').html()
       controller: 'PasswordModifyCtrl'

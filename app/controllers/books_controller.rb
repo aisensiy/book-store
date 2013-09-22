@@ -6,18 +6,7 @@ class BooksController < ApplicationController
     @BookClient = Klass.new('Book')
   end
 
-  def index
-    resp = @BookClient.query(params[:limit], params[:skip], where: {'is_public' => true})
-    process_authorities(resp.parsed_response['results'])
-    render status: resp.code, json: resp
-  end
-
-  def search
-    where = {'$or' => [{'title' => {'$regex' => params[:q]}}]}
-    resp = @BookClient.query(params[:limit], params[:skip], where: where)
-    process_authorities(resp.parsed_response['results'])
-    render status: resp.code, json: resp
-  end
+  include Query
 
   def month_top
     cur_month = Time.now.strftime('%Y %m')
@@ -133,4 +122,9 @@ class BooksController < ApplicationController
     mat[1]
   end
 
+  def query_with_where(where)
+    resp = @BookClient.query(params[:limit], params[:skip], where: where)
+    process_authorities(resp.parsed_response['results'])
+    render status: resp.code, json: resp
+  end
 end

@@ -17,7 +17,7 @@
             <p><span><%= t 'file_size' %>：</span>{{image.size|filesize }}</p>
             <p><span><%= t 'rate' %>：</span><rating value="image.rate" max="5" readonly="true"></rating></p>
             <p class="tag-wrapper">
-              <span class="tag" ng-repeat="tag in image.tags" ng-show="tag.length">{{tag}}</span>
+              <a href="#/images/tag/{{tag}}" ng-repeat="tag in image.tags" ng-show="tag.length"><span class="tag" >{{tag}}</span></a>
             </p>
           </div>
         </div>

@@ -64,6 +64,7 @@ zh-CN:
   popular: '最近流行'
   top5byweek: '本周前五'
   tag_add: '添加标签'
+  tag: '标签'
   space_split_message: '请用空格分隔标签'
   save: '保存'
   categories:

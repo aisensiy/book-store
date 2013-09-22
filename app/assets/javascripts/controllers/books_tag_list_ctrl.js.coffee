@@ -1,7 +1,7 @@
 App = angular.module('App')
 
-App.controller 'BooksSearchListCtrl', ($scope, Book, $routeParams) ->
-  $scope.header = "#{I18n.t('search')} #{I18n.t('title')}: #{$routeParams.q}"
+App.controller 'BooksTagListCtrl', ($scope, Book, $routeParams) ->
+  $scope.header = "#{I18n.t('tag')}: #{$routeParams.q}"
   per_page = 40
   set_data = (scope, data, cur_page) ->
     scope.books = data.results
@@ -11,11 +11,11 @@ App.controller 'BooksSearchListCtrl', ($scope, Book, $routeParams) ->
       max_size: 10
     }
 
-  Book.search({limit: per_page, skip: 0, q: $routeParams.q}, (data) ->
+  Book.tag({limit: per_page, skip: 0, tag: $routeParams.q}, (data) ->
     set_data($scope, data, 1)
 
   $scope.pageChanged = (page) ->
-    Book.search {limit: per_page, skip: (page - 1) * per_page, q: $routeParams.q}, (data) ->
+    Book.tag {limit: per_page, skip: (page - 1) * per_page, tag: $routeParams.q}, (data) ->
       set_data($scope, data, page)
   )
 

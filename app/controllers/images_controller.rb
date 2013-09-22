@@ -6,18 +6,7 @@ class ImagesController < ApplicationController
     @ImageClient = Klass.new('Image')
   end
 
-  def index
-    resp = @ImageClient.query(params[:limit], params[:skip])
-    process_authorities(resp.parsed_response['results'])
-    render status: resp.code, json: resp
-  end
-
-  def search
-    where = {'$or' => [{'title' => {'$regex' => params[:q]}}]}
-    resp = @ImageClient.query(params[:limit], params[:skip], where: where)
-    process_authorities(resp.parsed_response['results'])
-    render status: resp.code, json: resp
-  end
+  include Query
 
   def month_top
     cur_month = Time.now.strftime('%Y %m')
@@ -101,5 +90,11 @@ class ImagesController < ApplicationController
   private
   def image_params
     params.require(:image).permit(:is_public, :priority, :rate, :rating, :title, :tags => [])
+  end
+
+  def query_with_where(where)
+    resp = @ImageClient.query(params[:limit], params[:skip], where: where)
+    process_authorities(resp.parsed_response['results'])
+    render status: resp.code, json: resp
   end
 end

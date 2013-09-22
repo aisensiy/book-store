@@ -6,20 +6,7 @@ class BooksController < ApplicationController
     @BookClient = Klass.new('Book')
   end
 
-  def index
-    where = {"is_public" => true}
-    query_with_where(where)
-  end
-
-  def search
-    where = {'$or' => [{'title' => {'$regex' => params[:q]}}]}
-    query_with_where(where)
-  end
-
-  def tag
-    where = {"tags" => params[:tag]}
-    query_with_where(where)
-  end
+  include Query
 
   def month_top
     cur_month = Time.now.strftime('%Y %m')

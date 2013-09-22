@@ -1,0 +1,18 @@
+<div class="row books">
+  <div class="span12">
+    <h2 class="category">{{header}}</h2>
+    <ul class="media-list book-list clearfix">
+      <li class="media" ng-repeat="image in images">
+      <a href="#/images/{{image.objectId}}"><img ng-src="{{image.file_key | thumb}}" alt="" class="picture-cover" /></a>
+        <span class="title">{{image.title}}</span>
+        <div class="{{!image.rate && 'invisible' || 'visible'}}">
+          <rating value="image.rate || 0" max="5" readonly="true"></rating>
+        </div>
+      </li>
+    </ul>
+    <div class="paginate-wrapper" ng-show="paging">
+      <pagination num-pages="paging.total_page" on-select-page="pageChanged(page)" current-page="paging.current_page" class="pagination" previous-text="&laquo;" next-text="&raquo;"></pagination>
+    </div>
+  </div>
+</div>
+

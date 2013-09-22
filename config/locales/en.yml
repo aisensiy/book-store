@@ -64,6 +64,7 @@ en:
   popular: 'Popular'
   top5byweek: 'Top 5 By Week'
   tag_add: 'Add Tags'
+  tag: 'Tag'
   space_split_message: 'Please seperate tags by space'
   save: 'Save'
   categories:

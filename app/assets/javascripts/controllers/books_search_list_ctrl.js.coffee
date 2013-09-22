@@ -1,7 +1,7 @@
 App = angular.module('App')
 
 App.controller 'BooksSearchListCtrl', ($scope, Book, $routeParams) ->
-  $scope.header = "Search title: #{$routeParams.q}"
+  $scope.header = "#{I18n.t('search')} #{I18n.t('title')}: #{$routeParams.q}"
   per_page = 40
   set_data = (scope, data, cur_page) ->
     scope.books = data.results

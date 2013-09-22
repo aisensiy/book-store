@@ -112,6 +112,12 @@ App.config ['$routeProvider', ($routeProvider) ->
           )
           deferred.promise
         ]
+    .when '/images/search/:q',
+      template: $('#images_list_html').html(),
+      controller: 'ImageSearchListCtrl'
+    .when '/images/tag/:q',
+      template: $('#images_list_html').html(),
+      controller: 'ImageTagListCtrl'
     .when '/users/password_modify',
       template: $('#password_modify_html').html()
       controller: 'PasswordModifyCtrl'

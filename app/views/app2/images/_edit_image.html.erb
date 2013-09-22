@@ -8,7 +8,7 @@
         <div class="book-meta">
           <div class="wrapper">
             <div class="picture-cover pull-left">
-              <img ng-src="http://bookstore.qiniudn.com/{{image.file_key}}?imageView/2/w/200" alt="" />
+              <img ng-src="{{image.file_key | thumb}}" alt="" />
             </div>
             <div class="info">
               <h1><label><%= t 'title' %>: </label><input type="text" class="span5" ng-model="image.title" /></h1>

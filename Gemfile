@@ -2,9 +2,6 @@ source 'http://ruby.taobao.org'
 
 gem 'rails', '3.2.13'
 
-gem 'sqlite3', group: [:development, :test]
-gem 'pg', group: :production
-
 group :assets do
   gem 'coffee-rails', '~> 3.2.1'
   gem 'sass-rails',   '~> 3.2.3'
@@ -17,7 +14,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem "twitter-bootstrap-rails"
+gem 'twitter-bootstrap-rails'
 gem 'jquery-rails'
 
 gem 'httparty'
@@ -31,12 +28,10 @@ gem 'strong_parameters'
 group :development, :test do
   gem "jasminerice"
   gem "quiet_assets"
-  gem 'debugger'
 end
 
 gem 'nokogiri'
 gem 'vacuum'
-gem 'rmagick', require: 'RMagick'
 gem 'multi_xml'
 gem 'i18n-js', git: 'https://github.com/fnando/i18n-js.git'
 

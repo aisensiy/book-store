@@ -35,3 +35,4 @@ gem 'vacuum'
 gem 'multi_xml'
 gem 'i18n-js', git: 'https://github.com/fnando/i18n-js.git'
 
+gem 'mina'

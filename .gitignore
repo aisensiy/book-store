@@ -21,5 +21,6 @@ manifest.yml
 
 config/settings.local.yml
 config/settings/*.local.yml
+config/settings.yml
 config/environments/*.local.yml
 .DS_Store

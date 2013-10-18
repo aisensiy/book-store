@@ -1,6 +1,6 @@
 说明是在 ubuntu 1204 的系统中执行部署工作。
 
-# 基本依赖的安装
+## 基本依赖的安装
 
 首先登录 vps
 
@@ -55,7 +55,7 @@ sudo apt-get install libmagickwand-dev libmagickcore-dev libmagickcore4-extra li
 sudo apt-get install libcurl3 libcurl3-gnutls libcurl4-openssl-dev
 ```
 
-# 安装 ruby
+## 安装 ruby
 
 添加部署用户
 
@@ -118,7 +118,7 @@ if [ -d $HOME/.rbenv ]; then
   eval "$(rbenv init -)"
 fi
 
-# If not running interactively, don't do anything
+## If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 Once we’ve saved .bashrc we’ll need to reload it.
 ```
@@ -173,7 +173,7 @@ cat ~/.ssh/id_rsa.pub
 ssh git@github.com
 ```
 
-# 项目相关配置
+## 项目相关配置
 
 项目用从 github 上取下最新的代码进行部署。
 
